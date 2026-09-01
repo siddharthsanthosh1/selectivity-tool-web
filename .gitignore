@@ -1,0 +1,26 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# Node (not used by the site, kept for tooling experiments)
+node_modules/
+npm-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Logs and temp files
+*.log
+tmp/
+.cache/
