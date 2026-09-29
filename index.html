@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Selectivity Tool | Rank algae bloom treatments by ecological selectivity</title>
-<meta name="description" content="An open-source tool that ranks harmful algal bloom treatments by how well they kill the bloom without killing everything else. Free, MIT licensed, archived with a permanent DOI.">
+<meta name="description" content="A free, open-source tool that compares harmful algal bloom treatments by their predicted risk to non-target organisms, using published toxicity data. MIT licensed, archived with a permanent DOI.">
 <meta name="author" content="Selectivity Tool project">
 <link rel="canonical" href="https://siddharthsanthosh1.github.io/selectivity-tool-web/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Selectivity Tool">
-<meta property="og:description" content="Ranks harmful algae treatments by how well they kill the bloom without killing everything else.">
+<meta property="og:description" content="Compares harmful algae bloom treatments by their predicted risk to non-target organisms, using published toxicity data.">
 <meta name="theme-color" content="#0A4F54">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A4F54'/%3E%3Cpath d='M6 21c3-6 5-9 10-9s7 3 10 9' stroke='%2302C39A' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='10' r='2.6' fill='%2300A896'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -235,6 +235,31 @@ tr.fail .bar{background:var(--coral)}
 .legend{display:flex;flex-wrap:wrap;gap:18px;margin-top:22px;font-size:.88rem;color:#A9D5D1}
 .legend span{display:inline-flex;align-items:center;gap:8px}
 .swatch{width:12px;height:12px;border-radius:3px;display:inline-block}
+
+/* ---------- sources ---------- */
+.src-grid{grid-template-columns:1fr;max-width:860px}
+.src-card h3{margin-bottom:14px}
+.src-table td:first-child{width:24%}
+.src-table td.num{width:26%}
+.src-table{min-width:0;font-size:.88rem}
+.src-table thead th{padding:10px 10px;font-size:.68rem}
+.src-table tbody td{padding:10px 10px;vertical-align:top}
+.src-table td.num{white-space:nowrap}
+.src-table .how{display:block;font-size:.8rem;color:var(--muted);margin-top:2px}
+.src-foot{margin-top:30px;color:var(--muted)}
+
+/* ---------- notices ---------- */
+.notice{
+  background:#FFF8F0;border:1px solid rgba(200,119,43,.3);border-left:5px solid var(--amber);
+  border-radius:var(--r);padding:18px 22px;margin-top:30px;font-size:.95rem;color:var(--ink)
+}
+.notice p{margin:0}
+.notice strong{color:#8A5115}
+.foot-notice{margin-top:40px;padding:18px 22px;border:1px solid rgba(255,255,255,.16);border-left:4px solid var(--amber);border-radius:12px;background:rgba(255,255,255,.04);font-size:.92rem;color:#DFF2F0}
+.foot-notice p{margin:0}
+.foot-notice strong{color:#fff}
+.corrections{margin-top:18px;font-size:.88rem;color:#A9D5D1}
+.corrections strong{color:#DFF2F0}
 
 /* ---------- findings ---------- */
 .finding{background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:clamp(24px,3.2vw,30px);box-shadow:var(--shadow);display:flex;flex-direction:column}
@@ -534,6 +559,7 @@ tr.grp td{
         <a href="#problem">Problem</a>
         <a href="#how">How it works</a>
         <a href="#results">Results</a>
+        <a href="#sources">Sources</a>
         <a href="#try">Try it</a>
         <a href="#limits">Limitations</a>
         <a href="#next">What's next</a>
@@ -550,9 +576,9 @@ tr.grp td{
 <!-- ============ HERO ============ -->
 <header class="hero" id="top">
   <div class="wrap">
-    <span class="hero-tag"><span class="dot"></span>Open source, validation in progress</span>
-    <h1>Killing a toxic algae bloom shouldn't mean killing the lake.</h1>
-    <p class="lede">Selectivity Tool is an open-source tool that ranks harmful algal bloom treatments by ecological selectivity: how well each one kills the bloom without killing everything else in the water.</p>
+    <span class="hero-tag"><span class="dot"></span>Open source, validation planned</span>
+    <h1>Choosing the lowest-risk way to control a harmful algae bloom.</h1>
+    <p class="lede">A free, open-source tool that compares bloom treatments by their predicted risk to non-target organisms, using published toxicity data.</p>
     <div class="btns">
       <a class="btn btn-primary" href="https://github.com/arjunpendharkar/selectivity-tool">
         <svg width="19" height="19" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
@@ -583,8 +609,8 @@ tr.grp td{
   <div class="wrap">
     <div class="narrow reveal">
       <p class="eyebrow">The problem</p>
-      <h2>A bloom is dangerous. So is the cure.</h2>
-      <p class="lede">Toxic cyanobacteria blooms close beaches, threaten drinking water, and kill animals. The chemicals used to control them do not stop at the bloom.</p>
+      <h2>Control is one question. Risk is the other.</h2>
+      <p class="lede">Toxic cyanobacteria blooms can close beaches, threaten drinking water, and harm pets and wildlife. Several treatments can control a bloom, and choosing between them is a real decision.</p>
     </div>
 
     <div class="narrow incident reveal">
@@ -594,20 +620,20 @@ tr.grp td{
     </div>
 
     <div class="narrow reveal">
-      <p>The obvious response is to treat the water. Copper compounds, oxidants, and herbicides all knock a bloom down. The problem is what else they knock down.</p>
-      <p>These chemicals are largely non-selective. They hit the harmless green algae that feed the food web. They hit the water fleas that graze algae and become food for fish. Remove the green algae and the grazers starve. Remove the grazers and you have removed the animals that suppress algae naturally and feed everything above them.</p>
+      <p>Treatments are usually compared on how well they control the bloom. This tool adds a comparison of predicted risk to green algae, zooplankton, and fish, to help identify the lowest-risk option.</p>
+      <p>Each of the three groups is scored because it plays a distinct role in the lake:</p>
     </div>
 
     <div class="food-web reveal">
       <div class="fw">
         <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="#02C39A" opacity=".16"/><circle cx="15" cy="17" r="4" fill="#00A896"/><circle cx="24" cy="22" r="5" fill="#0F6E74"/><circle cx="23" cy="14" r="3" fill="#02C39A"/></svg>
         <h3>Green algae</h3>
-        <p>Harmless primary producers. The base of the food web, and the first thing an algaecide reaches.</p>
+        <p>Primary producers at the base of the food web, and the standard non-target algae in toxicity testing.</p>
       </div>
       <div class="fw">
         <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="#00A896" opacity=".16"/><ellipse cx="19" cy="21" rx="7.5" ry="9" fill="#0F6E74"/><circle cx="15.5" cy="14.5" r="2.4" fill="#0A4F54"/><path d="M26 15c3-2 5-1 6 1" stroke="#00A896" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
         <h3>Water fleas</h3>
-        <p>Grazers that eat algae and feed fish. Lose them and the lake loses its natural brake on blooms.</p>
+        <p>Zooplankton that graze algae and feed fish, which makes them part of the lake&rsquo;s natural check on algae.</p>
       </div>
       <div class="fw">
         <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="#0F6E74" opacity=".16"/><path d="M11 20c4-6 12-6 16 0-4 6-12 6-16 0z" fill="#0F6E74"/><path d="M27 20l5-4v8l-5-4z" fill="#00A896"/><circle cx="16" cy="19" r="1.5" fill="#fff"/></svg>
@@ -616,12 +642,8 @@ tr.grp td{
       </div>
     </div>
 
-    <div class="narrow reveal">
-      <p>A treatment that clears a bloom but sterilizes the food web is not a solution. It is a trade, and right now that trade is usually made without measuring it.</p>
-    </div>
-
     <div class="narrow pull reveal">
-      <p>Most research asks what kills the bloom. <span class="accent">Almost none asks what kills the bloom while sparing everything else.</span></p>
+      <p>Most comparisons ask which treatment controls the bloom. <span class="accent">This tool also asks which one does it with the lowest predicted risk to everything else.</span></p>
     </div>
   </div>
 </section>
@@ -694,8 +716,8 @@ tr.grp td{
             <p>The bloom dies first. There is a dose that controls the bloom before the bystander is meaningfully harmed.</p>
           </div>
           <div class="si-box bad">
-            <strong>SI below 1: disqualifying</strong>
-            <p>The bystander is harmed at a lower dose than the bloom needs. There is no safe operating dose, so the treatment fails on that axis.</p>
+            <strong>SI below 1: flagged</strong>
+            <p>In the published tests, the bystander responded at a lower dose than the bloom did. The tool flags that axis.</p>
           </div>
         </div>
       </div>
@@ -727,7 +749,7 @@ tr.grp td{
             <p class="role">The vertebrate check. Standard proxy for vertebrate safety, including ours.</p>
           </div>
         </div>
-        <p>A treatment can spare one group and devastate another. Copper is the clearest case: it looks excellent against the green alga and much weaker against the water flea. Average those two numbers together and you get one comfortable-looking score that hides exactly the trade-off a lake manager needs to see.</p>
+        <p>A treatment can score well for one group and poorly for another. Copper is the clearest case: it looks excellent against the green alga and much weaker against the water flea. Average those two numbers together and you get one comfortable-looking score that hides exactly the trade-off a lake manager needs to see.</p>
         <p>So the axes are reported separately, and the headline number is <strong>min-SI</strong>, the worst axis of the three.</p>
         <p class="keyline">You are only as selective as your weakest link.</p>
       </div>
@@ -775,7 +797,7 @@ tr.grp td{
     <div class="narrow reveal">
       <p class="eyebrow" style="color:#02C39A">Results</p>
       <h2>What the tool predicts for Microcystis</h2>
-      <p class="lede">Every treatment and predicted pair scored against <em>Microcystis aeruginosa</em>, ranked by min-SI, the worst of its non-target axes. Anything below 1 fails outright.</p>
+      <p class="lede">Every treatment and predicted pair scored against <em>Microcystis aeruginosa</em>, ranked by min-SI, the worst of its non-target axes. A score below 1 would be flagged; no current entry falls below 1.</p>
     </div>
 
     <div class="table-card reveal">
@@ -794,45 +816,45 @@ tr.grp td{
           <tbody>
             <tr>
               <td class="rank">1</td>
+              <td class="name">Copper sulfate + Diquat dibromide <span class="tag tag-combo">predicted combo</span></td>
+              <td class="num min" data-label="min-SI">6.24<span class="bar" style="width:100%"></span></td>
+              <td class="num" data-label="Green alga SI">9.1</td>
+              <td class="num" data-label="Daphnia SI">6.2</td>
+            </tr>
+            <tr>
+              <td class="rank">2</td>
+              <td class="name">Diquat dibromide</td>
+              <td class="num min" data-label="min-SI">4.87<span class="bar" style="width:78%"></span></td>
+              <td class="num" data-label="Green alga SI">4.9</td>
+              <td class="num" data-label="Daphnia SI">18.4</td>
+            </tr>
+            <tr>
+              <td class="rank">3</td>
+              <td class="name">Hydrogen peroxide + Diquat dibromide <span class="tag tag-combo">predicted combo</span></td>
+              <td class="num min" data-label="min-SI">4.82<span class="bar" style="width:77%"></span></td>
+              <td class="num" data-label="Green alga SI">6.8</td>
+              <td class="num" data-label="Daphnia SI">4.8</td>
+            </tr>
+            <tr>
+              <td class="rank">4</td>
               <td class="name">Copper sulfate</td>
-              <td class="num min" data-label="min-SI">3.43<span class="bar" style="width:100%"></span></td>
+              <td class="num min" data-label="min-SI">3.43<span class="bar" style="width:55%"></span></td>
               <td class="num" data-label="Green alga SI">29.7</td>
               <td class="num" data-label="Daphnia SI">3.4</td>
             </tr>
             <tr>
-              <td class="rank">2</td>
+              <td class="rank">5</td>
               <td class="name">Hydrogen peroxide + Copper sulfate <span class="tag tag-combo">predicted combo</span></td>
-              <td class="num min" data-label="min-SI">2.89<span class="bar" style="width:84%"></span></td>
+              <td class="num min" data-label="min-SI">2.89<span class="bar" style="width:46%"></span></td>
               <td class="num" data-label="Green alga SI">16.1</td>
               <td class="num" data-label="Daphnia SI">2.9</td>
             </tr>
             <tr>
-              <td class="rank">3</td>
+              <td class="rank">6</td>
               <td class="name">Hydrogen peroxide</td>
-              <td class="num min" data-label="min-SI">2.48<span class="bar" style="width:72%"></span></td>
+              <td class="num min" data-label="min-SI">2.48<span class="bar" style="width:40%"></span></td>
               <td class="num" data-label="Green alga SI">10.6</td>
               <td class="num" data-label="Daphnia SI">2.5</td>
-            </tr>
-            <tr>
-              <td class="rank">4</td>
-              <td class="name">Copper sulfate + Diquat <span class="tag tag-combo">predicted combo</span></td>
-              <td class="num min" data-label="min-SI">1.01<span class="bar" style="width:29%"></span></td>
-              <td class="num" data-label="Green alga SI">1.0</td>
-              <td class="num" data-label="Daphnia SI">6.6</td>
-            </tr>
-            <tr class="fail">
-              <td class="rank">5</td>
-              <td class="name">Hydrogen peroxide + Diquat <span class="tag tag-combo">predicted combo</span> <span class="tag tag-fail">fails</span></td>
-              <td class="num min" data-label="min-SI">0.96<span class="bar" style="width:28%"></span></td>
-              <td class="num" data-label="Green alga SI">1.0</td>
-              <td class="num" data-label="Daphnia SI">5.1</td>
-            </tr>
-            <tr class="fail">
-              <td class="rank">6</td>
-              <td class="name">Diquat dibromide <span class="tag tag-fail">fails</span></td>
-              <td class="num min" data-label="min-SI">0.43<span class="bar" style="width:13%"></span></td>
-              <td class="num" data-label="Green alga SI">0.4</td>
-              <td class="num" data-label="Daphnia SI">25.1</td>
             </tr>
           </tbody>
         </table>
@@ -844,9 +866,68 @@ tr.grp td{
 
     <div class="legend reveal">
       <span><i class="swatch" style="background:#00A896"></i> min-SI above 1, passes</span>
-      <span><i class="swatch" style="background:#C0472B"></i> min-SI below 1, fails</span>
+      <span><i class="swatch" style="background:#C0472B"></i> min-SI below 1, flagged (none currently)</span>
       <span><i class="swatch" style="background:transparent;border:1px solid #A9D5D1"></i> predicted combination</span>
     </div>
+  </div>
+</section>
+
+<!-- ============ SOURCES ============ -->
+<section class="band-panel" id="sources">
+  <div class="wrap">
+    <div class="narrow reveal">
+      <p class="eyebrow">Where the numbers come from</p>
+      <h2>The published values behind each score.</h2>
+      <p class="lede">Each selectivity index is a non-target EC50 divided by the <em>Microcystis</em> EC50. A lower EC50 means the organism responds at a lower dose.</p>
+    </div>
+
+    <div class="grid-3 src-grid">
+      <article class="card src-card reveal">
+        <h3>Diquat dibromide</h3>
+          <div class="table-scroll">
+            <table class="src-table">
+              <thead><tr><th scope="col">Organism</th><th scope="col" class="num">EC50</th><th scope="col">Source</th></tr></thead>
+              <tbody>
+                <tr><td><em>Microcystis</em></td><td class="num">0.098, 0.105 mg/L</td><td>Peterson et al. 1997<span class="how">Carbon-uptake test, about 22 h</span></td></tr>
+                <tr><td>Green alga</td><td class="num">0.492 mg/L</td><td>Peterson et al. 1997<span class="how">Same study and test (value used)</span></td></tr>
+                <tr><td>Green alga</td><td class="num">0.032 mg/L</td><td>EPA ECOTOX<span class="how">72 to 96 h growth (not used)</span></td></tr>
+                <tr><td>Green alga</td><td class="num">0.13 mg/L</td><td>Reward product safety data sheet<span class="how">72 h, as formulated product (not used)</span></td></tr>
+                <tr><td><em>Daphnia</em></td><td class="num">1.86 mg/L</td><td>EPA ECOTOX<span class="how"></span></td></tr>
+                <tr><td>Fish</td><td class="num">50.2 mg/L</td><td>EPA ECOTOX<span class="how"></span></td></tr>
+              </tbody>
+            </table>
+          </div>
+      </article>
+      <article class="card src-card reveal">
+        <h3>Copper sulfate</h3>
+          <div class="table-scroll">
+            <table class="src-table">
+              <thead><tr><th scope="col">Organism</th><th scope="col" class="num">EC50</th><th scope="col">Source</th></tr></thead>
+              <tbody>
+                <tr><td><em>Microcystis</em></td><td class="num">0.063 mg Cu/L</td><td>Tsai 2016<span class="how">Matched 96 h growth</span></td></tr>
+                <tr><td>Green alga</td><td class="num">1.873 mg Cu/L</td><td>Tsai 2016<span class="how">Matched 96 h growth</span></td></tr>
+                <tr><td><em>Daphnia</em></td><td class="num">0.216 mg Cu/L</td><td>EPA ECOTOX Knowledgebase<span class="how"></span></td></tr>
+                <tr><td>Fish</td><td class="num">0.317 mg Cu/L</td><td>EPA ECOTOX Knowledgebase<span class="how"></span></td></tr>
+              </tbody>
+            </table>
+          </div>
+      </article>
+      <article class="card src-card reveal">
+        <h3>Hydrogen peroxide</h3>
+          <div class="table-scroll">
+            <table class="src-table">
+              <thead><tr><th scope="col">Organism</th><th scope="col" class="num">EC50</th><th scope="col">Source</th></tr></thead>
+              <tbody>
+                <tr><td><em>Microcystis</em></td><td class="num">2.62 mg/L</td><td>Weenink et al. 2022<span class="how"></span></td></tr>
+                <tr><td>Green alga</td><td class="num">27.7 mg/L</td><td>Weenink et al. 2022<span class="how"></span></td></tr>
+                <tr><td><em>Daphnia</em></td><td class="num">6.51 mg/L</td><td>Weenink et al. 2022<span class="how"></span></td></tr>
+              </tbody>
+            </table>
+          </div>
+      </article>
+    </div>
+
+    <p class="narrow src-foot reveal">EC50 values differ between studies because of test length, endpoint, strain, and water chemistry. Rankings should be read as comparisons, not predictions for a specific pond.</p>
   </div>
 </section>
 
@@ -856,7 +937,11 @@ tr.grp td{
     <div class="narrow reveal">
       <p class="eyebrow">Try it yourself</p>
       <h2>Run the ranking in your browser.</h2>
-      <p class="lede">The same math as the archived Python tool, running locally on this page. Change the metric, drop an axis, remove a treatment, and watch the ranking reorder.</p>
+      <p class="lede">The same math as the archived Python tool, running locally on this page, with the corrected diquat values. Change the metric, drop an axis, remove a treatment, and watch the ranking reorder.</p>
+    </div>
+
+    <div class="narrow notice reveal" role="note">
+      <p><strong>Important:</strong> This tool is for education and research. It is not a treatment recommendation. Registered products have undergone EPA risk assessment, and the product label governs how they may be used. Consult a licensed aquatic applicator or your state agency before treating any water body.</p>
     </div>
 
     <div class="tool reveal">
@@ -912,8 +997,8 @@ tr.grp td{
 
     <div class="narrow tool-notes reveal">
       <p class="note-live" id="metricNote">Ranked by the weakest non-target axis. A treatment is only as selective as its worst link.</p>
-      <p>Under Bliss independence, a combination blends its components. It can lift a weak axis but cannot beat the best-balanced single agent. Doing so would require real synergy, which is what the lab tests.</p>
-      <p class="note-muted">These are predictions from published data, not measurements. The Python implementation archived at the DOI is the citable reference; this browser version is an interactive demonstration of it.</p>
+      <p>Under Bliss independence, each of a combination's scores falls between its two ingredients' scores. When two treatments are weak on different organisms, the combination's weakest score can end up higher than either one alone. In this data, copper plus diquat does exactly that. Lab testing would show whether the prediction holds, or whether the pair interacts.</p>
+      <p class="note-muted">These are predictions from published data, not measurements. The Python implementation archived at the DOI is the citable reference for the method. The diquat values on this page were corrected in September 2026 and differ from the archived release.</p>
     </div>
   </div>
 </section>
@@ -924,22 +1009,22 @@ tr.grp td{
     <div class="narrow reveal">
       <p class="eyebrow">Three findings</p>
       <h2>What shows up once you actually score the trade-off.</h2>
-      <p class="lede">None of these are visible in a kill-only evaluation, which is how most treatments are compared today.</p>
+      <p class="lede">None of these are visible when treatments are compared on bloom control alone.</p>
     </div>
 
     <div class="grid-3">
       <article class="finding reveal">
         <p class="n">Finding 01</p>
-        <h3>Copper's selectivity collapses exactly when you'd use it.</h3>
-        <p>Published data shows copper's effective dose against a bloom rises roughly tenfold as bloom cell density climbs. Denser bloom, more copper needed. At realistic bloom densities its water flea selectivity index drops below 1, which means it harms the water flea before it controls the bloom. Copper ranks first in the table above, and it is still the treatment most sensitive to the conditions you would actually deploy it in.</p>
-        <p class="stat">10x<small>rise in effective dose</small></p>
+        <h3>Copper's effective dose rises with bloom density.</h3>
+        <p>Published work (Tsai 2016; Kinley et al. 2017) shows the concentration needed to control <em>Microcystis</em> rises as cell density increases. That narrows copper's margin against <em>Daphnia</em>, which is already its weakest axis in the table above. Copper's score is the one most sensitive to the conditions of a real bloom.</p>
+        <p class="stat">SI 3.4<small>Daphnia axis, at test cell density</small></p>
       </article>
 
       <article class="finding reveal">
         <p class="n">Finding 02</p>
-        <h3>Effective does not mean selective.</h3>
-        <p>Diquat kills <em>Microcystis</em> well. It also harms the harmless green alga at an even lower dose, giving a selectivity index of 0.43. There is no dose that clears the bloom without taking the green alga first. A kill-only evaluation would look at the same data and record a success.</p>
-        <p class="stat">SI 0.43<small>green alga axis, disqualifying</small></p>
+        <h3>The ranking depends on which data you pair.</h3>
+        <p>Our first version paired a short-test average across five cyanobacteria with a longer growth test on a single green alga, and ranked diquat last. Using matched values from one study (Peterson et al. 1997), diquat ranks second. Mismatched test lengths and endpoints can move a treatment from last to near first.</p>
+        <p class="stat">6th to 2nd<small>diquat rank, mismatched vs. matched data</small></p>
       </article>
 
       <article class="finding reveal">
@@ -958,7 +1043,7 @@ tr.grp td{
     <div class="narrow reveal">
       <p class="eyebrow">Limitations</p>
       <h2>What this tool does not tell you.</h2>
-      <p class="lede">Read this before using the output. Every item here is a constraint we can state precisely, which is the point: each one is testable, and the lab work in progress is designed to test them.</p>
+      <p class="lede">Read this before using the output. Every item here is a constraint we can state precisely, which is the point: each one is testable, and the planned lab work is designed to test them.</p>
     </div>
 
     <div class="limits reveal">
@@ -966,7 +1051,7 @@ tr.grp td{
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
         <div>
           <h3>Predictions are not measurements.</h3>
-          <p>Every combination value in the ranking is a hypothesis generated under stated assumptions. None of the combinations has been measured in a lab. Validation is in progress, and both agreement and disagreement with the predictions are reportable results.</p>
+          <p>Every combination value in the ranking is a hypothesis generated under stated assumptions. None of the combinations has been measured in a lab. Validation is planned, and both agreement and disagreement with the predictions are reportable results.</p>
         </div>
       </div>
       <div class="limit">
@@ -994,7 +1079,42 @@ tr.grp td{
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h6"/></svg>
         <div>
           <h3>It ranks by selectivity, not efficacy.</h3>
-          <p>A treatment can kill the target extremely well and still rank poorly here. That is intended behavior, not a bug. This tool answers one question (what is the collateral cost) and should sit alongside efficacy, cost, and permitting, not replace them.</p>
+          <p>A treatment can kill the target extremely well and still rank poorly here. That is intended behavior, not a bug. This tool answers one question (what is the predicted risk to non-target organisms) and should sit alongside efficacy, cost, and permitting, not replace them.</p>
+        </div>
+      </div>
+      <div class="limit">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
+        <div>
+          <h3>Water chemistry changes toxicity.</h3>
+          <p>Toxicity varies with water chemistry. Copper in particular is far more toxic in soft, low-alkalinity water than in hard water.</p>
+        </div>
+      </div>
+      <div class="limit">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
+        <div>
+          <h3>Strains differ.</h3>
+          <p><em>Microcystis</em> strains respond differently to the same product.</p>
+        </div>
+      </div>
+      <div class="limit">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
+        <div>
+          <h3>Microcystis is not the only bloom organism.</h3>
+          <p>Other bloom organisms occur in North Carolina (for example <em>Euglena</em> and <em>Prymnesium</em>), and some treatments target green algae blooms instead.</p>
+        </div>
+      </div>
+      <div class="limit">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
+        <div>
+          <h3>Copper products are not all alike.</h3>
+          <p>Chelated copper products are generally lower risk than copper sulfate. Copper is also toxic to mollusks, which this tool does not score.</p>
+        </div>
+      </div>
+      <div class="limit">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
+        <div>
+          <h3>Lab water is not lake water.</h3>
+          <p>Lab values measured in clean water can differ substantially from values in natural water.</p>
         </div>
       </div>
     </div>
@@ -1011,7 +1131,7 @@ tr.grp td{
     </div>
     <div class="who reveal">
       <div><strong>Lake managers</strong><p>Comparing treatment options for a specific waterbody.</p></div>
-      <div><strong>Water utilities</strong><p>Protecting source water without collateral damage downstream.</p></div>
+      <div><strong>Water utilities</strong><p>Protecting source water while weighing non-target risk.</p></div>
       <div><strong>Watershed nonprofits</strong><p>Asking informed questions about a proposed treatment plan.</p></div>
       <div><strong>Researchers</strong><p>Generating testable hypotheses about treatment combinations.</p></div>
       <div><strong>Regulators</strong><p>Weighing permit decisions against non-target impact.</p></div>
@@ -1035,7 +1155,7 @@ tr.grp td{
           <p class="step-title">Validation</p>
           <div class="road-head">
             <h3>Test the rankings in a lab</h3>
-            <span class="status"><span class="dot"></span>In progress</span>
+            <span class="status"><span class="dot"></span>Planned</span>
           </div>
           <p>Three treatments that can be sourced as pure compounds and dosed precisely: copper sulfate, hydrogen peroxide, and diquat dibromide. Three organisms: <em>Microcystis aeruginosa</em> as the target, <em>Raphidocelis subcapitata</em> as the green alga, and <em>Daphnia magna</em> as the grazer.</p>
 
@@ -1045,7 +1165,7 @@ tr.grp td{
             <div><b>~360</b><span>test units</span></div>
           </div>
 
-          <p>Each treatment and each predicted pair is tested across a five-point dose series plus a control, following OECD 201 for the algae and OECD 202 for <em>Daphnia</em>. That comes to roughly 360 individual test units.</p>
+          <p>Each treatment and each predicted pair will be tested across a five-point dose series plus a control, following OECD 201 for the algae and OECD 202 for <em>Daphnia</em>. That comes to roughly 360 individual test units.</p>
           <p>The rule that makes it worth doing: every organism is measured at the same exposure time using the same endpoint. Much of the published literature does not do this, and mismatched exposure times are one of the reasons reported selectivity can be inflated. Generating matched data is the point.</p>
 
           <div class="qpair">
@@ -1082,7 +1202,7 @@ tr.grp td{
             <h3>Put it in front of practitioners</h3>
           </div>
           <p>A tool that only makes sense to its authors is not useful. We have begun reaching out to watershed and riverkeeper organizations, state water quality agencies, and university researchers working on cyanobacterial blooms, to find out whether the framework reflects how treatment decisions actually get made in the field.</p>
-          <p>The most useful response so far has been confirmation that the underlying gap is real: treatment is often evaluated on removing harmful algae without accounting for the effect on the rest of the aquatic system.</p>
+          <p>The most useful response so far has been expert review of the data and wording, which led to the September 2026 diquat correction and to several of the limitations listed above.</p>
         </div>
       </article>
 
@@ -1183,7 +1303,7 @@ tr.grp td{
       </div>
       <div>
         <h4>Status</h4>
-        <p>Framework complete. Laboratory validation in progress.</p>
+        <p>Framework complete. Laboratory validation planned.</p>
       </div>
       <div>
         <h4>Contact</h4>
@@ -1192,6 +1312,11 @@ tr.grp td{
         <p>Or open an issue on either GitHub repository.</p>
       </div>
     </div>
+
+    <div class="foot-notice" role="note">
+      <p><strong>Important:</strong> This tool is for education and research. It is not a treatment recommendation. Registered products have undergone EPA risk assessment, and the product label governs how they may be used. Consult a licensed aquatic applicator or your state agency before treating any water body.</p>
+    </div>
+    <p class="corrections"><strong>Corrections.</strong> September 2026: diquat values corrected after expert review. An earlier version paired mismatched studies and ranked diquat last.</p>
 
     <p class="colophon">Built by Arjun Pendharkar and Siddharth Santhosh, Green Level High School, under the supervision of Dr. Bharati Pandi. This site describes a research tool whose predictions have not yet been validated in a laboratory and is not guidance for treating a waterbody.</p>
   </div>
@@ -1256,20 +1381,25 @@ tr.grp td{
   "use strict";
 
   /* Selectivity Index values, target organism Microcystis aeruginosa,
-     derived from published EC50 values. These are the values as stored in
-     the archived matrix workbook, so this page reproduces the ranking in
-     the DOI release exactly. Hydrogen peroxide has no fish value; that gap
-     is real and is handled by the fairness tiers. */
-  var TREATMENTS = {
-    "Copper sulfate":     { alga: 29.73, Daphnia: 3.43, fish: 5.03 },
-    "Hydrogen peroxide":  { alga: 10.57, Daphnia: 2.48 },
-    "Diquat dibromide":   { alga: 0.43,  Daphnia: 25.14, fish: 678.38 }
+     derived from published EC50 values (see "Where the numbers come from").
+     Diquat was corrected in September 2026 to matched values from
+     Peterson et al. 1997, so it differs from the DOI release. Hydrogen
+     peroxide has no fish value; that gap is real and is handled by the
+     fairness tiers. */
+  const TREATMENTS = {
+    "Copper sulfate":    { alga: 29.73, Daphnia: 3.43,  fish: 5.03 },
+    "Hydrogen peroxide": { alga: 10.57, Daphnia: 2.48 },
+    "Diquat dibromide":  { alga: 4.87,  Daphnia: 18.42, fish: 497.03 }
   };
 
   var CAVEATS = {
-    "Copper sulfate":   "EC50 is cell-density dependent",
-    "Diquat dibromide": "harms green alga (SI below 1)"
+    "Copper sulfate":   "Effective dose rises with bloom cell density",
+    "Diquat dibromide": "Ranking depends on which published values are paired"
   };
+
+  /* Order used to name pairs, matching the Python implementation
+     (e.g. "Hydrogen peroxide + Copper sulfate"). */
+  var PAIR_ORDER = ["Hydrogen peroxide","Copper sulfate","Diquat dibromide"];
 
   var AXES = ["alga","Daphnia","fish"];
   var AXIS_LABEL = { alga:"Green alga", Daphnia:"Daphnia", fish:"Fish" };
@@ -1329,7 +1459,7 @@ tr.grp td{
 
   var NOTE = {
     min: "Ranked by the weakest non-target axis. A treatment is only as selective as its worst link.",
-    geo: "Ranked by the geometric mean of all axes. Note how diquat rises: one very high axis flatters an agent that fails badly on another."
+    geo: "Ranked by the geometric mean of all axes. Notice copper rise to the top: its very high green-alga score masks a much weaker Daphnia score. The worst-axis ranking exposes that; the average hides it."
   };
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -1342,7 +1472,8 @@ tr.grp td{
         if (TREATMENTS[name][ax] != null) si[ax] = TREATMENTS[name][ax];
       });
       return { name: name, SI: si };
-    }).filter(function(d){ return Object.keys(d.SI).length > 0; });
+    }).filter(function(d){ return Object.keys(d.SI).length > 0; })
+      .sort(function(a, b){ return PAIR_ORDER.indexOf(a.name) - PAIR_ORDER.indexOf(b.name); });
 
     var out = [];
 
