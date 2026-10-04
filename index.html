@@ -55,10 +55,14 @@ a{color:var(--teal)}
 .wrap{max-width:var(--wrap);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
 .narrow{max-width:760px}
 section{padding-block:var(--sect)}
-section[id],header[id]{scroll-margin-top:72px}
+section[id],header[id],.sub[id],.sub-first[id],details[id],#problem{scroll-margin-top:72px}
 .band-deep{background:var(--deep);color:#E7F4F3}
 .band-deep h2,.band-deep h3{color:#fff}
 .band-panel{background:var(--panel)}
+.sub{margin-top:clamp(56px,8vw,96px);padding-top:clamp(56px,8vw,96px);border-top:1px solid var(--line)}
+.sub-deep{border-top-color:rgba(255,255,255,.12)}
+.sub-first{margin-top:clamp(28px,4vw,40px)}
+.sub-title{font-size:clamp(1.4rem,2.8vw,2rem);letter-spacing:-.015em}
 .eyebrow{
   font-size:.76rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
   color:var(--sea);margin:0 0 14px;font-family:var(--sans)
@@ -79,9 +83,13 @@ section[id],header[id]{scroll-margin-top:72px}
 .brand svg{flex:0 0 auto}
 .nav-right{display:flex;align-items:center;gap:26px}
 .nav-links{display:flex;align-items:center;gap:26px}
-.nav-links a{color:#BFE3E0;text-decoration:none;font-size:.92rem;font-weight:500}
+.nav-links a{color:#BFE3E0;text-decoration:none;font-size:.92rem;font-weight:500;white-space:nowrap}
 .nav-links a:hover{color:#fff}
+.brand{white-space:nowrap}
 @media (max-width:1040px){.nav-links,.nav-right{gap:17px}}
+.nav-links a{position:relative}
+.nav-links a.is-active{color:#fff}
+.nav-links a.is-active::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;border-radius:2px;background:var(--mint)}
 .nav-cta{
   border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:7px 15px;
   color:#fff!important;text-decoration:none;font-size:.92rem;font-weight:500;white-space:nowrap
@@ -115,19 +123,17 @@ section[id],header[id]{scroll-margin-top:72px}
 .hero h1{color:#fff;max-width:16ch}
 .hero .lede{color:#C4E6E2;max-width:56ch;margin-top:22px}
 .hero-waves{position:absolute;left:0;right:0;bottom:-2px;width:100%;height:auto;display:block;pointer-events:none}
-.trust{
-  display:flex;align-items:center;gap:10px;margin-top:30px;
-  font-size:.9rem;color:#9FCFCB;letter-spacing:.01em
-}
-.trust svg{flex:0 0 auto}
 .byline{margin:14px 0 0;font-size:.88rem;color:#7FBDB8;letter-spacing:.02em}
-.hero-tag{
-  display:inline-flex;align-items:center;gap:9px;font-size:.8rem;font-weight:600;
-  letter-spacing:.1em;text-transform:uppercase;color:#8FE2CE;
-  border:1px solid rgba(2,195,154,.4);background:rgba(2,195,154,.1);
-  padding:6px 14px;border-radius:999px;margin-bottom:26px
-}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--mint)}
+.hero-meta{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;margin-top:28px}
+.doi-badge{
+  display:inline-flex;align-items:center;gap:7px;font-size:.82rem;font-weight:600;letter-spacing:.02em;
+  color:#DFF2F0;text-decoration:none;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.06);
+  padding:5px 12px;border-radius:999px
+}
+.doi-badge:hover{background:rgba(255,255,255,.14);color:#fff}
+.doi-badge:focus-visible{outline:2px solid var(--mint);outline-offset:2px}
+.hero-status{display:inline-flex;align-items:center;gap:8px;font-size:.86rem;color:#9FCFCB;letter-spacing:.01em}
 
 /* ---------- generic cards ---------- */
 .card{background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:clamp(22px,3.2vw,32px)}
@@ -180,7 +186,7 @@ section[id],header[id]{scroll-margin-top:72px}
   border-radius:10px;padding:12px 18px;margin:4px 0 18px;color:var(--deep);font-weight:600
 }
 .diagram{background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:clamp(16px,3vw,26px);margin-top:26px;box-shadow:var(--shadow)}
-.band-panel .diagram{background:var(--white)}
+.band-panel .diagram,.band-panel .formula{background:var(--white)}
 .diagram figcaption{font-size:.88rem;color:var(--muted);margin-top:14px;line-height:1.55}
 .si-pair{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-top:24px}
 .si-box{border:1px solid var(--line);border-radius:12px;padding:18px 20px;background:var(--white)}
@@ -265,6 +271,7 @@ tr.fail .bar{background:var(--coral)}
 .finding{background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:clamp(24px,3.2vw,30px);box-shadow:var(--shadow);display:flex;flex-direction:column}
 .finding .n{font-family:var(--serif);font-size:.95rem;font-weight:600;color:var(--sea);margin-bottom:14px;letter-spacing:.02em}
 .finding h3{margin-bottom:12px}
+.band-deep .finding h3{color:var(--ink)}
 .finding p{color:var(--muted);font-size:.98rem;margin-bottom:0}
 .finding .stat{
   margin-top:auto;padding-top:18px;font-family:var(--serif);font-size:1.9rem;color:var(--deep);line-height:1.1
@@ -278,14 +285,64 @@ tr.fail .bar{background:var(--coral)}
 .limit h3{font-family:var(--sans);font-size:1.02rem;font-weight:700;margin:0 0 6px}
 .limit p{margin:0;color:var(--muted);font-size:.97rem}
 
+/* ---------- field visit ---------- */
+.tour-grid{display:grid;gap:22px;grid-template-columns:repeat(3,1fr);margin-top:44px}
+@media (max-width:900px){.tour-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.tour-grid{grid-template-columns:1fr}}
+.shot{margin:0;min-width:0}
+.shot a{display:block;border-radius:var(--r);overflow:hidden;box-shadow:0 14px 34px rgba(3,40,44,.3);cursor:zoom-in}
+.shot a:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
+.shot img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;background:#0C5B60;transition:transform .5s cubic-bezier(.22,.7,.3,1)}
+.shot a:hover img{transform:scale(1.03)}
+.shot figcaption{font-size:.88rem;line-height:1.55;color:#A9D5D1;margin-top:12px}
+.tour-thanks{margin-top:40px;font-size:.92rem;color:#A9D5D1}
+.lightbox{
+  border:0;padding:0;background:transparent;max-width:min(94vw,1200px);max-height:94vh;overflow:visible
+}
+.lightbox::backdrop{background:rgba(3,28,31,.88)}
+.lightbox img{display:block;max-width:min(94vw,1200px);max-height:84vh;width:auto;height:auto;margin:0 auto;border-radius:10px}
+.lightbox p{margin:12px auto 0;max-width:70ch;text-align:center;font-size:.92rem;color:#DFF2F0}
+.lb-close{
+  position:fixed;top:14px;right:14px;width:42px;height:42px;border-radius:50%;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);color:#fff
+}
+.lb-close:hover{background:rgba(255,255,255,.22)}
+.lb-close:focus-visible{outline:2px solid var(--mint);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.shot img{transition:none}.shot a:hover img{transform:none}}
+
+/* ---------- accordions ---------- */
+.accs{display:grid;gap:16px;margin-top:clamp(48px,7vw,72px)}
+.acc{background:var(--white);color:var(--ink);border-radius:var(--r);box-shadow:0 14px 34px rgba(3,40,44,.28);overflow:hidden}
+.acc summary{
+  list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:18px;
+  padding:clamp(18px,3vw,24px) clamp(18px,3.4vw,30px)
+}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary:hover{background:#F6FAFA}
+.acc summary:focus-visible{outline:2px solid var(--sea);outline-offset:-2px}
+.acc-head{display:flex;flex-direction:column;gap:4px;min-width:0}
+.acc-k{font-size:.76rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--teal)}
+.acc-t{font-family:var(--serif);font-size:clamp(1.12rem,2.2vw,1.4rem);font-weight:600;line-height:1.25;color:var(--ink)}
+.acc-chev{flex:0 0 auto;color:var(--teal);transition:transform .2s ease}
+.acc[open] .acc-chev{transform:rotate(180deg)}
+.acc-body{background:var(--panel);border-top:1px solid var(--line);padding:clamp(22px,3.4vw,34px) clamp(18px,3.4vw,30px)}
+.acc-body .lede{color:var(--muted);margin:0}
+.acc-body h3{color:var(--ink)}
+.acc-body .src-grid,.acc-body .limits{margin-top:26px}
+.acc-body .src-grid{grid-template-columns:minmax(0,1fr)}
+@media (max-width:620px){
+  .acc-body{padding:20px 12px}
+  .acc-body .narrow{padding:0 6px}
+  .acc-body .src-card{padding:18px 14px}
+}
+@media (prefers-reduced-motion:reduce){.acc-chev{transition:none}}
+
 /* ---------- audience ---------- */
 .who{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(186px,1fr));margin-top:36px}
-.who div{
-  border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);
-  border-radius:12px;padding:18px 20px
-}
-.who strong{display:block;color:#fff;font-size:1rem;margin-bottom:4px}
-.who p{margin:0;font-size:.92rem;color:#A9D5D1}
+.who div{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+.who strong{display:block;color:var(--ink);font-size:1rem;margin-bottom:4px}
+.who p{margin:0;font-size:.92rem;color:var(--muted)}
 
 /* ---------- interactive tool ---------- */
 .tool{
@@ -372,6 +429,16 @@ tr.grp td{
 .about-list span{font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);min-width:210px}
 .about-list .plain{font-family:var(--sans);font-size:1rem;font-weight:400;letter-spacing:0;text-transform:none;color:var(--ink);min-width:0}
 .about-list a{color:var(--teal);text-decoration:underline;text-underline-offset:3px;word-break:break-word}
+.about-grid{display:grid;gap:clamp(32px,5vw,64px);grid-template-columns:minmax(0,1fr) minmax(0,380px);align-items:start}
+.about-why{margin-top:30px}
+.about p a{color:var(--teal);text-decoration:underline;text-underline-offset:3px}
+.about-photo{margin:0}
+.about-photo img{display:block;width:100%;height:auto;border-radius:var(--r);box-shadow:var(--shadow)}
+.about-photo figcaption{font-size:.88rem;line-height:1.55;color:var(--muted);margin-top:12px}
+@media (max-width:820px){
+  .about-grid{grid-template-columns:minmax(0,1fr)}
+  .about-photo{max-width:420px}
+}
 
 /* ---------- roadmap ---------- */
 .road{display:grid;gap:22px;margin-top:44px}
@@ -477,6 +544,8 @@ tr.grp td{
     border-bottom:1px solid rgba(255,255,255,.08)
   }
   .nav-links a:last-child{border-bottom:0}
+  .nav-links a.is-active{background:rgba(255,255,255,.06);box-shadow:inset 3px 0 0 var(--mint)}
+  .nav-links a.is-active::after{display:none}
 }
 @media (max-width:400px){
   .brand{font-size:.95rem;gap:8px}
@@ -519,7 +588,7 @@ tr.grp td{
   .tool-table tr.grp{display:block;padding:0}
   .tool-table tr.grp td{display:block;grid-column:auto}
   .tag{margin-left:0;margin-top:4px}
-  .caveat{margin-left:0;margin-top:4px;display:inline-block}
+  .caveat{margin-left:0;margin-top:4px;display:inline-block;white-space:normal;max-width:100%}
 
   /* larger tap targets for the tool controls */
   .seg{display:flex;flex-direction:column;width:100%;border-radius:14px;gap:6px}
@@ -544,7 +613,7 @@ tr.grp td{
 <body>
 
 <!-- ============ NAV ============ -->
-<nav class="nav">
+<nav class="nav" aria-label="Main">
   <div class="wrap nav-in">
     <a class="brand" href="#top">
       <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true">
@@ -556,14 +625,11 @@ tr.grp td{
     </a>
     <div class="nav-right">
       <div class="nav-links" id="navMenu">
-        <a href="#problem">Problem</a>
-        <a href="#how">How it works</a>
+        <a href="#overview">Overview</a>
         <a href="#results">Results</a>
-        <a href="#sources">Sources</a>
         <a href="#try">Try it</a>
-        <a href="#limits">Limitations</a>
-        <a href="#next">What's next</a>
-        <a href="#contact">Reach out</a>
+        <a href="#visit">Field Visit</a>
+        <a href="#contact">Contact</a>
       </div>
       <a class="nav-cta" href="https://github.com/arjunpendharkar/selectivity-tool">GitHub</a>
       <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu" aria-label="Open menu">
@@ -576,23 +642,22 @@ tr.grp td{
 <!-- ============ HERO ============ -->
 <header class="hero" id="top">
   <div class="wrap">
-    <span class="hero-tag"><span class="dot"></span>Open source, validation planned</span>
     <h1>Choosing the lowest-risk way to control a harmful algae bloom.</h1>
     <p class="lede">A free, open-source tool that compares bloom treatments by their predicted risk to non-target organisms, using published toxicity data.</p>
     <div class="btns">
-      <a class="btn btn-primary" href="https://github.com/arjunpendharkar/selectivity-tool">
-        <svg width="19" height="19" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-        View on GitHub
+      <a class="btn btn-primary" href="#try">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h6"/></svg>
+        Try the tool
       </a>
-      <a class="btn btn-ghost" href="https://doi.org/10.5281/zenodo.22135606">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5V5a2 2 0 0 1 2-2h13v18H6.5A2.5 2.5 0 0 1 4 19.5z"/><path d="M8 7h7M8 11h7"/></svg>
-        Cite this tool (DOI)
-      </a>
+      <a class="btn btn-ghost" href="#results">See the results</a>
     </div>
-    <p class="trust">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#02C39A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
-      Open source. Free. Archived with a permanent DOI.
-    </p>
+    <div class="hero-meta">
+      <a class="doi-badge" href="https://doi.org/10.5281/zenodo.22135606">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5V5a2 2 0 0 1 2-2h13v18H6.5A2.5 2.5 0 0 1 4 19.5z"/><path d="M8 7h7M8 11h7"/></svg>
+        Cite (DOI)
+      </a>
+      <span class="hero-status"><span class="dot"></span>Lab validation planned</span>
+    </div>
     <p class="byline">Arjun Pendharkar and Siddharth Santhosh</p>
   </div>
   <svg class="hero-waves" viewBox="0 0 1440 130" preserveAspectRatio="none" aria-hidden="true">
@@ -604,10 +669,10 @@ tr.grp td{
 
 <main>
 
-<!-- ============ PROBLEM ============ -->
-<section class="band-panel" id="problem">
+<!-- ============ OVERVIEW ============ -->
+<section class="band-panel" id="overview">
   <div class="wrap">
-    <div class="narrow reveal">
+    <div class="narrow reveal" id="problem">
       <p class="eyebrow">The problem</p>
       <h2>Control is one question. Risk is the other.</h2>
       <p class="lede">Toxic cyanobacteria blooms can close beaches, threaten drinking water, and harm pets and wildlife. Several treatments can control a bloom, and choosing between them is a real decision.</p>
@@ -645,147 +710,161 @@ tr.grp td{
     <div class="narrow pull reveal">
       <p>Most comparisons ask which treatment controls the bloom. <span class="accent">This tool also asks which one does it with the lowest predicted risk to everything else.</span></p>
     </div>
-  </div>
-</section>
 
-<!-- ============ SOLUTION ============ -->
-<section id="how">
-  <div class="wrap">
-    <div class="narrow reveal">
-      <p class="eyebrow">How it works</p>
-      <h2>Score the trade-off, keep the axes separate, then predict the pairs.</h2>
-      <p class="lede">The tool combines two established methods (selectivity indices from toxicology and Bliss independence from combination pharmacology) into one framework for bloom control. Three steps, no black boxes.</p>
-    </div>
+    <!-- how it works -->
+    <div class="sub" id="how">
+      <div class="narrow reveal">
+        <p class="eyebrow">How it works</p>
+        <h2>Score the trade-off, keep the axes separate, then predict the pairs.</h2>
+        <p class="lede">The tool combines two established methods (selectivity indices from toxicology and Bliss independence from combination pharmacology) into one framework for bloom control. Three steps, no black boxes.</p>
+      </div>
 
-    <!-- STEP 1 -->
-    <div class="step reveal">
-      <div><div class="step-num">1</div></div>
-      <div>
-        <p class="step-title">Score</p>
-        <h3>Selectivity Index = non-target EC50 divided by target EC50</h3>
-        <span class="formula">SI = EC50 (bystander) &divide; EC50 (bloom)</span>
-        <p>EC50 is the dose that causes a 50% effect. It runs backwards from intuition: a <strong>low</strong> EC50 means harm arrives at a small dose, so a low number is a sensitive organism, not a safe one.</p>
-        <p>The ideal treatment kills the bloom at a low dose and only touches the bystanders at a much higher dose. That gap is the selectivity window, and SI measures it as a single number.</p>
+      <!-- STEP 1 -->
+      <div class="step reveal">
+        <div><div class="step-num">1</div></div>
+        <div>
+          <p class="step-title">Score</p>
+          <h3>Selectivity Index = non-target EC50 divided by target EC50</h3>
+          <span class="formula">SI = EC50 (bystander) &divide; EC50 (bloom)</span>
+          <p>EC50 is the dose that causes a 50% effect. It runs backwards from intuition: a <strong>low</strong> EC50 means harm arrives at a small dose, so a low number is a sensitive organism, not a safe one.</p>
+          <p>The ideal treatment kills the bloom at a low dose and only touches the bystanders at a much higher dose. That gap is the selectivity window, and SI measures it as a single number.</p>
 
-        <figure class="diagram">
-          <svg viewBox="0 0 700 340" role="img" aria-labelledby="sititle sidesc" width="100%">
-            <title id="sititle">Dose response curves showing a selectivity window</title>
-            <desc id="sidesc">The bloom responds at a low dose while the bystander organism responds only at a much higher dose. The gap between the two half-effect doses is the selectivity window.</desc>
-            <defs>
-              <linearGradient id="win" x1="0" x2="1">
-                <stop offset="0" stop-color="#02C39A" stop-opacity=".22"/>
-                <stop offset="1" stop-color="#02C39A" stop-opacity=".05"/>
-              </linearGradient>
-            </defs>
-            <!-- axes -->
-            <line x1="70" y1="280" x2="670" y2="280" stroke="#D6E3E3" stroke-width="2"/>
-            <line x1="70" y1="40" x2="70" y2="280" stroke="#D6E3E3" stroke-width="2"/>
-            <!-- 50% line -->
-            <line x1="70" y1="165" x2="670" y2="165" stroke="#B7CCCC" stroke-width="1.5" stroke-dasharray="5 6"/>
-            <text x="76" y="158" font-family="Inter,sans-serif" font-size="12" fill="#5A6B72">50% effect</text>
-            <!-- selectivity window -->
-            <rect x="200" y="52" width="270" height="228" fill="url(#win)"/>
-            <text x="462" y="92" text-anchor="end" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#0F6E74">selectivity window</text>
-            <text x="462" y="111" text-anchor="end" font-family="Inter,sans-serif" font-size="12" fill="#5A6B72">bloom is dying, bystanders are not</text>
-            <!-- target curve -->
-            <path d="M70 272C120 268 165 250 200 165c30-72 62-96 110-102" fill="none" stroke="#0A4F54" stroke-width="3.5" stroke-linecap="round"/>
-            <!-- bystander curve -->
-            <path d="M70 276C220 274 380 268 470 165c40-46 100-70 200-74" fill="none" stroke="#00A896" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="9 7"/>
-            <!-- EC50 markers -->
-            <circle cx="200" cy="165" r="6" fill="#0A4F54"/>
-            <circle cx="470" cy="165" r="6" fill="#00A896"/>
-            <line x1="200" y1="165" x2="200" y2="280" stroke="#0A4F54" stroke-width="1.5" stroke-dasharray="4 5"/>
-            <line x1="470" y1="165" x2="470" y2="280" stroke="#00A896" stroke-width="1.5" stroke-dasharray="4 5"/>
-            <text x="200" y="300" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#0A4F54">EC50 bloom</text>
-            <text x="470" y="300" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#00A896">EC50 bystander</text>
-            <!-- arrow between -->
-            <line x1="208" y1="128" x2="462" y2="128" stroke="#0F6E74" stroke-width="1.5"/>
-            <path d="M200 128l9-4v8z" fill="#0F6E74"/><path d="M470 128l-9-4v8z" fill="#0F6E74"/>
-            <!-- labels -->
-            <text x="316" y="200" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#0A4F54">bloom</text>
-            <text x="560" y="215" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#00A896">bystander</text>
-            <text x="370" y="326" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="#5A6B72">dose (increasing)</text>
-            <text x="34" y="165" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="#5A6B72" transform="rotate(-90 34 165)">effect</text>
-          </svg>
-          <figcaption>A favorable treatment (illustrated). The bloom hits 50% effect at a low dose, the bystander only at a much higher one. The wider that gap, the higher the SI.</figcaption>
-        </figure>
+          <figure class="diagram">
+            <svg viewBox="0 0 700 340" role="img" aria-labelledby="sititle sidesc" width="100%">
+              <title id="sititle">Dose response curves showing a selectivity window</title>
+              <desc id="sidesc">The bloom responds at a low dose while the bystander organism responds only at a much higher dose. The gap between the two half-effect doses is the selectivity window.</desc>
+              <defs>
+                <linearGradient id="win" x1="0" x2="1">
+                  <stop offset="0" stop-color="#02C39A" stop-opacity=".22"/>
+                  <stop offset="1" stop-color="#02C39A" stop-opacity=".05"/>
+                </linearGradient>
+              </defs>
+              <!-- axes -->
+              <line x1="70" y1="280" x2="670" y2="280" stroke="#D6E3E3" stroke-width="2"/>
+              <line x1="70" y1="40" x2="70" y2="280" stroke="#D6E3E3" stroke-width="2"/>
+              <!-- 50% line -->
+              <line x1="70" y1="165" x2="670" y2="165" stroke="#B7CCCC" stroke-width="1.5" stroke-dasharray="5 6"/>
+              <text x="76" y="158" font-family="Inter,sans-serif" font-size="12" fill="#5A6B72">50% effect</text>
+              <!-- selectivity window -->
+              <rect x="200" y="52" width="270" height="228" fill="url(#win)"/>
+              <text x="462" y="92" text-anchor="end" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#0F6E74">selectivity window</text>
+              <text x="462" y="111" text-anchor="end" font-family="Inter,sans-serif" font-size="12" fill="#5A6B72">bloom is dying, bystanders are not</text>
+              <!-- target curve -->
+              <path d="M70 272C120 268 165 250 200 165c30-72 62-96 110-102" fill="none" stroke="#0A4F54" stroke-width="3.5" stroke-linecap="round"/>
+              <!-- bystander curve -->
+              <path d="M70 276C220 274 380 268 470 165c40-46 100-70 200-74" fill="none" stroke="#00A896" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="9 7"/>
+              <!-- EC50 markers -->
+              <circle cx="200" cy="165" r="6" fill="#0A4F54"/>
+              <circle cx="470" cy="165" r="6" fill="#00A896"/>
+              <line x1="200" y1="165" x2="200" y2="280" stroke="#0A4F54" stroke-width="1.5" stroke-dasharray="4 5"/>
+              <line x1="470" y1="165" x2="470" y2="280" stroke="#00A896" stroke-width="1.5" stroke-dasharray="4 5"/>
+              <text x="200" y="300" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#0A4F54">EC50 bloom</text>
+              <text x="470" y="300" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#00A896">EC50 bystander</text>
+              <!-- arrow between -->
+              <line x1="208" y1="128" x2="462" y2="128" stroke="#0F6E74" stroke-width="1.5"/>
+              <path d="M200 128l9-4v8z" fill="#0F6E74"/><path d="M470 128l-9-4v8z" fill="#0F6E74"/>
+              <!-- labels -->
+              <text x="316" y="200" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#0A4F54">bloom</text>
+              <text x="560" y="215" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#00A896">bystander</text>
+              <text x="370" y="326" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="#5A6B72">dose (increasing)</text>
+              <text x="34" y="165" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="#5A6B72" transform="rotate(-90 34 165)">effect</text>
+            </svg>
+            <figcaption>A favorable treatment (illustrated). The bloom hits 50% effect at a low dose, the bystander only at a much higher one. The wider that gap, the higher the SI.</figcaption>
+          </figure>
 
-        <div class="si-pair">
-          <div class="si-box good">
-            <strong>SI above 1: good</strong>
-            <p>The bloom dies first. There is a dose that controls the bloom before the bystander is meaningfully harmed.</p>
+          <div class="si-pair">
+            <div class="si-box good">
+              <strong>SI above 1: good</strong>
+              <p>The bloom dies first. There is a dose that controls the bloom before the bystander is meaningfully harmed.</p>
+            </div>
+            <div class="si-box bad">
+              <strong>SI below 1: flagged</strong>
+              <p>In the published tests, the bystander responded at a lower dose than the bloom did. The tool flags that axis.</p>
+            </div>
           </div>
-          <div class="si-box bad">
-            <strong>SI below 1: flagged</strong>
-            <p>In the published tests, the bystander responded at a lower dose than the bloom did. The tool flags that axis.</p>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step reveal">
+        <div><div class="step-num">2</div></div>
+        <div>
+          <p class="step-title">Separate</p>
+          <h3>Three non-target axes, tracked independently and never averaged</h3>
+          <div class="axes">
+            <div class="axis">
+              <svg width="30" height="30" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="#02C39A" opacity=".16"/><circle cx="16" cy="18" r="4.5" fill="#00A896"/><circle cx="24" cy="23" r="4" fill="#0F6E74"/></svg>
+              <h4>Green alga</h4>
+              <p class="sp">Raphidocelis subcapitata</p>
+              <p class="role">The primary producer. If it goes, the food web loses its base.</p>
+            </div>
+            <div class="axis">
+              <svg width="30" height="30" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="#00A896" opacity=".16"/><ellipse cx="19" cy="21" rx="7" ry="8.5" fill="#0F6E74"/><circle cx="15.5" cy="15" r="2.2" fill="#0A4F54"/></svg>
+              <h4>Water flea</h4>
+              <p class="sp">Daphnia magna</p>
+              <p class="role">The grazer. It eats algae and feeds fish, so it sits in the middle of everything.</p>
+            </div>
+            <div class="axis">
+              <svg width="30" height="30" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="#0F6E74" opacity=".16"/><path d="M11 20c4-5.5 12-5.5 16 0-4 5.5-12 5.5-16 0z" fill="#0F6E74"/><path d="M27 20l5-3.5v7L27 20z" fill="#00A896"/></svg>
+              <h4>Fish</h4>
+              <p class="sp">Danio rerio</p>
+              <p class="role">The vertebrate check. Standard proxy for vertebrate safety, including ours.</p>
+            </div>
           </div>
+          <p>A treatment can score well for one group and poorly for another. Copper is the clearest case: it looks excellent against the green alga and much weaker against the water flea. Average those two numbers together and you get one comfortable-looking score that hides exactly the trade-off a lake manager needs to see.</p>
+          <p>So the axes are reported separately, and the headline number is <strong>min-SI</strong>, the worst axis of the three.</p>
+          <p class="keyline">You are only as selective as your weakest link.</p>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step reveal">
+        <div><div class="step-num">3</div></div>
+        <div>
+          <p class="step-title">Combine</p>
+          <h3>Predict what treatment pairs will do, before anyone runs the experiment</h3>
+          <span class="formula">effect(A+B) = A + B &minus; (A &times; B)</span>
+          <p>This is Bliss independence: the effect of A, plus the effect of B, minus the overlap you would otherwise count twice. It assumes the two agents act independently, which is a stated assumption rather than a claim.</p>
+          <p>Why it matters here: since the headline score is the weakest axis, the way to improve a treatment is to lift that axis. Pair something strong on the green alga axis with something strong on the water flea axis and the pair can outrank either one alone. The tool generates every single treatment and every pair, scores them on the same scale, and ranks them together.</p>
+
+          <figure class="diagram">
+            <svg viewBox="0 0 700 210" role="img" aria-labelledby="bltitle bldesc" width="100%">
+              <title id="bltitle">Pairing lifts the weakest axis</title>
+              <desc id="bldesc">Treatment A is strong on the alga axis and weak on the Daphnia axis. Treatment B is the reverse. The predicted pair sits between them on both axes, so its weakest axis is higher than either treatment alone.</desc>
+              <g font-family="Inter,sans-serif" font-size="12" fill="#5A6B72">
+                <text x="20" y="34" font-weight="700" fill="#1B2530">Treatment A</text>
+                <rect x="150" y="22" width="230" height="15" rx="7.5" fill="#00A896"/><text x="392" y="34">strong on alga</text>
+                <rect x="150" y="46" width="52" height="15" rx="7.5" fill="#C0472B"/><text x="214" y="58">weak on Daphnia</text>
+
+                <text x="20" y="106" font-weight="700" fill="#1B2530">Treatment B</text>
+                <rect x="150" y="94" width="60" height="15" rx="7.5" fill="#C0472B"/><text x="222" y="106">weak on alga</text>
+                <rect x="150" y="118" width="245" height="15" rx="7.5" fill="#00A896"/><text x="407" y="130">strong on Daphnia</text>
+
+                <line x1="20" y1="152" x2="680" y2="152" stroke="#D6E3E3" stroke-width="1.5"/>
+                <text x="20" y="180" font-weight="700" fill="#0A4F54">Predicted A + B</text>
+                <rect x="150" y="168" width="140" height="15" rx="7.5" fill="#0F6E74"/><text x="302" y="180" fill="#0F6E74">alga holds</text>
+                <rect x="150" y="192" width="132" height="15" rx="7.5" fill="#0F6E74"/><text x="294" y="204" fill="#0F6E74">Daphnia lifted above failing</text>
+              </g>
+            </svg>
+            <figcaption>Bar length is selectivity on that axis (illustrative, not data). The pair gives up some of A's best axis and buys back the axis that was failing, which is what raises its min-SI.</figcaption>
+          </figure>
         </div>
       </div>
     </div>
 
-    <!-- STEP 2 -->
-    <div class="step reveal">
-      <div><div class="step-num">2</div></div>
-      <div>
-        <p class="step-title">Separate</p>
-        <h3>Three non-target axes, tracked independently and never averaged</h3>
-        <div class="axes">
-          <div class="axis">
-            <svg width="30" height="30" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="#02C39A" opacity=".16"/><circle cx="16" cy="18" r="4.5" fill="#00A896"/><circle cx="24" cy="23" r="4" fill="#0F6E74"/></svg>
-            <h4>Green alga</h4>
-            <p class="sp">Raphidocelis subcapitata</p>
-            <p class="role">The primary producer. If it goes, the food web loses its base.</p>
-          </div>
-          <div class="axis">
-            <svg width="30" height="30" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="#00A896" opacity=".16"/><ellipse cx="19" cy="21" rx="7" ry="8.5" fill="#0F6E74"/><circle cx="15.5" cy="15" r="2.2" fill="#0A4F54"/></svg>
-            <h4>Water flea</h4>
-            <p class="sp">Daphnia magna</p>
-            <p class="role">The grazer. It eats algae and feeds fish, so it sits in the middle of everything.</p>
-          </div>
-          <div class="axis">
-            <svg width="30" height="30" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="#0F6E74" opacity=".16"/><path d="M11 20c4-5.5 12-5.5 16 0-4 5.5-12 5.5-16 0z" fill="#0F6E74"/><path d="M27 20l5-3.5v7L27 20z" fill="#00A896"/></svg>
-            <h4>Fish</h4>
-            <p class="sp">Danio rerio</p>
-            <p class="role">The vertebrate check. Standard proxy for vertebrate safety, including ours.</p>
-          </div>
-        </div>
-        <p>A treatment can score well for one group and poorly for another. Copper is the clearest case: it looks excellent against the green alga and much weaker against the water flea. Average those two numbers together and you get one comfortable-looking score that hides exactly the trade-off a lake manager needs to see.</p>
-        <p>So the axes are reported separately, and the headline number is <strong>min-SI</strong>, the worst axis of the three.</p>
-        <p class="keyline">You are only as selective as your weakest link.</p>
+    <!-- who it is for -->
+    <div class="sub" id="who">
+      <div class="narrow reveal">
+        <p class="eyebrow">Who it is for</p>
+        <h2>Anyone who has to choose a treatment and then live with the lake afterward.</h2>
+        <p class="lede">The output is a ranked table with the reasoning attached, so it can be read, argued with, and reproduced.</p>
       </div>
-    </div>
-
-    <!-- STEP 3 -->
-    <div class="step reveal">
-      <div><div class="step-num">3</div></div>
-      <div>
-        <p class="step-title">Combine</p>
-        <h3>Predict what treatment pairs will do, before anyone runs the experiment</h3>
-        <span class="formula">effect(A+B) = A + B &minus; (A &times; B)</span>
-        <p>This is Bliss independence: the effect of A, plus the effect of B, minus the overlap you would otherwise count twice. It assumes the two agents act independently, which is a stated assumption rather than a claim.</p>
-        <p>Why it matters here: since the headline score is the weakest axis, the way to improve a treatment is to lift that axis. Pair something strong on the green alga axis with something strong on the water flea axis and the pair can outrank either one alone. The tool generates every single treatment and every pair, scores them on the same scale, and ranks them together.</p>
-
-        <figure class="diagram">
-          <svg viewBox="0 0 700 210" role="img" aria-labelledby="bltitle bldesc" width="100%">
-            <title id="bltitle">Pairing lifts the weakest axis</title>
-            <desc id="bldesc">Treatment A is strong on the alga axis and weak on the Daphnia axis. Treatment B is the reverse. The predicted pair sits between them on both axes, so its weakest axis is higher than either treatment alone.</desc>
-            <g font-family="Inter,sans-serif" font-size="12" fill="#5A6B72">
-              <text x="20" y="34" font-weight="700" fill="#1B2530">Treatment A</text>
-              <rect x="150" y="22" width="230" height="15" rx="7.5" fill="#00A896"/><text x="392" y="34">strong on alga</text>
-              <rect x="150" y="46" width="52" height="15" rx="7.5" fill="#C0472B"/><text x="214" y="58">weak on Daphnia</text>
-
-              <text x="20" y="106" font-weight="700" fill="#1B2530">Treatment B</text>
-              <rect x="150" y="94" width="60" height="15" rx="7.5" fill="#C0472B"/><text x="222" y="106">weak on alga</text>
-              <rect x="150" y="118" width="245" height="15" rx="7.5" fill="#00A896"/><text x="407" y="130">strong on Daphnia</text>
-
-              <line x1="20" y1="152" x2="680" y2="152" stroke="#D6E3E3" stroke-width="1.5"/>
-              <text x="20" y="180" font-weight="700" fill="#0A4F54">Predicted A + B</text>
-              <rect x="150" y="168" width="140" height="15" rx="7.5" fill="#0F6E74"/><text x="302" y="180" fill="#0F6E74">alga holds</text>
-              <rect x="150" y="192" width="132" height="15" rx="7.5" fill="#0F6E74"/><text x="294" y="204" fill="#0F6E74">Daphnia lifted above failing</text>
-            </g>
-          </svg>
-          <figcaption>Bar length is selectivity on that axis (illustrative, not data). The pair gives up some of A's best axis and buys back the axis that was failing, which is what raises its min-SI.</figcaption>
-        </figure>
+      <div class="who reveal">
+        <div><strong>Lake managers</strong><p>Comparing treatment options for a specific waterbody.</p></div>
+        <div><strong>Water utilities</strong><p>Protecting source water while weighing non-target risk.</p></div>
+        <div><strong>Watershed nonprofits</strong><p>Asking informed questions about a proposed treatment plan.</p></div>
+        <div><strong>Researchers</strong><p>Generating testable hypotheses about treatment combinations.</p></div>
+        <div><strong>Regulators</strong><p>Weighing permit decisions against non-target impact.</p></div>
       </div>
     </div>
   </div>
@@ -869,65 +948,179 @@ tr.grp td{
       <span><i class="swatch" style="background:#C0472B"></i> min-SI below 1, flagged (none currently)</span>
       <span><i class="swatch" style="background:transparent;border:1px solid #A9D5D1"></i> predicted combination</span>
     </div>
-  </div>
-</section>
 
-<!-- ============ SOURCES ============ -->
-<section class="band-panel" id="sources">
-  <div class="wrap">
-    <div class="narrow reveal">
-      <p class="eyebrow">Where the numbers come from</p>
-      <h2>The published values behind each score.</h2>
-      <p class="lede">Each selectivity index is a non-target EC50 divided by the <em>Microcystis</em> EC50. A lower EC50 means the organism responds at a lower dose.</p>
+    <!-- findings -->
+    <div class="sub sub-deep">
+      <div class="narrow reveal">
+        <p class="eyebrow" style="color:#02C39A">Three findings</p>
+        <h2>What shows up once you actually score the trade-off.</h2>
+        <p class="lede">None of these are visible when treatments are compared on bloom control alone.</p>
+      </div>
+
+      <div class="grid-3">
+        <article class="finding reveal">
+          <p class="n">Finding 01</p>
+          <h3>Copper's effective dose rises with bloom density.</h3>
+          <p>Published work (Tsai 2016; Kinley et al. 2017) shows the concentration needed to control <em>Microcystis</em> rises as cell density increases. That narrows copper's margin against <em>Daphnia</em>, which is already its weakest axis in the table above. Copper's score is the one most sensitive to the conditions of a real bloom.</p>
+          <p class="stat">SI 3.4<small>Daphnia axis, at test cell density</small></p>
+        </article>
+
+        <article class="finding reveal">
+          <p class="n">Finding 02</p>
+          <h3>The ranking depends on which data you pair.</h3>
+          <p>Our first version paired a short-test average across five cyanobacteria with a longer growth test on a single green alga, and ranked diquat last. Using matched values from one study (Peterson et al. 1997), diquat ranks second. Mismatched test lengths and endpoints can move a treatment from last to near first.</p>
+          <p class="stat">6th to 2nd<small>diquat rank, mismatched vs. matched data</small></p>
+        </article>
+
+        <article class="finding reveal">
+          <p class="n">Finding 03</p>
+          <h3>The data to answer this question barely exists.</h3>
+          <p>Compiling published toxicity data across 13 treatments and 4 cyanobacteria genera, only 13 of 52 target-kill cells could be filled. The non-target side of the ledger is comparatively rich, because harm to fish, water fleas, and green algae is what regulatory testing is built to measure. How well a chemical kills the bloom itself is measured far less consistently.</p>
+          <p class="stat">13 of 52<small>target-kill cells filled</small></p>
+        </article>
+      </div>
     </div>
 
-    <div class="grid-3 src-grid">
-      <article class="card src-card reveal">
-        <h3>Diquat dibromide</h3>
-          <div class="table-scroll">
-            <table class="src-table">
-              <thead><tr><th scope="col">Organism</th><th scope="col" class="num">EC50</th><th scope="col">Source</th></tr></thead>
-              <tbody>
-                <tr><td><em>Microcystis</em></td><td class="num">0.098, 0.105 mg/L</td><td>Peterson et al. 1997<span class="how">Carbon-uptake test, about 22 h</span></td></tr>
-                <tr><td>Green alga</td><td class="num">0.492 mg/L</td><td>Peterson et al. 1997<span class="how">Same study and test (value used)</span></td></tr>
-                <tr><td>Green alga</td><td class="num">0.032 mg/L</td><td>EPA ECOTOX<span class="how">72 to 96 h growth (not used)</span></td></tr>
-                <tr><td>Green alga</td><td class="num">0.13 mg/L</td><td>Reward product safety data sheet<span class="how">72 h, as formulated product (not used)</span></td></tr>
-                <tr><td><em>Daphnia</em></td><td class="num">1.86 mg/L</td><td>EPA ECOTOX<span class="how"></span></td></tr>
-                <tr><td>Fish</td><td class="num">50.2 mg/L</td><td>EPA ECOTOX<span class="how"></span></td></tr>
-              </tbody>
-            </table>
+    <!-- details, collapsed by default -->
+    <div class="accs reveal">
+      <details class="acc" id="sources">
+        <summary><span class="acc-head"><span class="acc-k">Where the numbers come from</span><span class="acc-t">The published values behind each score.</span></span><svg class="acc-chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="acc-body">
+          <div class="narrow">
+            <p class="lede">Each selectivity index is a non-target EC50 divided by the <em>Microcystis</em> EC50. A lower EC50 means the organism responds at a lower dose.</p>
           </div>
-      </article>
-      <article class="card src-card reveal">
-        <h3>Copper sulfate</h3>
-          <div class="table-scroll">
-            <table class="src-table">
-              <thead><tr><th scope="col">Organism</th><th scope="col" class="num">EC50</th><th scope="col">Source</th></tr></thead>
-              <tbody>
-                <tr><td><em>Microcystis</em></td><td class="num">0.063 mg Cu/L</td><td>Tsai 2016<span class="how">Matched 96 h growth</span></td></tr>
-                <tr><td>Green alga</td><td class="num">1.873 mg Cu/L</td><td>Tsai 2016<span class="how">Matched 96 h growth</span></td></tr>
-                <tr><td><em>Daphnia</em></td><td class="num">0.216 mg Cu/L</td><td>EPA ECOTOX Knowledgebase<span class="how"></span></td></tr>
-                <tr><td>Fish</td><td class="num">0.317 mg Cu/L</td><td>EPA ECOTOX Knowledgebase<span class="how"></span></td></tr>
-              </tbody>
-            </table>
-          </div>
-      </article>
-      <article class="card src-card reveal">
-        <h3>Hydrogen peroxide</h3>
-          <div class="table-scroll">
-            <table class="src-table">
-              <thead><tr><th scope="col">Organism</th><th scope="col" class="num">EC50</th><th scope="col">Source</th></tr></thead>
-              <tbody>
-                <tr><td><em>Microcystis</em></td><td class="num">2.62 mg/L</td><td>Weenink et al. 2022<span class="how"></span></td></tr>
-                <tr><td>Green alga</td><td class="num">27.7 mg/L</td><td>Weenink et al. 2022<span class="how"></span></td></tr>
-                <tr><td><em>Daphnia</em></td><td class="num">6.51 mg/L</td><td>Weenink et al. 2022<span class="how"></span></td></tr>
-              </tbody>
-            </table>
-          </div>
-      </article>
-    </div>
 
-    <p class="narrow src-foot reveal">EC50 values differ between studies because of test length, endpoint, strain, and water chemistry. Rankings should be read as comparisons, not predictions for a specific pond.</p>
+          <div class="grid-3 src-grid">
+            <article class="card src-card">
+              <h3>Diquat dibromide</h3>
+                <div class="table-scroll">
+                  <table class="src-table">
+                    <thead><tr><th scope="col">Organism</th><th scope="col" class="num">EC50</th><th scope="col">Source</th></tr></thead>
+                    <tbody>
+                      <tr><td><em>Microcystis</em></td><td class="num">0.098, 0.105 mg/L</td><td>Peterson et al. 1997<span class="how">Carbon-uptake test, about 22 h</span></td></tr>
+                      <tr><td>Green alga</td><td class="num">0.492 mg/L</td><td>Peterson et al. 1997<span class="how">Same study and test (value used)</span></td></tr>
+                      <tr><td>Green alga</td><td class="num">0.032 mg/L</td><td>EPA ECOTOX<span class="how">72 to 96 h growth (not used)</span></td></tr>
+                      <tr><td>Green alga</td><td class="num">0.13 mg/L</td><td>Reward product safety data sheet<span class="how">72 h, as formulated product (not used)</span></td></tr>
+                      <tr><td><em>Daphnia</em></td><td class="num">1.86 mg/L</td><td>EPA ECOTOX<span class="how"></span></td></tr>
+                      <tr><td>Fish</td><td class="num">50.2 mg/L</td><td>EPA ECOTOX<span class="how"></span></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+            </article>
+            <article class="card src-card">
+              <h3>Copper sulfate</h3>
+                <div class="table-scroll">
+                  <table class="src-table">
+                    <thead><tr><th scope="col">Organism</th><th scope="col" class="num">EC50</th><th scope="col">Source</th></tr></thead>
+                    <tbody>
+                      <tr><td><em>Microcystis</em></td><td class="num">0.063 mg Cu/L</td><td>Tsai 2016<span class="how">Matched 96 h growth</span></td></tr>
+                      <tr><td>Green alga</td><td class="num">1.873 mg Cu/L</td><td>Tsai 2016<span class="how">Matched 96 h growth</span></td></tr>
+                      <tr><td><em>Daphnia</em></td><td class="num">0.216 mg Cu/L</td><td>EPA ECOTOX Knowledgebase<span class="how"></span></td></tr>
+                      <tr><td>Fish</td><td class="num">0.317 mg Cu/L</td><td>EPA ECOTOX Knowledgebase<span class="how"></span></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+            </article>
+            <article class="card src-card">
+              <h3>Hydrogen peroxide</h3>
+                <div class="table-scroll">
+                  <table class="src-table">
+                    <thead><tr><th scope="col">Organism</th><th scope="col" class="num">EC50</th><th scope="col">Source</th></tr></thead>
+                    <tbody>
+                      <tr><td><em>Microcystis</em></td><td class="num">2.62 mg/L</td><td>Weenink et al. 2022<span class="how"></span></td></tr>
+                      <tr><td>Green alga</td><td class="num">27.7 mg/L</td><td>Weenink et al. 2022<span class="how"></span></td></tr>
+                      <tr><td><em>Daphnia</em></td><td class="num">6.51 mg/L</td><td>Weenink et al. 2022<span class="how"></span></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+            </article>
+          </div>
+
+          <p class="narrow src-foot">EC50 values differ between studies because of test length, endpoint, strain, and water chemistry. Rankings should be read as comparisons, not predictions for a specific pond.</p>
+        </div>
+      </details>
+      <details class="acc" id="limits">
+        <summary><span class="acc-head"><span class="acc-k">Limitations</span><span class="acc-t">What this tool does not tell you.</span></span><svg class="acc-chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="acc-body">
+          <div class="narrow">
+            <p class="lede">Read this before using the output. Every item here is a constraint we can state precisely, which is the point: each one is testable, and the planned lab work is designed to test them.</p>
+          </div>
+
+          <div class="limits">
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
+              <div>
+                <h3>Predictions are not measurements.</h3>
+                <p>Every combination value in the ranking is a hypothesis generated under stated assumptions. None of the combinations has been measured in a lab. Validation is planned, and both agreement and disagreement with the predictions are reportable results.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 20h18M6 20V10M12 20V5M18 20v-7"/></svg>
+              <div>
+                <h3>The input data is sparse.</h3>
+                <p>The published literature contains comparable target-kill values for only a fraction of treatment and organism pairs. The rankings rest on relatively few fully scored treatments, so a single new measurement can move them.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+              <div>
+                <h3>Exposure durations do not always match.</h3>
+                <p>Some published values compare target and non-target toxicity measured over different exposure times and endpoints. Because the target value sits in the denominator of the index, a mismatch inflates apparent selectivity. Affected entries are flagged in the code.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="12" r="6"/><circle cx="15" cy="12" r="6"/></svg>
+              <div>
+                <h3>Bliss independence can be violated.</h3>
+                <p>The combination model assumes the two agents act independently. Agents that share a mechanism (copper and hydrogen peroxide both act partly through oxidative stress) may not. Where the lab disagrees with the prediction, that disagreement is the finding.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h6"/></svg>
+              <div>
+                <h3>It ranks by selectivity, not efficacy.</h3>
+                <p>A treatment can kill the target extremely well and still rank poorly here. That is intended behavior, not a bug. This tool answers one question (what is the predicted risk to non-target organisms) and should sit alongside efficacy, cost, and permitting, not replace them.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
+              <div>
+                <h3>Water chemistry changes toxicity.</h3>
+                <p>Toxicity varies with water chemistry. Copper in particular is far more toxic in soft, low-alkalinity water than in hard water.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
+              <div>
+                <h3>Strains differ.</h3>
+                <p><em>Microcystis</em> strains respond differently to the same product.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
+              <div>
+                <h3>Microcystis is not the only bloom organism.</h3>
+                <p>Other bloom organisms occur in North Carolina (for example <em>Euglena</em> and <em>Prymnesium</em>), and some treatments target green algae blooms instead.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
+              <div>
+                <h3>Copper products are not all alike.</h3>
+                <p>Chelated copper products are generally lower risk than copper sulfate. Copper is also toxic to mollusks, which this tool does not score.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
+              <div>
+                <h3>Lab water is not lake water.</h3>
+                <p>Lab values measured in clean water can differ substantially from values in natural water.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
   </div>
 </section>
 
@@ -1003,219 +1196,85 @@ tr.grp td{
   </div>
 </section>
 
-<!-- ============ FINDINGS ============ -->
-<section class="band-panel">
+<!-- ============ FIELD VISIT ============ -->
+<section class="band-deep" id="visit">
   <div class="wrap">
     <div class="narrow reveal">
-      <p class="eyebrow">Three findings</p>
-      <h2>What shows up once you actually score the trade-off.</h2>
-      <p class="lede">None of these are visible when treatments are compared on bloom control alone.</p>
+      <p class="eyebrow" style="color:#02C39A">Field Visit</p>
+      <h2>Inside the Plant</h2>
+      <p class="lede">Our visit to the Cary/Apex Water Treatment Facility</p>
+      <p>On September 30, 2026, we toured the Cary/Apex Water Treatment Facility, which treats Jordan Lake water for more than 310,000 people in Cary, Apex, Morrisville, and part of Research Triangle Park. The visit changed how we frame our project. Jordan Lake is operated by the US Army Corps of Engineers, and algae is not treated in the lake itself. Instead, the plant manages it on site, adjusting activated carbon to measured taste-and-odor compounds and using ozone and biofiltration. That is why our tool is aimed at ponds and smaller lakes, where in-lake treatment actually happens.</p>
     </div>
 
-    <div class="grid-3">
-      <article class="finding reveal">
-        <p class="n">Finding 01</p>
-        <h3>Copper's effective dose rises with bloom density.</h3>
-        <p>Published work (Tsai 2016; Kinley et al. 2017) shows the concentration needed to control <em>Microcystis</em> rises as cell density increases. That narrows copper's margin against <em>Daphnia</em>, which is already its weakest axis in the table above. Copper's score is the one most sensitive to the conditions of a real bloom.</p>
-        <p class="stat">SI 3.4<small>Daphnia axis, at test cell density</small></p>
-      </article>
-
-      <article class="finding reveal">
-        <p class="n">Finding 02</p>
-        <h3>The ranking depends on which data you pair.</h3>
-        <p>Our first version paired a short-test average across five cyanobacteria with a longer growth test on a single green alga, and ranked diquat last. Using matched values from one study (Peterson et al. 1997), diquat ranks second. Mismatched test lengths and endpoints can move a treatment from last to near first.</p>
-        <p class="stat">6th to 2nd<small>diquat rank, mismatched vs. matched data</small></p>
-      </article>
-
-      <article class="finding reveal">
-        <p class="n">Finding 03</p>
-        <h3>The data to answer this question barely exists.</h3>
-        <p>Compiling published toxicity data across 13 treatments and 4 cyanobacteria genera, only 13 of 52 target-kill cells could be filled. The non-target side of the ledger is comparatively rich, because harm to fish, water fleas, and green algae is what regulatory testing is built to measure. How well a chemical kills the bloom itself is measured far less consistently.</p>
-        <p class="stat">13 of 52<small>target-kill cells filled</small></p>
-      </article>
+    <div class="tour-grid reveal">
+      <figure class="shot">
+        <a href="images/tour/tour-01-team.jpg"><img src="images/tour/tour-01-team.jpg" width="1200" height="1600" loading="lazy" style="object-position:50% 100%" alt="Arjun Pendharkar and Siddharth Santhosh at the Cary/Apex Water Treatment Facility, September 30, 2026."></a>
+        <figcaption>Arjun Pendharkar and Siddharth Santhosh at the Cary/Apex Water Treatment Facility, September 30, 2026.</figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="images/tour/tour-02-basins.jpg"><img src="images/tour/tour-02-basins.jpg" width="1200" height="1600" loading="lazy" alt="Settling basins, where clumped particles separate from the water."></a>
+        <figcaption>Settling basins, where clumped particles separate from the water.</figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="images/tour/tour-03-microscope.jpg"><img src="images/tour/tour-03-microscope.jpg" width="1600" height="1200" loading="lazy" alt="A microscope in the plant's laboratory."></a>
+        <figcaption>A microscope in the plant's laboratory.</figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="images/tour/tour-04-lab-instrument.jpg"><img src="images/tour/tour-04-lab-instrument.jpg" width="1600" height="1200" loading="lazy" alt="Analytical equipment in the state-certified laboratory, which runs about 100,000 tests a year."></a>
+        <figcaption>Analytical equipment in the state-certified laboratory, which runs about 100,000 tests a year.</figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="images/tour/tour-05-storage-tanks.jpg"><img src="images/tour/tour-05-storage-tanks.jpg" width="1600" height="1200" loading="lazy" alt="Covered storage tanks on the plant grounds."></a>
+        <figcaption>Covered storage tanks on the plant grounds.</figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="images/tour/tour-06-chemical-tanks.jpg"><img src="images/tour/tour-06-chemical-tanks.jpg" width="1200" height="1600" loading="lazy" alt="Chemical storage tanks used in the treatment process."></a>
+        <figcaption>Chemical storage tanks used in the treatment process.</figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="images/tour/tour-07-pumps.jpg"><img src="images/tour/tour-07-pumps.jpg" width="1200" height="1600" loading="lazy" alt="Large pumps that move water through the plant."></a>
+        <figcaption>Large pumps that move water through the plant.</figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="images/tour/tour-08-generators.jpg"><img src="images/tour/tour-08-generators.jpg" width="1600" height="1200" loading="lazy" alt="Standby generators that keep the plant running during power outages."></a>
+        <figcaption>Standby generators that keep the plant running during power outages.</figcaption>
+      </figure>
     </div>
+
+    <p class="narrow tour-thanks reveal">Thank you to the facility's laboratory team for hosting us. Facility figures are from the Town of Cary's virtual tour.</p>
   </div>
+
+  <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+    <button type="button" class="lb-close" aria-label="Close photo">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <img src="" alt="">
+    <p></p>
+  </dialog>
 </section>
 
-<!-- ============ LIMITATIONS ============ -->
-<section id="limits">
+<!-- ============ ABOUT ============ -->
+<section class="band-panel" id="about">
   <div class="wrap">
-    <div class="narrow reveal">
-      <p class="eyebrow">Limitations</p>
-      <h2>What this tool does not tell you.</h2>
-      <p class="lede">Read this before using the output. Every item here is a constraint we can state precisely, which is the point: each one is testable, and the planned lab work is designed to test them.</p>
+    <div class="about-grid">
+    <div class="about reveal">
+      <p class="eyebrow">About us</p>
+      <h2>Two Green Level seniors from Cary.</h2>
+      <p class="about-lead">We are <strong>Arjun Pendharkar</strong> and <strong>Siddharth Santhosh</strong>, seniors at Green Level High School who both live in the Cary area. We built this tool under the supervision of <strong>Dr. Bharati Pandi</strong>.</p>
+      <h3 class="about-why">Why we did it</h3>
+      <p>It started with a news story. In June 2022, <a href="https://abc11.com/nc-jordan-lake-dog-death-water-toxins/11999106/" rel="noopener">ABC11 reported</a> that dogs became ill after swimming at Jordan Lake, and at least one died, after toxic algae turned up in the water. That one hit close to home. Arjun's dog, Oreo, goes on regular walks near Jordan Lake, and it was easy to picture Oreo being one of those dogs. We wanted to know how a bloom like that gets treated, and whether the treatment itself could hurt the rest of the lake. The question turned out to be the perfect mix of biology and technology, which let us combine both of our specialties: the ecology and toxicology behind each score, and the code that turns published data into a ranking anyone can run.</p>
+      <ul class="about-list">
+        <li><span>Tool and data on GitHub</span><a href="https://github.com/arjunpendharkar/selectivity-tool">github.com/arjunpendharkar/selectivity-tool</a></li>
+        <li><span>Website source on GitHub</span><a href="https://github.com/siddharthsanthosh1/selectivity-tool-web">github.com/siddharthsanthosh1/selectivity-tool-web</a></li>
+        <li><span>Archived release (DOI)</span><a href="https://doi.org/10.5281/zenodo.22135606">doi.org/10.5281/zenodo.22135606</a></li>
+        <li><span>License</span><span class="plain">Released under the MIT license.</span></li>
+      </ul>
     </div>
 
-    <div class="limits reveal">
-      <div class="limit">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
-        <div>
-          <h3>Predictions are not measurements.</h3>
-          <p>Every combination value in the ranking is a hypothesis generated under stated assumptions. None of the combinations has been measured in a lab. Validation is planned, and both agreement and disagreement with the predictions are reportable results.</p>
-        </div>
-      </div>
-      <div class="limit">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 20h18M6 20V10M12 20V5M18 20v-7"/></svg>
-        <div>
-          <h3>The input data is sparse.</h3>
-          <p>The published literature contains comparable target-kill values for only a fraction of treatment and organism pairs. The rankings rest on relatively few fully scored treatments, so a single new measurement can move them.</p>
-        </div>
-      </div>
-      <div class="limit">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-        <div>
-          <h3>Exposure durations do not always match.</h3>
-          <p>Some published values compare target and non-target toxicity measured over different exposure times and endpoints. Because the target value sits in the denominator of the index, a mismatch inflates apparent selectivity. Affected entries are flagged in the code.</p>
-        </div>
-      </div>
-      <div class="limit">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="12" r="6"/><circle cx="15" cy="12" r="6"/></svg>
-        <div>
-          <h3>Bliss independence can be violated.</h3>
-          <p>The combination model assumes the two agents act independently. Agents that share a mechanism (copper and hydrogen peroxide both act partly through oxidative stress) may not. Where the lab disagrees with the prediction, that disagreement is the finding.</p>
-        </div>
-      </div>
-      <div class="limit">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h6"/></svg>
-        <div>
-          <h3>It ranks by selectivity, not efficacy.</h3>
-          <p>A treatment can kill the target extremely well and still rank poorly here. That is intended behavior, not a bug. This tool answers one question (what is the predicted risk to non-target organisms) and should sit alongside efficacy, cost, and permitting, not replace them.</p>
-        </div>
-      </div>
-      <div class="limit">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
-        <div>
-          <h3>Water chemistry changes toxicity.</h3>
-          <p>Toxicity varies with water chemistry. Copper in particular is far more toxic in soft, low-alkalinity water than in hard water.</p>
-        </div>
-      </div>
-      <div class="limit">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
-        <div>
-          <h3>Strains differ.</h3>
-          <p><em>Microcystis</em> strains respond differently to the same product.</p>
-        </div>
-      </div>
-      <div class="limit">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
-        <div>
-          <h3>Microcystis is not the only bloom organism.</h3>
-          <p>Other bloom organisms occur in North Carolina (for example <em>Euglena</em> and <em>Prymnesium</em>), and some treatments target green algae blooms instead.</p>
-        </div>
-      </div>
-      <div class="limit">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
-        <div>
-          <h3>Copper products are not all alike.</h3>
-          <p>Chelated copper products are generally lower risk than copper sulfate. Copper is also toxic to mollusks, which this tool does not score.</p>
-        </div>
-      </div>
-      <div class="limit">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
-        <div>
-          <h3>Lab water is not lake water.</h3>
-          <p>Lab values measured in clean water can differ substantially from values in natural water.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ WHO ============ -->
-<section class="band-deep">
-  <div class="wrap">
-    <div class="narrow reveal">
-      <p class="eyebrow" style="color:#02C39A">Who it is for</p>
-      <h2>Anyone who has to choose a treatment and then live with the lake afterward.</h2>
-      <p class="lede">The output is a ranked table with the reasoning attached, so it can be read, argued with, and reproduced.</p>
-    </div>
-    <div class="who reveal">
-      <div><strong>Lake managers</strong><p>Comparing treatment options for a specific waterbody.</p></div>
-      <div><strong>Water utilities</strong><p>Protecting source water while weighing non-target risk.</p></div>
-      <div><strong>Watershed nonprofits</strong><p>Asking informed questions about a proposed treatment plan.</p></div>
-      <div><strong>Researchers</strong><p>Generating testable hypotheses about treatment combinations.</p></div>
-      <div><strong>Regulators</strong><p>Weighing permit decisions against non-target impact.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ ROADMAP ============ -->
-<section class="band-panel" id="next">
-  <div class="wrap">
-    <div class="narrow reveal">
-      <p class="eyebrow">What's next</p>
-      <h2>The predictions are the easy part. Testing them is the work.</h2>
-      <p class="lede">The framework is complete. Everything below is what turns it from a set of predictions into validated findings.</p>
-    </div>
-
-    <div class="road">
-      <article class="road-item reveal">
-        <div><div class="road-num">1</div></div>
-        <div>
-          <p class="step-title">Validation</p>
-          <div class="road-head">
-            <h3>Test the rankings in a lab</h3>
-            <span class="status"><span class="dot"></span>Planned</span>
-          </div>
-          <p>Three treatments that can be sourced as pure compounds and dosed precisely: copper sulfate, hydrogen peroxide, and diquat dibromide. Three organisms: <em>Microcystis aeruginosa</em> as the target, <em>Raphidocelis subcapitata</em> as the green alga, and <em>Daphnia magna</em> as the grazer.</p>
-
-          <div class="lab-facts">
-            <div><b>3</b><span>treatments</span></div>
-            <div><b>3</b><span>organisms</span></div>
-            <div><b>~360</b><span>test units</span></div>
-          </div>
-
-          <p>Each treatment and each predicted pair will be tested across a five-point dose series plus a control, following OECD 201 for the algae and OECD 202 for <em>Daphnia</em>. That comes to roughly 360 individual test units.</p>
-          <p>The rule that makes it worth doing: every organism is measured at the same exposure time using the same endpoint. Much of the published literature does not do this, and mismatched exposure times are one of the reasons reported selectivity can be inflated. Generating matched data is the point.</p>
-
-          <div class="qpair">
-            <div class="q">
-              <p class="qn">Question 01</p>
-              <p><strong>Does the measured ranking match the predicted ranking?</strong></p>
-            </div>
-            <div class="q">
-              <p class="qn">Question 02</p>
-              <p><strong>Does each combination beat, match, or fall short of its Bliss prediction?</strong> Beating it means real synergy. Matching it means the framework is calibrated. Falling short means antagonism.</p>
-            </div>
-          </div>
-
-          <p class="road-close">All three outcomes are reportable. The experiment is designed so that it cannot be failed, only answered.</p>
-        </div>
-      </article>
-
-      <article class="road-item reveal">
-        <div><div class="road-num">2</div></div>
-        <div>
-          <p class="step-title">Data</p>
-          <div class="road-head">
-            <h3>Fill in the missing data</h3>
-          </div>
-          <p>Only 13 of 52 target-kill cells are currently filled. Some of those gaps are genuine absences in the literature, and some are values locked behind paywalls or buried in regulatory documents. Every cell filled makes the ranking more stable. Priorities are additional target-kill values for the three under-covered cyanobacteria genera, and cross-validating the values that currently rest on a single source.</p>
-        </div>
-      </article>
-
-      <article class="road-item reveal">
-        <div><div class="road-num">3</div></div>
-        <div>
-          <p class="step-title">Outreach</p>
-          <div class="road-head">
-            <h3>Put it in front of practitioners</h3>
-          </div>
-          <p>A tool that only makes sense to its authors is not useful. We have begun reaching out to watershed and riverkeeper organizations, state water quality agencies, and university researchers working on cyanobacterial blooms, to find out whether the framework reflects how treatment decisions actually get made in the field.</p>
-          <p>The most useful response so far has been expert review of the data and wording, which led to the September 2026 diquat correction and to several of the limitations listed above.</p>
-        </div>
-      </article>
-
-      <article class="road-item reveal">
-        <div><div class="road-num">4</div></div>
-        <div>
-          <p class="step-title">Scope</p>
-          <div class="road-head">
-            <h3>Extend what it can score</h3>
-          </div>
-          <p>Longer term, three directions. Extend the ranking to the other three target genera once the data supports it. Add treatments beyond the current thirteen, including compounds that are promising but not commercially available. And test whether the Bliss assumption holds across mechanisms, since agents that share a mode of action are the most likely to break it.</p>
-        </div>
-      </article>
+    <figure class="about-photo reveal">
+      <img src="images/about/arjun-and-siddharth.jpg" width="1200" height="1600" loading="lazy" alt="Arjun Pendharkar and Siddharth Santhosh inside the Cary/Apex Water Treatment Facility.">
+      <figcaption>Arjun and Siddharth at the Cary/Apex Water Treatment Facility, September 2026.</figcaption>
+    </figure>
     </div>
   </div>
 </section>
@@ -1224,53 +1283,124 @@ tr.grp td{
 <section id="contact">
   <div class="wrap">
     <div class="narrow reveal">
-      <p class="eyebrow">Reach out</p>
-      <h2>Tell us where this is wrong.</h2>
-      <p class="lede">We would rather hear that the framework misses something than have it sit unexamined. If any of the following applies to you, we would genuinely like to hear from you.</p>
+      <p class="eyebrow">Contact</p>
+      <h2>What's next and how to reach us</h2>
     </div>
 
-    <div class="reach reveal">
-      <div>
-        <strong>You manage a waterbody</strong>
-        <p>Does this reflect how treatment decisions actually get made, or is it missing a constraint that matters in practice?</p>
+    <!-- what's next -->
+    <div class="sub-first" id="next">
+      <div class="narrow reveal">
+        <p class="eyebrow">What's next</p>
+        <h3 class="sub-title">The predictions are the easy part. Testing them is the work.</h3>
+        <p class="lede">The framework is complete. Everything below is what turns it from a set of predictions into validated findings.</p>
       </div>
-      <div>
-        <strong>You have data that contradicts the rankings</strong>
-        <p>That is the most useful thing anyone could send us. Measurements beat predictions.</p>
-      </div>
-      <div>
-        <strong>You work on cyanobacteria or aquatic toxicology</strong>
-        <p>We are particularly interested in target-kill values we have not found, and in where the assumptions break down.</p>
-      </div>
-      <div>
-        <strong>You want to use it</strong>
-        <p>It is free and MIT licensed. Tell us what would make it more usable.</p>
+
+      <div class="road">
+        <article class="road-item reveal">
+          <div><div class="road-num">1</div></div>
+          <div>
+            <p class="step-title">Validation</p>
+            <div class="road-head">
+              <h3>Test the rankings in a lab</h3>
+              <span class="status"><span class="dot"></span>Planned</span>
+            </div>
+            <p>Three treatments that can be sourced as pure compounds and dosed precisely: copper sulfate, hydrogen peroxide, and diquat dibromide. Three organisms: <em>Microcystis aeruginosa</em> as the target, <em>Raphidocelis subcapitata</em> as the green alga, and <em>Daphnia magna</em> as the grazer.</p>
+
+            <div class="lab-facts">
+              <div><b>3</b><span>treatments</span></div>
+              <div><b>3</b><span>organisms</span></div>
+              <div><b>~360</b><span>test units</span></div>
+            </div>
+
+            <p>Each treatment and each predicted pair will be tested across a five-point dose series plus a control, following OECD 201 for the algae and OECD 202 for <em>Daphnia</em>. That comes to roughly 360 individual test units.</p>
+            <p>The rule that makes it worth doing: every organism is measured at the same exposure time using the same endpoint. Much of the published literature does not do this, and mismatched exposure times are one of the reasons reported selectivity can be inflated. Generating matched data is the point.</p>
+
+            <div class="qpair">
+              <div class="q">
+                <p class="qn">Question 01</p>
+                <p><strong>Does the measured ranking match the predicted ranking?</strong></p>
+              </div>
+              <div class="q">
+                <p class="qn">Question 02</p>
+                <p><strong>Does each combination beat, match, or fall short of its Bliss prediction?</strong> Beating it means real synergy. Matching it means the framework is calibrated. Falling short means antagonism.</p>
+              </div>
+            </div>
+
+            <p class="road-close">All three outcomes are reportable. The experiment is designed so that it cannot be failed, only answered.</p>
+          </div>
+        </article>
+
+        <article class="road-item reveal">
+          <div><div class="road-num">2</div></div>
+          <div>
+            <p class="step-title">Data</p>
+            <div class="road-head">
+              <h3>Fill in the missing data</h3>
+            </div>
+            <p>Only 13 of 52 target-kill cells are currently filled. Some of those gaps are genuine absences in the literature, and some are values locked behind paywalls or buried in regulatory documents. Every cell filled makes the ranking more stable. Priorities are additional target-kill values for the three under-covered cyanobacteria genera, and cross-validating the values that currently rest on a single source.</p>
+          </div>
+        </article>
+
+        <article class="road-item reveal">
+          <div><div class="road-num">3</div></div>
+          <div>
+            <p class="step-title">Outreach</p>
+            <div class="road-head">
+              <h3>Put it in front of practitioners</h3>
+            </div>
+            <p>A tool that only makes sense to its authors is not useful. We have begun reaching out to watershed and riverkeeper organizations, state water quality agencies, and university researchers working on cyanobacterial blooms, to find out whether the framework reflects how treatment decisions actually get made in the field.</p>
+            <p>The most useful response so far has been expert review of the data and wording, which led to the September 2026 diquat correction and to several of the limitations listed above.</p>
+          </div>
+        </article>
+
+        <article class="road-item reveal">
+          <div><div class="road-num">4</div></div>
+          <div>
+            <p class="step-title">Scope</p>
+            <div class="road-head">
+              <h3>Extend what it can score</h3>
+            </div>
+            <p>Longer term, three directions. Extend the ranking to the other three target genera once the data supports it. Add treatments beyond the current thirteen, including compounds that are promising but not commercially available. And test whether the Bliss assumption holds across mechanisms, since agents that share a mode of action are the most likely to break it.</p>
+          </div>
+        </article>
       </div>
     </div>
 
-    <div class="narrow contact-block reveal">
-      <p class="mail-head">Email the authors</p>
-      <ul class="about-list">
-        <li><span>Siddharth Santhosh</span><a href="mailto:siddharthsann@gmail.com">siddharthsann@gmail.com</a></li>
-        <li><span>Arjun Pendharkar</span><a href="mailto:apandaharkar@gmail.com">apandaharkar@gmail.com</a></li>
-      </ul>
-      <p class="contact-alt">For technical issues or corrections, open an issue on either repository: <a href="https://github.com/arjunpendharkar/selectivity-tool/issues">tool and data</a> or <a href="https://github.com/siddharthsanthosh1/selectivity-tool-web/issues">website source</a>.</p>
-    </div>
-  </div>
-</section>
+    <!-- reach out -->
+    <div class="sub" id="reach">
+      <div class="narrow reveal">
+        <p class="eyebrow">Reach out</p>
+        <h3 class="sub-title">Tell us where this is wrong.</h3>
+        <p class="lede">We would rather hear that the framework misses something than have it sit unexamined. If any of the following applies to you, we would genuinely like to hear from you.</p>
+      </div>
 
-<!-- ============ ABOUT ============ -->
-<section class="band-panel" id="about">
-  <div class="wrap">
-    <div class="narrow about reveal">
-      <p class="eyebrow">About this project</p>
-      <p class="about-lead">Built by <strong>Arjun Pendharkar</strong> and <strong>Siddharth Santhosh</strong>, Green Level High School, under the supervision of <strong>Dr. Bharati Pandi</strong>.</p>
-      <ul class="about-list">
-        <li><span>Tool and data on GitHub</span><a href="https://github.com/arjunpendharkar/selectivity-tool">github.com/arjunpendharkar/selectivity-tool</a></li>
-        <li><span>Website source on GitHub</span><a href="https://github.com/siddharthsanthosh1/selectivity-tool-web">github.com/siddharthsanthosh1/selectivity-tool-web</a></li>
-        <li><span>Archived release (DOI)</span><a href="https://doi.org/10.5281/zenodo.22135606">doi.org/10.5281/zenodo.22135606</a></li>
-        <li><span>License</span><span class="plain">Released under the MIT license.</span></li>
-      </ul>
+      <div class="reach reveal">
+        <div>
+          <strong>You manage a waterbody</strong>
+          <p>Does this reflect how treatment decisions actually get made, or is it missing a constraint that matters in practice?</p>
+        </div>
+        <div>
+          <strong>You have data that contradicts the rankings</strong>
+          <p>That is the most useful thing anyone could send us. Measurements beat predictions.</p>
+        </div>
+        <div>
+          <strong>You work on cyanobacteria or aquatic toxicology</strong>
+          <p>We are particularly interested in target-kill values we have not found, and in where the assumptions break down.</p>
+        </div>
+        <div>
+          <strong>You want to use it</strong>
+          <p>It is free and MIT licensed. Tell us what would make it more usable.</p>
+        </div>
+      </div>
+
+      <div class="narrow contact-block reveal">
+        <p class="mail-head">Email the authors</p>
+        <ul class="about-list">
+          <li><span>Siddharth Santhosh</span><a href="mailto:siddharthsann@gmail.com">siddharthsann@gmail.com</a></li>
+          <li><span>Arjun Pendharkar</span><a href="mailto:apandaharkar@gmail.com">apandaharkar@gmail.com</a></li>
+        </ul>
+        <p class="contact-alt">For technical issues or corrections, open an issue on either repository: <a href="https://github.com/arjunpendharkar/selectivity-tool/issues">tool and data</a> or <a href="https://github.com/siddharthsanthosh1/selectivity-tool-web/issues">website source</a>.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -1356,6 +1486,44 @@ tr.grp td{
 })();
 </script>
 <script>
+/* Nav: highlight the section currently in view. */
+(function(){
+  var links = document.querySelectorAll("#navMenu a");
+  var sections = document.querySelectorAll("main > section[id]");
+  if (!links.length || !sections.length) return;
+
+  function update(){
+    var line = window.innerHeight * 0.35, current = "";
+    Array.prototype.forEach.call(sections, function(s){
+      if (s.getBoundingClientRect().top <= line) current = s.id;
+    });
+    Array.prototype.forEach.call(links, function(a){
+      var on = a.getAttribute("href") === "#" + current;
+      a.classList.toggle("is-active", on);
+      if (on) a.setAttribute("aria-current", "location"); else a.removeAttribute("aria-current");
+    });
+  }
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
+  update();
+})();
+</script>
+<script>
+/* Accordions: a link to #sources or #limits opens that section. */
+(function(){
+  function openFromHash(){
+    var id = location.hash.slice(1);
+    var el = id && document.getElementById(id);
+    if (el && el.tagName === "DETAILS"){
+      el.open = true;
+      el.scrollIntoView();
+    }
+  }
+  window.addEventListener("hashchange", openFromHash);
+  openFromHash();
+})();
+</script>
+<script>
 (function(){
   var els = document.querySelectorAll('.reveal');
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1369,6 +1537,31 @@ tr.grp td{
     });
   }, {rootMargin: '0px 0px -8% 0px', threshold: 0.08});
   els.forEach(function(el){ io.observe(el); });
+})();
+</script>
+<script>
+/* Field visit: open a photo full size. Without <dialog> support the link opens the image. */
+(function(){
+  var box = document.getElementById("lightbox");
+  if (!box || typeof box.showModal !== "function") return;
+  var img = box.querySelector("img");
+  var cap = box.querySelector("p");
+
+  Array.prototype.forEach.call(document.querySelectorAll(".shot a"), function(a){
+    a.addEventListener("click", function(e){
+      e.preventDefault();
+      var thumb = a.querySelector("img");
+      img.src = a.getAttribute("href");
+      img.alt = thumb.alt;
+      cap.textContent = thumb.alt;
+      box.showModal();
+    });
+  });
+  box.querySelector(".lb-close").addEventListener("click", function(){ box.close(); });
+  box.addEventListener("click", function(e){
+    if (e.target === box) box.close();
+  });
+  box.addEventListener("close", function(){ img.removeAttribute("src"); });
 })();
 </script>
 <script>
