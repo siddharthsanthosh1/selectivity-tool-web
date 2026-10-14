@@ -1431,10 +1431,9 @@ tr.grp td{
       <div class="feedback reveal">
         <div>
           <h4>Do you treat ponds or manage lakes?</h4>
-          <p>A short form. Tell us which constraints, products, or field realities the ranking leaves out.</p>
+          <p>Send us a quick email. Tell us which constraints, products, or field realities the ranking leaves out.</p>
         </div>
-        <!-- TODO: replace [GOOGLE FORM URL] with the real form link before publishing -->
-        <a class="btn btn-solid" href="[GOOGLE FORM URL]">Tell us what this misses</a>
+        <a class="btn btn-solid" href="mailto:siddharthsann@gmail.com?subject=Selectivity%20Tool%3A%20what%20the%20ranking%20misses">Tell us what this misses</a>
       </div>
 
       <div class="narrow contact-block reveal">
@@ -1517,6 +1516,8 @@ tr.grp td{
   menu.addEventListener("click", function(e){
     if (e.target.tagName === "A") setOpen(false);
   });
+  var brand = nav.querySelector(".brand");
+  if (brand) brand.addEventListener("click", function(){ setOpen(false); });
   document.addEventListener("click", function(e){
     if (isOpen() && !nav.contains(e.target)) setOpen(false);
   });
