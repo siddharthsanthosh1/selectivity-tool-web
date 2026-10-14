@@ -12,8 +12,10 @@ identify the lowest-risk option.
 
 ## What's here
 
-A single static `index.html`. No build step, no dependencies, no backend. It runs
-entirely in the browser and deploys to GitHub Pages as-is.
+Two static pages: `index.html` (the tool) and `about.html` (who built it). No build
+step, no dependencies, no backend. It runs entirely in the browser and deploys to
+GitHub Pages as-is. `about.html` carries its own copy of the shared styles, so keep
+them in sync when the main page's styles change.
 
 The page covers:
 - The problem, using the June 2022 Jordan Lake incident as a case
@@ -71,7 +73,7 @@ GitHub Pages, from the `main` branch, root folder. No build step required.
 ## Authors
 
 Built by **Arjun Pendharkar** and **Siddharth Santhosh**, Green Level High School,
-under the supervision of **Dr. Bharati Pandi**.
+under the supervision of **Dr. Bharathi Pandi**.
 
 ## License
 
