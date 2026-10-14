@@ -10,6 +10,18 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Selectivity Tool">
 <meta property="og:description" content="Compares harmful algae bloom treatments by their predicted risk to non-target organisms, using published toxicity data.">
+<meta property="og:url" content="https://siddharthsanthosh1.github.io/selectivity-tool-web/">
+<meta property="og:site_name" content="Selectivity Tool">
+<meta property="og:image" content="https://siddharthsanthosh1.github.io/selectivity-tool-web/images/og-preview.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Selectivity Tool: rank algae bloom treatments by their predicted risk to non-target organisms.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Selectivity Tool">
+<meta name="twitter:description" content="Compares harmful algae bloom treatments by their predicted risk to non-target organisms, using published toxicity data.">
+<meta name="twitter:image" content="https://siddharthsanthosh1.github.io/selectivity-tool-web/images/og-preview.png">
+<meta name="twitter:image:alt" content="Selectivity Tool: rank algae bloom treatments by their predicted risk to non-target organisms.">
 <meta name="theme-color" content="#0A4F54">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A4F54'/%3E%3Cpath d='M6 21c3-6 5-9 10-9s7 3 10 9' stroke='%2302C39A' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='10' r='2.6' fill='%2300A896'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -382,6 +394,10 @@ tr.fail .bar{background:var(--coral)}
   border-color:var(--sea)
 }
 .pill:hover span{border-color:#9FC4C4}
+.ctrl-data{grid-column:1/-1;padding-top:clamp(18px,2.5vw,24px);border-top:1px solid var(--line)}
+.pill input[type="radio"]+span::before{border-radius:50%}
+.pill input[type="radio"]:checked+span::before{background:var(--sea);box-shadow:inset 0 0 0 3px var(--white)}
+.data-why{margin:12px 0 0;font-size:.9rem;font-weight:600;color:var(--deep);line-height:1.5}
 
 .tool-table{min-width:720px}
 .tool-table td.rank{width:62px}
@@ -490,13 +506,18 @@ tr.grp td{
 .reach div{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:20px 22px}
 .reach strong{display:block;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:6px}
 .reach p{margin:0;font-size:.94rem;color:var(--muted)}
+.feedback{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px 28px;
+  margin-top:28px;padding:clamp(20px,3vw,28px);background:var(--panel);border:1px solid var(--line);border-radius:var(--r)
+}
+.feedback h4{font-family:var(--serif);font-size:clamp(1.15rem,2.2vw,1.35rem);font-weight:600;color:var(--deep);margin:0 0 6px}
+.feedback p{margin:0;font-size:.94rem;color:var(--muted);max-width:52ch}
+.feedback .btn{flex:0 0 auto}
 .contact-block{margin-top:44px;padding-top:36px;border-top:1px solid var(--line)}
 .mail-head{
   font-family:var(--sans);font-size:.78rem;font-weight:700;letter-spacing:.14em;
   text-transform:uppercase;color:var(--muted);margin:0 0 16px
 }
-.contact-alt{margin:26px 0 0;font-size:.93rem;color:var(--muted)}
-.contact-alt a{color:var(--teal);text-decoration:underline;text-underline-offset:3px}
 
 /* ---------- footer ---------- */
 .footer{background:#073B3F;color:#A9D5D1;padding-block:clamp(56px,7vw,80px) 40px}
@@ -1166,6 +1187,16 @@ tr.grp td{
           </div>
           <p class="ctrl-hint">Removing a treatment also removes every combination containing it.</p>
         </div>
+
+        <div class="ctrl ctrl-data">
+          <p class="ctrl-label" id="lbl-data">Which published green-alga value for diquat?</p>
+          <div class="pills" id="dataPills" role="radiogroup" aria-labelledby="lbl-data">
+            <label class="pill"><input type="radio" name="diquatAlga" value="4.87" checked><span>Matched study: 0.492 mg/L (Peterson et al. 1997)</span></label>
+            <label class="pill"><input type="radio" name="diquatAlga" value="1.29"><span>Product data sheet: 0.13 mg/L (Reward, 72 h)</span></label>
+            <label class="pill"><input type="radio" name="diquatAlga" value="0.32"><span>EPA ECOTOX growth tests: 0.032 mg/L</span></label>
+          </div>
+          <p class="data-why">Same treatment, different published study, very different ranking. This is why matched data matters.</p>
+        </div>
       </div>
 
       <div class="table-scroll">
@@ -1190,7 +1221,7 @@ tr.grp td{
 
     <div class="narrow tool-notes reveal">
       <p class="note-live" id="metricNote">Ranked by the weakest non-target axis. A treatment is only as selective as its worst link.</p>
-      <p>Under Bliss independence, each of a combination's scores falls between its two ingredients' scores. When two treatments are weak on different organisms, the combination's weakest score can end up higher than either one alone. In this data, copper plus diquat does exactly that. Lab testing would show whether the prediction holds, or whether the pair interacts.</p>
+      <p>Under Bliss independence, each of a combination's scores falls between its two ingredients' scores. When two treatments are weak on different organisms, the combination's weakest score can end up higher than either one alone. With the matched diquat values, copper plus diquat does exactly that. Lab testing would show whether the prediction holds, or whether the pair interacts.</p>
       <p class="note-muted">These are predictions from published data, not measurements. The Python implementation archived at the DOI is the citable reference for the method. The diquat values on this page were corrected in September 2026 and differ from the archived release.</p>
     </div>
   </div>
@@ -1208,10 +1239,6 @@ tr.grp td{
 
     <div class="tour-grid reveal">
       <figure class="shot">
-        <a href="images/tour/tour-01-team.jpg"><img src="images/tour/tour-01-team.jpg" width="1200" height="1600" loading="lazy" style="object-position:50% 100%" alt="Arjun Pendharkar and Siddharth Santhosh at the Cary/Apex Water Treatment Facility, September 30, 2026."></a>
-        <figcaption>Arjun Pendharkar and Siddharth Santhosh at the Cary/Apex Water Treatment Facility, September 30, 2026.</figcaption>
-      </figure>
-      <figure class="shot">
         <a href="images/tour/tour-02-basins.jpg"><img src="images/tour/tour-02-basins.jpg" width="1200" height="1600" loading="lazy" alt="Settling basins, where clumped particles separate from the water."></a>
         <figcaption>Settling basins, where clumped particles separate from the water.</figcaption>
       </figure>
@@ -1224,12 +1251,20 @@ tr.grp td{
         <figcaption>Analytical equipment in the state-certified laboratory, which runs about 100,000 tests a year.</figcaption>
       </figure>
       <figure class="shot">
+        <a href="images/tour/tour-10-sample-taps.jpg"><img src="images/tour/tour-10-sample-taps.jpg" width="1600" height="1200" loading="lazy" alt="A row of labeled sample taps running into a lab sink, each piped from a different stage of treatment."></a>
+        <figcaption>Sample taps in the lab. Each faucet is piped from a different stage of treatment, such as the filters, the clearwells, and the finished water leaving the plant, and runs nonstop so the sample is always fresh. Staff test each stream for things like turbidity, pH, and chlorine, which shows how much every step improved the water and lets operators adjust before it reaches homes.</figcaption>
+      </figure>
+      <figure class="shot">
         <a href="images/tour/tour-05-storage-tanks.jpg"><img src="images/tour/tour-05-storage-tanks.jpg" width="1600" height="1200" loading="lazy" alt="Covered storage tanks on the plant grounds."></a>
         <figcaption>Covered storage tanks on the plant grounds.</figcaption>
       </figure>
       <figure class="shot">
         <a href="images/tour/tour-06-chemical-tanks.jpg"><img src="images/tour/tour-06-chemical-tanks.jpg" width="1200" height="1600" loading="lazy" alt="Chemical storage tanks used in the treatment process."></a>
         <figcaption>Chemical storage tanks used in the treatment process.</figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="images/tour/tour-09-hypochlorite-tanks.jpg"><img src="images/tour/tour-09-hypochlorite-tanks.jpg" width="1200" height="1600" loading="lazy" alt="Large white sodium hypochlorite tanks on raised containment pads inside the chemical building."></a>
+        <figcaption>Sodium hypochlorite tanks in the chemical building. This chlorine solution disinfects the water after filtration, and the plant later converts it to chloramine, which lasts longer in the pipes. The curbed concrete pads hold any spill.</figcaption>
       </figure>
       <figure class="shot">
         <a href="images/tour/tour-07-pumps.jpg"><img src="images/tour/tour-07-pumps.jpg" width="1200" height="1600" loading="lazy" alt="Large pumps that move water through the plant."></a>
@@ -1393,13 +1428,21 @@ tr.grp td{
         </div>
       </div>
 
+      <div class="feedback reveal">
+        <div>
+          <h4>Do you treat ponds or manage lakes?</h4>
+          <p>A short form. Tell us which constraints, products, or field realities the ranking leaves out.</p>
+        </div>
+        <!-- TODO: replace [GOOGLE FORM URL] with the real form link before publishing -->
+        <a class="btn btn-solid" href="[GOOGLE FORM URL]">Tell us what this misses</a>
+      </div>
+
       <div class="narrow contact-block reveal">
         <p class="mail-head">Email the authors</p>
         <ul class="about-list">
           <li><span>Siddharth Santhosh</span><a href="mailto:siddharthsann@gmail.com">siddharthsann@gmail.com</a></li>
           <li><span>Arjun Pendharkar</span><a href="mailto:apandaharkar@gmail.com">apandaharkar@gmail.com</a></li>
         </ul>
-        <p class="contact-alt">For technical issues or corrections, open an issue on either repository: <a href="https://github.com/arjunpendharkar/selectivity-tool/issues">tool and data</a> or <a href="https://github.com/siddharthsanthosh1/selectivity-tool-web/issues">website source</a>.</p>
       </div>
     </div>
   </div>
@@ -1640,8 +1683,17 @@ tr.grp td{
   var state = {
     metric: "min",
     axes: ["alga","Daphnia"],
-    tx: Object.keys(TREATMENTS)
+    tx: Object.keys(TREATMENTS),
+    diquatAlga: TREATMENTS["Diquat dibromide"].alga
   };
+
+  /* SI lookup. The diquat green-alga value comes from the data-choice
+     control, so the same target EC50 can be paired with each published
+     alga EC50 (0.492, 0.13, or 0.032 mg/L). */
+  function siOf(name, ax){
+    if (name === "Diquat dibromide" && ax === "alga") return state.diquatAlga;
+    return TREATMENTS[name][ax];
+  }
 
   var body     = document.getElementById("toolBody");
   var tierNote = document.getElementById("tierNote");
@@ -1662,7 +1714,7 @@ tr.grp td{
     var pool = state.tx.map(function(name){
       var si = {};
       axes.forEach(function(ax){
-        if (TREATMENTS[name][ax] != null) si[ax] = TREATMENTS[name][ax];
+        if (TREATMENTS[name][ax] != null) si[ax] = siOf(name, ax);
       });
       return { name: name, SI: si };
     }).filter(function(d){ return Object.keys(d.SI).length > 0; })
@@ -1807,6 +1859,11 @@ tr.grp td{
       state.tx   = readBoxes("txPills");
       render();
     });
+  });
+
+  document.getElementById("dataPills").addEventListener("change", function(e){
+    state.diquatAlga = parseFloat(e.target.value);
+    render();
   });
 
   render();
