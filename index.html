@@ -323,6 +323,52 @@ tr.fail .bar{background:var(--coral)}
 .lb-close:focus-visible{outline:2px solid var(--mint);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){.shot img{transition:none}.shot a:hover img{transform:none}}
 
+/* ---------- conference carousel ---------- */
+.carousel{margin-top:44px;min-width:0}
+.car-track{
+  position:relative;display:flex;gap:20px;overflow-x:auto;overscroll-behavior-x:contain;
+  scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;
+  scrollbar-width:none;border-radius:var(--r)
+}
+.car-track::-webkit-scrollbar{display:none}
+.car-track:focus-visible{outline:2px solid var(--mint);outline-offset:4px}
+.slide{flex:0 0 min(80%,880px);scroll-snap-align:start;margin:0;min-width:0}
+@media (max-width:620px){.slide{flex-basis:90%}}
+.slide a{display:block;border-radius:var(--r);overflow:hidden;box-shadow:0 14px 34px rgba(3,40,44,.3);cursor:zoom-in}
+.slide a:focus-visible{outline:2px solid var(--mint);outline-offset:-3px}
+.slide img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;background:#0C5B60}
+.car-caption{font-size:.88rem;line-height:1.55;color:#A9D5D1;margin:12px 0 0}
+.car-bar{display:flex;align-items:center;gap:14px;margin-top:22px}
+.car-btn{
+  flex:0 0 auto;width:44px;height:44px;border-radius:50%;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);color:#fff;
+  transition:background .18s ease,opacity .18s ease
+}
+.car-btn:hover{background:rgba(255,255,255,.2)}
+.car-btn:focus-visible{outline:2px solid var(--mint);outline-offset:2px}
+.car-btn:disabled{opacity:.35;cursor:default;background:rgba(255,255,255,.1)}
+.car-dots{display:flex;gap:4px;flex-wrap:wrap}
+.car-dot{
+  width:24px;height:24px;padding:0;border:0;background:transparent;cursor:pointer;
+  display:flex;align-items:center;justify-content:center
+}
+.car-dot::before{content:"";width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.35);transition:background .18s ease,transform .18s ease}
+.car-dot[aria-current="true"]::before{background:var(--mint);transform:scale(1.3)}
+.car-dot:focus-visible{outline:2px solid var(--mint);outline-offset:0;border-radius:50%}
+.car-count{margin-left:auto;font-size:.86rem;font-weight:600;letter-spacing:.06em;color:#A9D5D1;font-variant-numeric:tabular-nums}
+@media (max-width:420px){.car-dots{display:none}}
+@media (prefers-reduced-motion:reduce){.car-track{scroll-behavior:auto}}
+.learned{margin-top:clamp(48px,7vw,72px)}
+.learned-list{margin:0 0 1.1em;padding-left:1.2em}
+.learned-list li{margin-bottom:.8em}
+.learned-list li::marker{color:var(--mint)}
+.learned-list strong{color:#fff}
+.roles{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:32px}
+.roles div{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:18px 20px}
+.roles strong{display:block;color:#fff;font-size:1rem;margin-bottom:4px}
+.roles p{margin:0;font-size:.92rem;color:#A9D5D1}
+
 /* ---------- accordions ---------- */
 .accs{display:grid;gap:16px;margin-top:clamp(48px,7vw,72px)}
 .acc{background:var(--white);color:var(--ink);border-radius:var(--r);box-shadow:0 14px 34px rgba(3,40,44,.28);overflow:hidden}
@@ -1278,6 +1324,63 @@ tr.grp td{
     </div>
 
     <p class="narrow tour-thanks reveal">Thank you to the facility's laboratory team for hosting us. Facility figures are from the Town of Cary's virtual tour.</p>
+
+    <!-- NCLMS conference -->
+    <div class="sub sub-deep" id="nclms">
+      <div class="narrow reveal">
+        <p class="eyebrow" style="color:#02C39A">Conference</p>
+        <h2 class="sub-title">Presented at NCLMS Conference in Greensboro</h2>
+        <p class="lede">Our talk at the North Carolina Lake Management Society Fall Workshop</p>
+        <p>On October 15, 2026, we presented the Selectivity Tool at the North Carolina Lake Management Society (NCLMS) Fall Workshop in Greensboro. NCLMS brings together the people who look after the state's lakes and ponds. We opened with the June 2022 Jordan Lake case, walked through how the Selectivity Index compares treatments, and put our rankings in front of the people who make these decisions in the field.</p>
+      </div>
+
+      <div class="carousel reveal" role="region" aria-roledescription="carousel" aria-label="Photos from our NCLMS talk">
+        <div class="car-track" tabindex="0" aria-label="Swipe or use the arrow keys to see more photos">
+          <figure class="slide" aria-roledescription="slide" aria-label="1 of 3">
+            <a href="images/nclms/nclms-03-title-slide-wide.jpg"><img src="images/nclms/nclms-03-title-slide-wide.jpg" width="1600" height="1200" loading="lazy" alt="Arjun and Siddharth presenting at the NCLMS Conference in Greensboro."></a>
+          </figure>
+          <figure class="slide" aria-roledescription="slide" aria-label="2 of 3">
+            <a href="images/nclms/nclms-04-jordan-lake-case.jpg"><img src="images/nclms/nclms-04-jordan-lake-case.jpg" width="1600" height="1200" loading="lazy" alt="Arjun and Siddharth presenting at the NCLMS Conference in Greensboro."></a>
+          </figure>
+          <figure class="slide" aria-roledescription="slide" aria-label="3 of 3">
+            <a href="images/nclms/nclms-05-what-the-state-found.jpg"><img src="images/nclms/nclms-05-what-the-state-found.jpg" width="1600" height="1200" loading="lazy" alt="Arjun and Siddharth presenting at the NCLMS Conference in Greensboro."></a>
+          </figure>
+        </div>
+        <p class="car-caption">NCLMS Conference, Greensboro</p>
+        <div class="car-bar">
+          <button type="button" class="car-btn" data-dir="-1" aria-label="Previous photo">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+          </button>
+          <div class="car-dots" role="group" aria-label="Choose a photo"></div>
+          <span class="car-count" aria-live="polite">1 / 3</span>
+          <button type="button" class="car-btn" data-dir="1" aria-label="Next photo">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="narrow reveal learned">
+        <h3>What we learned from people in the field</h3>
+        <p>The workshop let us learn directly from the professionals who manage North Carolina's lakes and ponds.</p>
+        <ul class="learned-list">
+          <li><strong>Advice from the NC DEQ.</strong> We talked with Mark Vanderborgh of the North Carolina Department of Environmental Quality and took his advice on the project and on how a tool like ours fits the way blooms are handled in the state.</li>
+          <li><strong>Conversations with practitioners.</strong> Between sessions we talked with lake managers, applicators and other people who work in the field about how treatment decisions actually get made, and what they would need from a tool like ours.</li>
+          <li><strong>Presenting our solution.</strong> Explaining the tool to the North Carolina Lake Management Society, an audience that treats lakes and ponds for a living, pushed us to make the method clear and to be upfront about what published data can and cannot tell a lake manager.</li>
+        </ul>
+        <p>What we heard is shaping the next version of the tool, alongside the laboratory validation we have planned.</p>
+
+        <div class="roles">
+          <div>
+            <strong>Siddharth Santhosh</strong>
+            <p>Programmed the Python script, built this website, and led outreach.</p>
+          </div>
+          <div>
+            <strong>Arjun Pendharkar</strong>
+            <p>Led the data and the tool.</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
@@ -1566,7 +1669,7 @@ tr.grp td{
   var img = box.querySelector("img");
   var cap = box.querySelector("p");
 
-  Array.prototype.forEach.call(document.querySelectorAll(".shot a"), function(a){
+  Array.prototype.forEach.call(document.querySelectorAll(".shot a, .slide a"), function(a){
     a.addEventListener("click", function(e){
       e.preventDefault();
       var thumb = a.querySelector("img");
@@ -1581,6 +1684,71 @@ tr.grp td{
     if (e.target === box) box.close();
   });
   box.addEventListener("close", function(){ img.removeAttribute("src"); });
+})();
+</script>
+<script>
+/* NCLMS carousel: swipe or scroll natively; buttons, dots and arrow keys jump between photos. */
+(function(){
+  var root = document.querySelector(".carousel");
+  if (!root) return;
+  var track = root.querySelector(".car-track");
+  var slides = root.querySelectorAll(".slide");
+  var prev = root.querySelector('[data-dir="-1"]');
+  var next = root.querySelector('[data-dir="1"]');
+  var count = root.querySelector(".car-count");
+  var dotsWrap = root.querySelector(".car-dots");
+  var dots = [];
+  var current = 0;
+
+  Array.prototype.forEach.call(slides, function(s, i){
+    var d = document.createElement("button");
+    d.type = "button";
+    d.className = "car-dot";
+    d.setAttribute("aria-label", "Photo " + (i + 1));
+    d.addEventListener("click", function(){ go(i); });
+    dotsWrap.appendChild(d);
+    dots.push(d);
+  });
+
+  function go(i){
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    track.scrollTo({ left: slides[i].offsetLeft, behavior: getComputedStyle(track).scrollBehavior === "auto" ? "auto" : "smooth" });
+  }
+
+  function update(){
+    var x = track.scrollLeft;
+    var maxX = track.scrollWidth - track.clientWidth;
+    var idx = 0, best = Infinity;
+    if (x >= maxX - 2) idx = slides.length - 1;
+    else {
+      for (var i = 0; i < slides.length; i++) {
+        var dist = Math.abs(slides[i].offsetLeft - x);
+        if (dist < best) { best = dist; idx = i; }
+      }
+    }
+    current = idx;
+    count.textContent = (idx + 1) + " / " + slides.length;
+    prev.disabled = x <= 2;
+    next.disabled = x >= maxX - 2;
+    dots.forEach(function(d, i){ d.setAttribute("aria-current", i === idx ? "true" : "false"); });
+  }
+
+  var queued = false;
+  track.addEventListener("scroll", function(){
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(function(){ queued = false; update(); });
+  }, { passive: true });
+  window.addEventListener("resize", update);
+
+  prev.addEventListener("click", function(){ go(current - 1); });
+  next.addEventListener("click", function(){ go(current + 1); });
+  track.addEventListener("keydown", function(e){
+    if (e.key === "ArrowLeft") { e.preventDefault(); go(current - 1); }
+    else if (e.key === "ArrowRight") { e.preventDefault(); go(current + 1); }
+  });
+
+  update();
 })();
 </script>
 <script>
