@@ -364,6 +364,28 @@ tr.fail .bar{background:var(--coral)}
 .learned-list li{margin-bottom:.8em}
 .learned-list li::marker{color:var(--mint)}
 .learned-list strong{color:#fff}
+.review{margin-top:clamp(48px,7vw,72px)}
+.review-intro{max-width:760px}
+.marquee{position:relative;overflow:hidden;margin-top:32px;padding:30px 0;background:#fff;border-radius:var(--r);box-shadow:0 1px 2px rgba(0,0,0,.08),0 12px 32px rgba(0,0,0,.16)}
+.marquee::before,.marquee::after{content:"";position:absolute;top:0;bottom:0;width:9%;z-index:1;pointer-events:none}
+.marquee::before{left:0;background:linear-gradient(90deg,#fff,rgba(255,255,255,0))}
+.marquee::after{right:0;background:linear-gradient(270deg,#fff,rgba(255,255,255,0))}
+.marquee-track{display:flex;width:max-content;animation:marquee 38s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee-list{display:flex;align-items:center;gap:clamp(48px,7vw,88px);margin:0;padding:0 clamp(24px,3.5vw,44px);list-style:none}
+.marquee-list img{display:block;width:auto;height:46px;max-width:none}
+.marquee-list img.lg{height:62px}
+.marquee-list img.sm{height:40px}
+.marquee-list img.xl{height:76px}
+@keyframes marquee{to{transform:translateX(-50%)}}
+.review-note{margin:18px 0 0;font-size:.88rem;color:#A9D5D1;text-align:center}
+@media (max-width:620px){.marquee-list img{height:36px}.marquee-list img.lg{height:50px}.marquee-list img.sm{height:32px}.marquee-list img.xl{height:60px}}
+@media (prefers-reduced-motion:reduce){
+  .marquee::before,.marquee::after{display:none}
+  .marquee-track{animation:none;width:auto}
+  .marquee-list{flex-wrap:wrap;justify-content:center;row-gap:28px}
+  .marquee-list[aria-hidden="true"]{display:none}
+}
 .roles{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:32px}
 .roles div{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:18px 20px}
 .roles strong{display:block;color:#fff;font-size:1rem;margin-bottom:4px}
@@ -696,7 +718,7 @@ tr.grp td{
         <a href="#overview">Overview</a>
         <a href="#results">Results</a>
         <a href="#try">Try it</a>
-        <a href="#visit">Field Visit</a>
+        <a href="#visit">Outreach</a>
         <a href="#contact">Contact</a>
       </div>
       <a class="nav-cta" href="https://github.com/arjunpendharkar/selectivity-tool">GitHub</a>
@@ -1278,7 +1300,7 @@ tr.grp td{
 <section class="band-deep" id="visit">
   <div class="wrap">
     <div class="narrow reveal">
-      <p class="eyebrow" style="color:#02C39A">Field Visit</p>
+      <p class="eyebrow" style="color:#02C39A">Outreach</p>
       <h2>Inside the Plant</h2>
       <p class="lede">Our visit to the Cary/Apex Water Treatment Facility</p>
       <p>On September 30, 2026, we toured the Cary/Apex Water Treatment Facility, which treats Jordan Lake water for more than 310,000 people in Cary, Apex, Morrisville, and part of Research Triangle Park. The visit changed how we frame our project. Jordan Lake is operated by the US Army Corps of Engineers, and algae is not treated in the lake itself. Instead, the plant manages it on site, adjusting activated carbon to measured taste-and-odor compounds and using ozone and biofiltration. That is why our tool is aimed at ponds and smaller lakes, where in-lake treatment actually happens.</p>
@@ -1357,6 +1379,38 @@ tr.grp td{
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
           </button>
         </div>
+      </div>
+
+      <div class="review reveal">
+        <div class="review-intro">
+          <p class="eyebrow" style="color:#02C39A">Professional Review</p>
+          <h3>Presented to and endorsed by leaders in water resource management</h3>
+          <p>At the Fall Workshop, we presented our research to representatives of the organizations below, spanning a major regional utility, aquatic science manufacturers, and the lake and pond management firms that carry out treatments across the Carolinas. The Selectivity Index was received favorably, and these professionals endorsed the approach and encouraged its continued development.</p>
+        </div>
+        <!-- Logo strip: the list is repeated once so the loop scrolls without a seam. -->
+        <div class="marquee" aria-label="Organizations that reviewed our research">
+          <div class="marquee-track">
+            <ul class="marquee-list">
+              <li><img src="images/partners/sepro.svg" width="756" height="187" alt="SePRO"></li>
+              <li><img class="lg" src="images/partners/foster-lake.png" width="900" height="314" alt="Foster Lake &amp; Pond Management"></li>
+              <li><img class="lg" src="images/partners/duke-energy.svg" width="126" height="40" alt="Duke Energy"></li>
+              <li><img src="images/partners/kasco.svg" width="190" height="62" alt="Kasco Marine"></li>
+              <li><img class="xl" src="images/partners/cygnet-enterprises.png" width="900" height="479" alt="Cygnet Enterprises, Inc."></li>
+              <li><img class="xl" src="images/partners/dragonfly-pond-works.png" width="774" height="434" alt="Dragonfly Pond Works"></li>
+              <li><img src="images/partners/spirogyra.png" width="521" height="103" alt="Spirogyra Diversified Environmental Services"></li>
+            </ul>
+            <ul class="marquee-list" aria-hidden="true">
+              <li><img src="images/partners/sepro.svg" width="756" height="187" alt=""></li>
+              <li><img class="lg" src="images/partners/foster-lake.png" width="900" height="314" alt=""></li>
+              <li><img class="lg" src="images/partners/duke-energy.svg" width="126" height="40" alt=""></li>
+              <li><img src="images/partners/kasco.svg" width="190" height="62" alt=""></li>
+              <li><img class="xl" src="images/partners/cygnet-enterprises.png" width="900" height="479" alt=""></li>
+              <li><img class="xl" src="images/partners/dragonfly-pond-works.png" width="774" height="434" alt=""></li>
+              <li><img src="images/partners/spirogyra.png" width="521" height="103" alt=""></li>
+            </ul>
+          </div>
+        </div>
+        <p class="review-note">Organizations represented at our presentation, 2026 NCLMS Fall Workshop, Greensboro</p>
       </div>
 
       <div class="narrow reveal learned">
