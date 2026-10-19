@@ -4,7 +4,7 @@ Interactive website for the **Selectivity Tool**, a free, open-source framework 
 compares harmful algal bloom (HAB) treatments by their predicted risk to non-target
 organisms, using published toxicity data.
 
-**Live site:** https://siddharthsanthosh1.github.io/selectivity-tool-web/
+**Live site:** https://cyanoselect.org/
 
 Treatments are usually compared on how well they control the bloom. This tool adds
 a comparison of predicted risk to green algae, zooplankton, and fish, to help
@@ -65,6 +65,9 @@ agency before treating any water body.
 
 September 2026: diquat values corrected after expert review. An earlier version
 paired mismatched studies and ranked diquat last.
+
+October 2026: Data-gap count updated from 13 to 15 of 52 after published
+Anabaena values for endothall and diquat were added.
 
 ## Deploying
 
