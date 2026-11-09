@@ -11,9 +11,9 @@ const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' vi
 const NAV = [
   ['/selectivity/', 'Selectivity Tool', 'selectivity'],
   ['/simulator/', 'Pond Simulator', 'simulator'],
-  ['/outreach/', 'Outreach', 'outreach'],
   ['/data/', 'Data', 'data'],
   ['/about/', 'About', 'about'],
+  ['/outreach/', 'Outreach', 'outreach'],
 ];
 
 // Product sub-navs: name on the left, the product's pages on the right.
@@ -26,10 +26,13 @@ const PRODUCTS = {
     name: 'Pond Simulator', home: '/simulator/',
     links: [['/simulator/', 'Simulator', 'tool'], ['/simulator/how-it-works/', 'How it works', 'hiw']],
   },
-  // Section bars for the other multi-page sections (same look as the product sub-navs).
+  // Section bars for the other sections (same look as the product sub-navs).
+  // Outreach is one long page, so its bar links to the sections on it; site.js marks the one in view.
   outreach: {
     name: 'Outreach', home: '/outreach/',
-    links: [['/outreach/', 'Overview', 'overview'], ['/outreach/plant-visit/', 'Plant visit', 'plant'], ['/outreach/conference/', 'Conference talk', 'conference']],
+    links: [['#timeline', 'Overview', 'overview'], ['#plant', 'Plant visit', 'plant'], ['#conference', 'Conference talk', 'conference'],
+      ['#organizations', 'Who attended', 'organizations'], ['#people', 'Experts', 'people'], ['#learned', 'What we learned', 'learned'],
+      ['#practitioners', 'Get involved', 'practitioners']],
   },
   data: {
     name: 'Data', home: '/data/',
@@ -58,11 +61,6 @@ const CHAPTERS = {
     ['/simulator/how-it-works/treatment/', 'Treatment', 'How each product spreads and breaks down'],
     ['/simulator/how-it-works/bloom/', 'Bloom', 'The bloom: colonies, damage, toxin and oxygen'],
     ['/simulator/how-it-works/checks/', 'Checks', 'Uncertainty, how we checked it, and what it doesn’t do yet'],
-  ],
-  outreach: [
-    ['/outreach/', 'Overview', 'Outreach overview'],
-    ['/outreach/plant-visit/', 'Plant visit', 'Inside the Cary/Apex Water Treatment Facility'],
-    ['/outreach/conference/', 'Conference talk', 'Our talk at the North Carolina Lake Management Society'],
   ],
 };
 
@@ -119,7 +117,7 @@ function chapterPager(product, path) {
   const prev = ch[i - 1], next = ch[i + 1];
   const card = (c, dir) => c ? `<a class="pager-${dir}" href="${c[0]}"><span class="pager-k">${dir === 'prev' ? '‹ Previous' : 'Next ›'}</span><span class="pager-t">${c[2]}</span></a>` : '<span></span>';
   const tool = { selectivity: ['/selectivity/', 'Open the tool'], simulator: ['/simulator/', 'Open the simulator'] }[product];
-  return `<nav class="pager" aria-label="${product === 'outreach' ? 'Outreach pages' : 'Chapter navigation'}">
+  return `<nav class="pager" aria-label="Chapter navigation">
   <div class="wrap">
     <div class="pager-row">${card(prev, 'prev')}${card(next, 'next')}</div>
 ${tool ? `    <p class="pager-tool"><a class="chev" href="${tool[0]}">${tool[1]}</a></p>\n` : ''}  </div>
@@ -139,7 +137,7 @@ ${items.map(x => '        ' + x).join('\n')}
     <div class="cs-foot-grid">
 ${col('Selectivity Tool', [a('/selectivity/', 'Open the tool'), ...CHAPTERS.selectivity.map(([u, t]) => a(u, t === 'Overview' ? 'How it works' : t))])}
 ${col('Pond Simulator', [a('/simulator/', 'Open the simulator'), ...CHAPTERS.simulator.map(([u, t]) => a(u, t === 'Overview' ? 'How it works' : t))])}
-${col('Project', [a('/outreach/', 'Outreach'), a('/outreach/plant-visit/', 'Plant visit'), a('/outreach/conference/', 'Conference talk'), a('/data/', 'Data'), a('/data/sources/', 'Sources'), a('/about/', 'About'), a('/about/contact/', 'Contact'), a('/about/contact/#cite', 'How to cite')])}
+${col('Project', [a('/data/', 'Data'), a('/data/sources/', 'Sources'), a('/about/', 'About'), a('/about/contact/', 'Contact'), a('/about/contact/#cite', 'How to cite'), a('/outreach/', 'Outreach'), a('/outreach/#plant', 'Plant visit'), a('/outreach/#conference', 'Conference talk')])}
 ${col('Open source', ['<p>MIT license: free to use, modify and share, with attribution.</p>', a('https://doi.org/10.5281/zenodo.22135606', 'Archived release (DOI):<br>doi.org/10.5281/zenodo.22135606'), a('https://github.com/arjunpendharkar/selectivity-tool', 'Tool and data on GitHub'), a('https://github.com/siddharthsanthosh1/selectivity-tool-web', 'Website source on GitHub')])}
 ${col('Contact', [a('mailto:siddharthsann@gmail.com', 'siddharthsann@gmail.com'), a('mailto:apandaharkar@gmail.com', 'apandaharkar@gmail.com'), '<p>Or open an issue on either GitHub repository.</p>', '<p class="cs-status"><span class="cs-dot"></span>Framework complete. Laboratory validation planned.</p>'])}
     </div>

@@ -21,7 +21,7 @@ A static site with no backend. It runs entirely in the browser and deploys to **
 | How it works | `/selectivity/how-it-works/` (+ `why/`, `math/`, `limits/`) | Score, separate, combine; worked example; data gap; the math; limitations and next steps |
 | Pond Simulator | `/simulator/` | The simulator, inside the site's header, sub-nav and footer |
 | How it works | `/simulator/how-it-works/` (+ `water/`, `currents/`, `treatment/`, `bloom/`, `checks/`) | Why we built it, worked example, then every equation by chapter (KaTeX 0.16.11 from jsDelivr, pinned with integrity hashes) |
-| Outreach | `/outreach/` | Timeline, plant visit, conference talk, expert review, talks and articles |
+| Outreach | `/outreach/` | One page with a sticky section bar: timeline, plant visit (photo grid and lightbox), conference talk (carousel and organization strip), expert review, what we learned, talks and articles. Its scripts are in `assets/outreach.js` |
 | Data | `/data/` | Dataset download (`data/cyanoselect-dataset-2026-11-01.xlsx`), the data gap, findings, sources, corrections, labels |
 | About | `/about/` | Team, why we started, timeline, talks, thanks, contact |
 
@@ -31,7 +31,7 @@ A static site with no backend. It runs entirely in the browser and deploys to **
 node tools/build-site.js
 ```
 
-Styles: `assets/chrome.css` (header, sub-nav, footer; also used by the simulator), `assets/site.css` (page styles). Scripts: `assets/site.js` (menu, accordions, carousels, lightbox). `_redirects` sends every old URL (`/about.html`, `/rank/`, `/how-it-works/` …) to its new page and keeps `tools/`, the simulator's tests and notes, and internal notes off the public site. Old in-page anchors (`/#try`, `/how-it-works/#m-heat` …) are forwarded by a small script on the page they land on.
+Styles: `assets/chrome.css` (header, sub-nav, footer; also used by the simulator), `assets/site.css` (page styles). Scripts: `assets/site.js` (menu, accordions, reveal, section bar), `assets/outreach.js` (Outreach lightbox and carousel). `_redirects` sends every old URL (`/about.html`, `/rank/`, `/how-it-works/` …) to its new page and keeps `tools/`, the simulator's tests and notes, and internal notes off the public site. Old in-page anchors (`/#try`, `/how-it-works/#m-heat` …) are forwarded by a small script on the page they land on.
 
 **Rebuilding the simulator page** after changing anything in `simulator/` or `tools/chrome.js`:
 

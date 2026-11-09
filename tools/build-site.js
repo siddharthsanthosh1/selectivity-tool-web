@@ -28,16 +28,17 @@ const S = '/selectivity/how-it-works/', M = '/simulator/how-it-works/';
 const FWD_HOME = {
   overview: S + 'why/', problem: S + 'why/#problem', how: S, who: S + 'why/#who',
   results: '/selectivity/', try: '/selectivity/', sources: '/data/sources/', limits: S + 'limits/',
-  visit: '/outreach/plant-visit/', nclms: '/outreach/conference/', contact: '/about/contact/', next: S + 'limits/#next',
+  visit: '/outreach/#plant', nclms: '/outreach/#conference', contact: '/about/contact/', next: S + 'limits/#next',
   reach: '/about/contact/', cite: '/about/contact/#cite',
 };
 const FWD_ABOUT = {
-  who: S + 'why/#who', 'who-sec': S + 'why/#who', visit: '/outreach/plant-visit/', nclms: '/outreach/conference/', next: S + 'limits/#next',
+  who: S + 'why/#who', 'who-sec': S + 'why/#who', visit: '/outreach/#plant', nclms: '/outreach/#conference', next: S + 'limits/#next',
   contact: '/about/contact/', reach: '/about/contact/', links: '/about/contact/#links', cite: '/about/contact/#cite',
 };
 const FWD_SELECTIVITY = { limits: S + 'limits/', 'limits-sec': S + 'limits/', results: '/selectivity/' };
 const FWD_SEL_HIW = { worked: S + 'example/', example: S + 'example/', 'r-example': S + 'example/#r-example' };
-const FWD_OUTREACH = { visit: '/outreach/plant-visit/', nclms: '/outreach/conference/' };
+// Earlier names for the plant-visit and conference sections.
+const FWD_OUTREACH = { visit: '#plant', nclms: '#conference' };
 const FWD_DATA = { sources: '/data/sources/', 'sources-sec': '/data/sources/' };
 // Old /how-it-works/ (Nov 8 layout) is redirected here by _redirects; its anchors go to the chapters.
 const FWD_SIM_HIW = {
@@ -84,12 +85,10 @@ const PAGES = [
   { src: 'simulator-checks.html', path: M + 'checks/', section: 'simulator', sub: 'hiw', chapter: true, katex: true, title: 'Checks | Pond Simulator',
     desc: 'The 200 uncertainty runs, how the CyanoSelect pond simulator was checked, and what it doesn’t do yet.' },
 
-  { src: 'outreach.html', path: '/outreach/', section: 'outreach', sub: 'overview', chapter: true, title: 'Outreach',
-    desc: 'Where CyanoSelect has been: the Cary/Apex Water Treatment Facility, the North Carolina Lake Management Society Fall Workshop, expert review, and the LakeLine article.', fwd: FWD_OUTREACH },
-  { src: 'outreach-plant.html', path: '/outreach/plant-visit/', section: 'outreach', sub: 'plant', chapter: true, title: 'Plant visit | Outreach',
-    desc: 'Our September 30, 2026 visit to the Cary/Apex Water Treatment Facility, which treats Jordan Lake water, with photos of the plant and its laboratory.' },
-  { src: 'outreach-conference.html', path: '/outreach/conference/', section: 'outreach', sub: 'conference', chapter: true, title: 'Conference talk | Outreach',
-    desc: 'Our October 15, 2026 talk at the North Carolina Lake Management Society Fall Workshop in Greensboro: photos, what we heard and what we learned.' },
+  // Outreach is one long page on purpose (the 3–4 screen limit does not apply); its section bar links to anchors.
+  { src: 'outreach.html', path: '/outreach/', section: 'outreach', sub: 'overview', title: 'Outreach',
+    desc: 'Where CyanoSelect has been: the Cary/Apex Water Treatment Facility, the North Carolina Lake Management Society Fall Workshop, expert review, and the LakeLine article.',
+    scripts: ['/assets/outreach.js'], fwd: FWD_OUTREACH },
   { src: 'data.html', path: '/data/', section: 'data', sub: 'dataset', title: 'Data',
     desc: 'Download the CyanoSelect dataset of published lab tests behind every ranking and simulator effect level, with its data gap, findings, labels and corrections.', fwd: FWD_DATA },
   { src: 'data-sources.html', path: '/data/sources/', section: 'data', sub: 'sources', title: 'Sources | Data',

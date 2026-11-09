@@ -30,7 +30,7 @@
 <script>
 /* Old links to sections that moved to another page go there. */
 (function(){
-  var map = {"visit":"/outreach/plant-visit/","nclms":"/outreach/conference/"};
+  var map = {"visit":"#plant","nclms":"#conference"};
   var h = location.hash.slice(1);
   if (h && map[h]) location.replace(map[h]);
 })();
@@ -45,9 +45,9 @@
     <div class="cs-links" id="csMenu">
       <a href="/selectivity/">Selectivity Tool</a>
       <a href="/simulator/">Pond Simulator</a>
-      <a href="/outreach/" aria-current="true">Outreach</a>
       <a href="/data/">Data</a>
       <a href="/about/">About</a>
+      <a href="/outreach/" aria-current="true">Outreach</a>
     </div>
     <button type="button" class="cs-toggle" id="csToggle" aria-expanded="false" aria-controls="csMenu" aria-label="Open menu"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
   </div>
@@ -55,7 +55,7 @@
 <nav class="cs-sub" aria-label="Outreach">
   <div class="cs-wrap cs-sub-in">
     <a class="cs-sub-name" href="/outreach/">Outreach</a>
-    <div class="cs-sub-links"><a href="/outreach/" aria-current="page">Overview</a><a href="/outreach/plant-visit/">Plant visit</a><a href="/outreach/conference/">Conference talk</a></div>
+    <div class="cs-sub-links"><a href="#timeline" aria-current="true">Overview</a><a href="#plant">Plant visit</a><a href="#conference">Conference talk</a><a href="#organizations">Who attended</a><a href="#people">Experts</a><a href="#learned">What we learned</a><a href="#practitioners">Get involved</a></div>
   </div>
 </nav>
 
@@ -88,13 +88,13 @@
         <time datetime="2026-09-30">September 30, 2026</time>
         <strong>Visit to the Cary/Apex Water Treatment Facility</strong>
         <p>A tour of the plant and its laboratory, which changed who we build for.</p>
-        <a class="chev" href="/outreach/plant-visit/">The visit</a>
+        <a class="chev" href="#plant">The visit</a>
       </li>
       <li>
         <time datetime="2026-10-15">October 15, 2026</time>
         <strong>Talk at the North Carolina Lake Management Society Fall Workshop</strong>
         <p>Our rankings, in front of lake and pond managers in Greensboro.</p>
-        <a class="chev" href="/outreach/conference/">The talk</a>
+        <a class="chev" href="#conference">The talk</a>
       </li>
       <li>
         <span class="when">Accepted</span>
@@ -112,34 +112,155 @@
   </div>
 </section>
 
-<section class="tight" id="organizations">
+<section class="band-deep" id="plant">
   <div class="wrap">
-    <div class="org-split">
+    <div class="visit-split reveal">
       <div>
-        <p class="eyebrow">Who was in the room</p>
-        <h2 class="sub-title">Lake and pond professionals at the North Carolina Lake Management Society Fall Workshop.</h2>
-        <p>Presented at the North Carolina Lake Management Society Fall Workshop, Oct 15, 2026, to lake managers from Duke Energy and Charlotte-Mecklenburg County, among others. The audience spanned a major regional utility, aquatic science manufacturers, and the lake and pond management firms that carry out treatments across the Carolinas.</p>
-        <p class="tile-links tile-links-left"><a class="chev" href="/outreach/conference/">About the talk</a></p>
+        <p class="eyebrow" style="color:#02C39A">Outreach</p>
+        <h2>Inside the Plant</h2>
+        <p class="lede">Our visit to the Cary/Apex Water Treatment Facility</p>
+        <p>On September 30, 2026, we toured the Cary/Apex Water Treatment Facility, which treats Jordan Lake water for more than 310,000 people in Cary, Apex, Morrisville, and part of Research Triangle Park. The visit changed how we frame our project. Jordan Lake is operated by the US Army Corps of Engineers, and algae is not treated in the lake itself. Instead, the plant manages it on site, adjusting activated carbon to measured taste-and-odor compounds and using ozone and biofiltration. That is why our tool is aimed at ponds and smaller lakes, where in-lake treatment actually happens.</p>
+        <div class="host-card">
+          <em>Our host</em>
+          <strong>Rachel Monschein</strong>
+          <p>Water system laboratory supervisor, Cary/Apex Water Treatment Facility, who gave us a tour of the plant and its laboratory.</p>
+        </div>
       </div>
-      <div class="card who-came">
-        <p class="org-k">Attendees included professionals from:</p>
-        <ul class="org-list">
-          <li>Charlotte-Mecklenburg County</li>
-          <li>Cygnet Enterprises, Inc.</li>
-          <li>Dragonfly Pond Works</li>
-          <li>Duke Energy</li>
-          <li>Foster Lake &amp; Pond Management</li>
-          <li>Kasco Marine</li>
-          <li>SePRO</li>
-          <li>Spirogyra Diversified Environmental Services</li>
-        </ul>
-        <p class="note-muted">(Listed to show who was in the room, not as endorsements.)</p>
+      <figure class="visit-photo shot">
+        <a href="/images/about/arjun-and-siddharth.jpg"><img src="/images/about/arjun-and-siddharth.jpg" width="1200" height="1600" loading="lazy" alt="Arjun Pendharkar and Siddharth Santhosh inside the Cary/Apex Water Treatment Facility."></a>
+        <figcaption>Arjun and Siddharth at the Cary/Apex Water Treatment Facility, September 2026.</figcaption>
+      </figure>
+    </div>
+
+    <div class="tour-grid reveal">
+      <figure class="shot">
+        <a href="/images/tour/tour-02-basins.jpg"><img src="/images/tour/tour-02-basins.jpg" width="1200" height="1600" loading="lazy" alt="Settling basins, where clumped particles separate from the water."></a>
+        <figcaption>Settling basins, where clumped particles separate from the water.</figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="/images/tour/tour-03-microscope.jpg"><img src="/images/tour/tour-03-microscope.jpg" width="1600" height="1200" loading="lazy" alt="A microscope in the plant's laboratory."></a>
+        <figcaption>A microscope in the plant's laboratory.</figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="/images/tour/tour-04-lab-instrument.jpg"><img src="/images/tour/tour-04-lab-instrument.jpg" width="1600" height="1200" loading="lazy" alt="Analytical equipment in the state-certified laboratory, which runs about 100,000 tests a year."></a>
+        <figcaption>Analytical equipment in the state-certified laboratory, which runs about 100,000 tests a year.</figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="/images/tour/tour-10-sample-taps.jpg"><img src="/images/tour/tour-10-sample-taps.jpg" width="1600" height="1200" loading="lazy" alt="A row of labeled sample taps running into a lab sink, each piped from a different stage of treatment."></a>
+        <figcaption>Sample taps in the lab. Each faucet is piped from a different stage of treatment, such as the filters, the clearwells, and the finished water leaving the plant, and runs nonstop so the sample is always fresh. Staff test each stream for things like turbidity, pH, and chlorine, which shows how much every step improved the water and lets operators adjust before it reaches homes.</figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="/images/tour/tour-05-storage-tanks.jpg"><img src="/images/tour/tour-05-storage-tanks.jpg" width="1600" height="1200" loading="lazy" alt="Covered storage tanks on the plant grounds."></a>
+        <figcaption>Covered storage tanks on the plant grounds.</figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="/images/tour/tour-06-chemical-tanks.jpg"><img src="/images/tour/tour-06-chemical-tanks.jpg" width="1200" height="1600" loading="lazy" alt="Chemical storage tanks used in the treatment process."></a>
+        <figcaption>Chemical storage tanks used in the treatment process.</figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="/images/tour/tour-09-hypochlorite-tanks.jpg"><img src="/images/tour/tour-09-hypochlorite-tanks.jpg" width="1200" height="1600" loading="lazy" alt="Large white sodium hypochlorite tanks on raised containment pads inside the chemical building."></a>
+        <figcaption>Sodium hypochlorite tanks in the chemical building. This chlorine solution disinfects the water after filtration, and the plant later converts it to chloramine, which lasts longer in the pipes. The curbed concrete pads hold any spill.</figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="/images/tour/tour-07-pumps.jpg"><img src="/images/tour/tour-07-pumps.jpg" width="1200" height="1600" loading="lazy" alt="Large pumps that move water through the plant."></a>
+        <figcaption>Large pumps that move water through the plant.</figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="/images/tour/tour-08-generators.jpg"><img src="/images/tour/tour-08-generators.jpg" width="1600" height="1200" loading="lazy" alt="Standby generators that keep the plant running during power outages."></a>
+        <figcaption>Standby generators that keep the plant running during power outages.</figcaption>
+      </figure>
+    </div>
+
+    <p class="narrow tour-thanks reveal">Thank you to the facility's laboratory team for hosting us. Facility figures are from the Town of Cary's virtual tour.</p>
+
+    <!-- North Carolina Lake Management Society conference -->
+    <div class="sub sub-deep" id="conference">
+      <div class="narrow reveal">
+        <p class="eyebrow" style="color:#02C39A">Conference</p>
+        <h2 class="sub-title">Presented at the North Carolina Lake Management Society Conference in Greensboro</h2>
+        <p class="lede">Our talk at the North Carolina Lake Management Society Fall Workshop</p>
+        <p>On October 15, 2026, we presented the Selectivity Tool at the North Carolina Lake Management Society Fall Workshop in Greensboro. The society brings together the people who look after the state's lakes and ponds. We opened with the June 2022 Jordan Lake case, walked through how the Selectivity Index compares treatments, and put our rankings in front of the people who make these decisions in the field.</p>
+      </div>
+
+      <div class="carousel reveal" role="region" aria-roledescription="carousel" aria-label="Photos from our North Carolina Lake Management Society talk">
+        <div class="car-track" tabindex="0" aria-label="Swipe or use the arrow keys to see more photos">
+          <figure class="slide" aria-roledescription="slide" aria-label="1 of 3">
+            <a href="/images/nclms/nclms-03-title-slide-wide.jpg"><img src="/images/nclms/nclms-03-title-slide-wide.jpg" width="1600" height="1200" loading="lazy" alt="Arjun and Siddharth presenting at the North Carolina Lake Management Society Conference in Greensboro."></a>
+          </figure>
+          <figure class="slide" aria-roledescription="slide" aria-label="2 of 3">
+            <a href="/images/nclms/nclms-04-jordan-lake-case.jpg"><img src="/images/nclms/nclms-04-jordan-lake-case.jpg" width="1600" height="1200" loading="lazy" alt="Arjun and Siddharth presenting at the North Carolina Lake Management Society Conference in Greensboro."></a>
+          </figure>
+          <figure class="slide" aria-roledescription="slide" aria-label="3 of 3">
+            <a href="/images/nclms/nclms-05-what-the-state-found.jpg"><img src="/images/nclms/nclms-05-what-the-state-found.jpg" width="1600" height="1200" loading="lazy" alt="Arjun and Siddharth presenting at the North Carolina Lake Management Society Conference in Greensboro."></a>
+          </figure>
+        </div>
+        <p class="car-caption">North Carolina Lake Management Society Conference, Greensboro</p>
+        <div class="car-bar">
+          <button type="button" class="car-btn" data-dir="-1" aria-label="Previous photo">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+          </button>
+          <div class="car-dots" role="group" aria-label="Choose a photo"></div>
+          <span class="car-count" aria-live="polite">1 / 3</span>
+          <button type="button" class="car-btn" data-dir="1" aria-label="Next photo">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="heard reveal">
+        <div class="card heard-card">
+          <p class="eyebrow">What we heard</p>
+          <p class="heard-quote">Lake managers at the workshop told us the predictions were solid and that the tool helps people understand the problem, and they told us lab testing is the next step.</p>
+        </div>
+      </div>
+
+      <div class="review reveal" id="organizations">
+        <div class="review-intro">
+          <p class="eyebrow" style="color:#02C39A">Who was in the room</p>
+          <h3>Organizations represented at our talk</h3>
+          <p>Presented at the North Carolina Lake Management Society Fall Workshop, Oct 15, 2026, to lake managers from Duke Energy and Charlotte-Mecklenburg County, among others. The audience spanned a major regional utility, aquatic science manufacturers, and the lake and pond management firms that carry out treatments across the Carolinas.</p>
+        </div>
+        <!-- Logo strip: the list is repeated once so the loop scrolls without a seam. Charlotte-Mecklenburg
+             County has no logo file, so its name is shown as text. -->
+        <div class="marquee" role="region" aria-label="Organizations represented at our talk">
+          <div class="marquee-track">
+            <ul class="marquee-list">
+              <li><img src="/images/partners/sepro.svg" width="756" height="187" alt="SePRO"></li>
+              <li><img class="lg" src="/images/partners/foster-lake.png" width="900" height="314" alt="Foster Lake &amp; Pond Management"></li>
+              <li><img class="lg" src="/images/partners/duke-energy.svg" width="126" height="40" alt="Duke Energy"></li>
+              <li><span class="marquee-name">Charlotte-Mecklenburg County</span></li>
+              <li><img src="/images/partners/kasco.svg" width="190" height="62" alt="Kasco Marine"></li>
+              <li><img class="xl" src="/images/partners/cygnet-enterprises.png" width="900" height="479" alt="Cygnet Enterprises, Inc."></li>
+              <li><img class="xl" src="/images/partners/dragonfly-pond-works.png" width="774" height="434" alt="Dragonfly Pond Works"></li>
+              <li><img src="/images/partners/spirogyra.png" width="521" height="103" alt="Spirogyra Diversified Environmental Services"></li>
+            </ul>
+            <ul class="marquee-list" aria-hidden="true">
+              <li><img src="/images/partners/sepro.svg" width="756" height="187" alt=""></li>
+              <li><img class="lg" src="/images/partners/foster-lake.png" width="900" height="314" alt=""></li>
+              <li><img class="lg" src="/images/partners/duke-energy.svg" width="126" height="40" alt=""></li>
+              <li><span class="marquee-name">Charlotte-Mecklenburg County</span></li>
+              <li><img src="/images/partners/kasco.svg" width="190" height="62" alt=""></li>
+              <li><img class="xl" src="/images/partners/cygnet-enterprises.png" width="900" height="479" alt=""></li>
+              <li><img class="xl" src="/images/partners/dragonfly-pond-works.png" width="774" height="434" alt=""></li>
+              <li><img src="/images/partners/spirogyra.png" width="521" height="103" alt=""></li>
+            </ul>
+          </div>
+        </div>
+        <p class="review-note">Organizations represented at our presentation, 2026 North Carolina Lake Management Society Fall Workshop, Greensboro. Listed to show who was in the room, not as endorsements.</p>
       </div>
     </div>
   </div>
+
+  <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+    <button type="button" class="lb-close" aria-label="Close photo">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <img src="" alt="">
+    <p></p>
+  </dialog>
 </section>
 
-<section class="band-panel tight" id="people">
+<section class="tight" id="people">
   <div class="wrap">
     <div class="narrow">
       <p class="eyebrow">Expert review and advice</p>
@@ -181,7 +302,33 @@
   </div>
 </section>
 
-<section class="band-panel tight" id="writing-practitioners">
+<section class="band-deep" id="learned">
+  <div class="wrap">
+    <div class="narrow reveal learned">
+      <h2>What we learned from people in the field</h2>
+      <p>The workshop let us learn directly from the professionals who manage North Carolina's lakes and ponds.</p>
+      <ul class="learned-list">
+        <li><strong>Advice from the North Carolina Department of Environmental Quality.</strong> We talked with Mark Vanderborgh of the North Carolina Department of Environmental Quality and took his advice on the project and on how a tool like ours fits the way blooms are handled in the state.</li>
+        <li><strong>Conversations with practitioners.</strong> Between sessions we talked with lake managers, applicators and other people who work in the field about how treatment decisions actually get made, and what they would need from a tool like ours.</li>
+        <li><strong>Presenting our solution.</strong> Explaining the tool to the North Carolina Lake Management Society, an audience that treats lakes and ponds for a living, pushed us to make the method clear and to be upfront about what published data can and cannot tell a lake manager.</li>
+      </ul>
+      <p>What we heard is shaping the next version of the tool, alongside the laboratory validation we have planned.</p>
+
+      <div class="roles">
+        <div>
+          <strong>Siddharth Santhosh</strong>
+          <p>Programmed the Python script, built this website, and led outreach.</p>
+        </div>
+        <div>
+          <strong>Arjun Pendharkar</strong>
+          <p>Led the data and the tool.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tight" id="writing-practitioners">
   <div class="wrap">
     <div class="pw-split">
       <div id="practitioners">
@@ -202,13 +349,13 @@
       <p class="eyebrow">Talks and articles</p>
       <h2 class="sub-title">Where the work has been shared.</h2>
       <ul class="talks">
-        <li><strong>Talk.</strong> North Carolina Lake Management Society Fall Workshop, Greensboro, October 15, 2026. <a href="/outreach/conference/">Photos</a>.</li>
+        <li><strong>Talk.</strong> North Carolina Lake Management Society Fall Workshop, Greensboro, October 15, 2026. <a href="#conference">Photos</a>.</li>
         <li><strong>Article, accepted.</strong> <em>LakeLine</em>, the magazine of the North American Lake Management Society.</li>
         <li><strong>Software.</strong> Archived release of the ranking tool, <a href="https://doi.org/10.5281/zenodo.22135606">doi.org/10.5281/zenodo.22135606</a>.</li>
       </ul>
       </div>
     </div>
-    <div class="feedback">
+    <div class="feedback" id="feedback">
       <div>
         <h4>Do you treat ponds or manage lakes?</h4>
         <p>Send us a quick email. Tell us which constraints, products, or field realities the ranking leaves out.</p>
@@ -217,12 +364,6 @@
     </div>
   </div>
 </section>
-
-<nav class="pager" aria-label="Outreach pages">
-  <div class="wrap">
-    <div class="pager-row"><span></span><a class="pager-next" href="/outreach/plant-visit/"><span class="pager-k">Next ›</span><span class="pager-t">Inside the Cary/Apex Water Treatment Facility</span></a></div>
-  </div>
-</nav>
 </main>
 
 <footer class="cs-footer">
@@ -250,14 +391,14 @@
       </div>
       <div>
         <h2>Project</h2>
-        <a href="/outreach/">Outreach</a>
-        <a href="/outreach/plant-visit/">Plant visit</a>
-        <a href="/outreach/conference/">Conference talk</a>
         <a href="/data/">Data</a>
         <a href="/data/sources/">Sources</a>
         <a href="/about/">About</a>
         <a href="/about/contact/">Contact</a>
         <a href="/about/contact/#cite">How to cite</a>
+        <a href="/outreach/">Outreach</a>
+        <a href="/outreach/#plant">Plant visit</a>
+        <a href="/outreach/#conference">Conference talk</a>
       </div>
       <div>
         <h2>Open source</h2>
@@ -280,6 +421,7 @@
 </footer>
 
 <script src="/assets/site.js"></script>
+<script src="/assets/outreach.js"></script>
 <script data-goatcounter="https://cyanoselect.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
 </body>

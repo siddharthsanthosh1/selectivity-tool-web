@@ -19,11 +19,14 @@
 /results                    /selectivity/                301!
 /limits                     /selectivity/how-it-works/limits/   301!
 /sources                    /data/sources/               301!
-/visit                      /outreach/plant-visit/       301!
-/field-visit                /outreach/plant-visit/       301!
-/plant-visit                /outreach/plant-visit/       301!
-/nclms                      /outreach/conference/        301!
-/conference                 /outreach/conference/        301!
+/visit                      /outreach/#plant             301!
+/field-visit                /outreach/#plant             301!
+/plant-visit                /outreach/#plant             301!
+/nclms                      /outreach/#conference        301!
+/conference                 /outreach/#conference        301!
+# Outreach was split into three pages on Nov 8, 2026 and merged back into one on Nov 9.
+/outreach/plant-visit/      /outreach/#plant             301!
+/outreach/conference/       /outreach/#conference        301!
 /contact                    /about/contact/              301!
 /cite                       /about/contact/#cite         301!
 
