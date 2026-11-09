@@ -1,0 +1,1946 @@
+<title>CyanoSelect Pond Simulator</title>
+<meta name="description" content="Predicts what one algaecide treatment does in a pond, layer by layer: where the product goes, how much of the bloom is knocked down, toxin release, oxygen and non-target exposure, with a playable pond view and predicted timeline.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a pond-instrument console. Inputs on the left like a field sheet; on the right a living
+   cross-section of the pond with a playhead, then the numbers. Colors follow the CyanoSelect site. */
+:root {
+  --bg: #F3F7F7; --surface: #FFFFFF; --panel: #E9F1F1; --ink: #1B2530; --ink-2: #41525A; --muted: #637579;
+  --line: #D3E1E1; --grid: #E5EDED; --axis: #B7C8C8;
+  --band: #0A4F54; --band-ink: #F3FAF9; --band-ink-2: #B6DCD6;
+  --accent: #0F6E74; --focus: #00A896;
+  --s1: #00897B; --s2: #C8772B; --s1-wash: rgba(0, 137, 123, 0.14); --s2-wash: rgba(200, 119, 43, 0.14);
+  --crit: #C03535; --crit-bg: #FBE6E4; --warn: #8A5A00; --warn-bg: #FCF0D2; --good: #1E7A35; --good-bg: #E2F3E6; --info-bg: #E4EFF7; --info: #24527A;
+  --sky-day: #D7ECF6; --sky-night: #1F3446; --sun: #F2B33D; --moon: #E8EEF2;
+  --ramp-0: #E3EEF8; --ramp-1: #9EC5F4; --ramp-2: #5598E7; --ramp-3: #256ABF; --ramp-4: #0D366B;
+  --cell: #3E8E2F; --cell-off: #9AA6A0; --sediment: #8C7650; --grain: #B5652A; --thermo: #C8772B; --land: #E3E9DD;
+  --tox-0: #FBEBD9; --tox-1: #F5C08A; --tox-2: #E28F3E; --tox-3: #B85F17; --tox-4: #6E3508;
+  --oxy-0: #FDECEA; --oxy-1: #F6B3AA; --oxy-2: #E3695C; --oxy-3: #B42B22; --oxy-4: #6A120E; --nomodel: #D9E0E0;
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0B191C; --surface: #11252A; --panel: #163036; --ink: #E7F0F0; --ink-2: #B8C9CA; --muted: #8DA2A5;
+    --line: #24414A; --grid: #1B353B; --axis: #33545C; --band: #0A3E43; --band-ink: #EAF6F4; --band-ink-2: #9FD3CB;
+    --accent: #5CC6B8; --focus: #5CC6B8; --s1: #20A090; --s2: #D07A30; --s1-wash: rgba(32, 160, 144, 0.20); --s2-wash: rgba(208, 122, 48, 0.20);
+    --crit: #F08A86; --crit-bg: #3A1D1E; --warn: #F2C35C; --warn-bg: #352A12; --good: #6FD08A; --good-bg: #16301E; --info-bg: #142B3A; --info: #9CC6EA;
+    --sky-day: #29475A; --sky-night: #0C1824; --sun: #F2B33D; --moon: #C9D4DB;
+    --ramp-0: #15303E; --ramp-1: #1C5CAB; --ramp-2: #3987E5; --ramp-3: #86B6EF; --ramp-4: #DCEBFB;
+    --cell: #7CD06A; --cell-off: #5F6D68; --sediment: #6E5D40; --grain: #E08A4A; --thermo: #E39A50; --land: #1A2A24;
+    --tox-0: #2A1A0C; --tox-1: #6B3A12; --tox-2: #B0621F; --tox-3: #E2954A; --tox-4: #F6CC97;
+    --oxy-0: #2A1010; --oxy-1: #6E1A16; --oxy-2: #B2352B; --oxy-3: #E5786B; --oxy-4: #F8C3BB; --nomodel: #26302F;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0B191C; --surface: #11252A; --panel: #163036; --ink: #E7F0F0; --ink-2: #B8C9CA; --muted: #8DA2A5;
+  --line: #24414A; --grid: #1B353B; --axis: #33545C; --band: #0A3E43; --band-ink: #EAF6F4; --band-ink-2: #9FD3CB;
+  --accent: #5CC6B8; --focus: #5CC6B8; --s1: #20A090; --s2: #D07A30; --s1-wash: rgba(32, 160, 144, 0.20); --s2-wash: rgba(208, 122, 48, 0.20);
+  --crit: #F08A86; --crit-bg: #3A1D1E; --warn: #F2C35C; --warn-bg: #352A12; --good: #6FD08A; --good-bg: #16301E; --info-bg: #142B3A; --info: #9CC6EA;
+  --sky-day: #29475A; --sky-night: #0C1824; --sun: #F2B33D; --moon: #C9D4DB;
+  --ramp-0: #15303E; --ramp-1: #1C5CAB; --ramp-2: #3987E5; --ramp-3: #86B6EF; --ramp-4: #DCEBFB;
+  --cell: #7CD06A; --cell-off: #5F6D68; --sediment: #6E5D40; --grain: #E08A4A; --thermo: #E39A50; --land: #1A2A24;
+  --tox-0: #2A1A0C; --tox-1: #6B3A12; --tox-2: #B0621F; --tox-3: #E2954A; --tox-4: #F6CC97;
+  --oxy-0: #2A1010; --oxy-1: #6E1A16; --oxy-2: #B2352B; --oxy-3: #E5786B; --oxy-4: #F8C3BB; --nomodel: #26302F;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.wrap { max-width: 1360px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.top { background: var(--band); color: var(--band-ink); }
+.top .wrap { padding-block: 28px 24px; display: grid; gap: 10px; }
+.eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--band-ink-2); }
+h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(28px, 4vw, 40px); line-height: 1.1; margin: 0; text-wrap: balance; }
+.lede { max-width: 72ch; margin: 0; color: var(--band-ink-2); }
+.stamp { display: block; font-size: 13px; border: 1px solid rgba(255,255,255,0.28); border-radius: 12px; padding: 5px 12px; width: fit-content; max-width: 100%; color: var(--band-ink); }
+.stamp b { font-weight: 600; }
+main .wrap { padding-block: 24px 48px; display: grid; gap: 24px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 1080px) { main .wrap { grid-template-columns: 350px minmax(0, 1fr); align-items: start; } }
+form.sheet { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; display: grid; gap: 18px; }
+@media (min-width: 1080px) { form.sheet { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); max-height: calc(100vh - 24px); overflow: auto; } }
+fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 10px; min-width: 0; }
+legend { font-family: var(--font-display); font-weight: 600; font-size: 18px; padding: 0; margin-bottom: 2px; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: start; }
+.field { display: grid; gap: 4px; min-width: 0; }
+.field label { font-size: 13px; font-weight: 600; color: var(--ink-2); }
+.field input, .field select { font: inherit; font-size: 15px; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; width: 100%; min-width: 0; }
+.field input:focus, .field select:focus { border-color: var(--focus); }
+.field select:disabled, .field input:disabled { opacity: 0.6; }
+.hint { font-size: 12px; color: var(--muted); }
+.check { display: flex; gap: 8px; align-items: flex-start; font-size: 14px; color: var(--ink-2); }
+.check input { margin-top: 3px; }
+details.adv summary { cursor: pointer; font-weight: 600; font-size: 14px; color: var(--ink-2); }
+details.adv[open] summary { margin-bottom: 10px; }
+.example-note { margin: 0; font-size: 13px; background: var(--info-bg); color: var(--info); border-radius: 8px; padding: 8px 10px; }
+
+.results { display: grid; gap: 22px; min-width: 0; }
+.results.updating .fade { opacity: 0.55; transition: opacity 120ms; }
+.bar { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; justify-content: space-between; }
+.status { display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: baseline; font-size: 13px; color: var(--muted); }
+.status strong { color: var(--ink); font-weight: 600; }
+.seg { display: inline-flex; background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 3px; gap: 2px; }
+.seg button { font: inherit; font-size: 13px; font-weight: 600; color: var(--ink-2); background: transparent; border: 0; border-radius: 999px; padding: 6px 12px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
+h2 { font-family: var(--font-display); font-weight: 600; font-size: 22px; margin: 0; text-wrap: balance; }
+.section { display: grid; gap: 12px; min-width: 0; }
+.section > p.sub { margin: 0; color: var(--ink-2); max-width: 78ch; }
+
+/* pond view */
+.pondcard { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; display: grid; gap: 12px; min-width: 0; }
+.pond-head { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; justify-content: space-between; }
+.clock { font-family: var(--font-display); font-size: 20px; font-weight: 600; }
+.clock small { font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--muted); margin-left: 6px; }
+.pondsvg { position: relative; width: 100%; }
+.pondsvg svg { display: block; width: 100%; height: auto; }
+.pondsvg svg text { font-family: var(--font-body); font-size: 11.5px; fill: var(--ink-2); font-variant-numeric: tabular-nums; }
+.pondsvg svg text.halo { fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 3px; stroke-linejoin: round; }
+.readouts { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.ro { background: var(--panel); border-radius: 8px; padding: 8px 10px; display: grid; gap: 1px; min-width: 0; }
+.ro .k { font-size: 12px; color: var(--muted); font-weight: 600; }
+.ro .v { font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.controls { display: grid; grid-template-columns: auto auto 1fr; gap: 10px; align-items: center; }
+.btn { font: inherit; font-size: 14px; font-weight: 600; color: var(--surface); background: var(--accent); border: 0; border-radius: 8px; padding: 8px 14px; cursor: pointer; min-width: 84px; }
+.btn.ghost { background: var(--panel); color: var(--ink); min-width: 0; }
+input[type="range"] { width: 100%; accent-color: var(--accent); }
+.rampkey { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center; font-size: 12.5px; color: var(--ink-2); }
+.rampbar { display: grid; gap: 2px; min-width: 220px; }
+.rampbar .g { height: 10px; border-radius: 3px; }
+.rampbar .t { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.dotkey { display: inline-flex; align-items: center; gap: 6px; }
+.dotkey i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.tracks svg { display: block; width: 100%; height: auto; cursor: pointer; }
+.tracks svg text { font-family: var(--font-body); font-size: 11px; fill: var(--muted); font-variant-numeric: tabular-nums; }
+.tracks svg .lab { fill: var(--ink-2); font-weight: 600; }
+.events { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.events li button { font: inherit; text-align: left; width: 100%; display: grid; grid-template-columns: 74px 10px 1fr; gap: 10px; align-items: start; background: transparent; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; cursor: pointer; color: var(--ink); }
+.events li button:hover { background: var(--panel); }
+.events li.now button { border-color: var(--accent); background: var(--panel); }
+.events .when { font-size: 12.5px; font-weight: 600; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.events .dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 5px; }
+.events .txt { font-size: 14px; }
+
+.tiles { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 14px 12px; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.tile .k { font-size: 13px; color: var(--ink-2); font-weight: 600; }
+.tile .v { font-size: 28px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.15; }
+.tile .v small { font-size: 15px; font-weight: 500; color: var(--ink-2); margin-left: 3px; }
+.tile .d { font-size: 13px; color: var(--muted); }
+.pill { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; border-radius: 999px; padding: 2px 9px; white-space: nowrap; width: fit-content; }
+.pill::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.pill.crit { background: var(--crit-bg); color: var(--crit); }
+.pill.warn { background: var(--warn-bg); color: var(--warn); }
+.pill.good { background: var(--good-bg); color: var(--good); }
+.pill.info { background: var(--info-bg); color: var(--info); }
+.charts { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 780px) { .charts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 14px 10px; display: grid; gap: 6px; min-width: 0; position: relative; }
+.card h3 { margin: 0; font-size: 15px; font-weight: 600; }
+.card .cap { font-size: 12.5px; color: var(--muted); margin: 0; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12.5px; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { display: inline-block; width: 16px; height: 2px; border-radius: 1px; }
+.legend i.band { height: 10px; width: 16px; border-radius: 2px; }
+.chart { position: relative; width: 100%; min-height: 220px; }
+.chart svg { display: block; width: 100%; height: 220px; overflow: visible; }
+.chart svg text { font-family: var(--font-body); font-size: 11px; fill: var(--muted); font-variant-numeric: tabular-nums; }
+.chart svg .ref-label { fill: var(--ink-2); font-size: 10.5px; }
+.tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 4px 14px rgba(0,0,0,0.12); border-radius: 8px; padding: 8px 10px; font-size: 12.5px; min-width: 150px; display: grid; gap: 3px; z-index: 3; }
+.tip .t { color: var(--muted); font-size: 12px; }
+.tip .r { display: grid; grid-template-columns: 14px auto; gap: 6px; align-items: center; }
+.tip .r i { width: 12px; height: 2px; border-radius: 1px; display: block; }
+.tip .r b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.tip .r span { color: var(--muted); grid-column: 2; font-size: 11.5px; }
+.viewbar { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; justify-content: space-between; }
+.viewbar .note { font-size: 12.5px; color: var(--muted); }
+.viewopts { display: flex; flex-wrap: wrap; gap: 8px; }
+.seg.wide { display: flex; }
+.seg.wide button { flex: 1 1 0; }
+.wxbox { display: grid; gap: 10px; }
+.inline { display: flex; gap: 8px; }
+.inline input { flex: 1 1 auto; min-width: 0; }
+.inline .btn { min-width: 0; padding: 8px 12px; }
+.linkbtn { background: none; border: 0; padding: 0; font: inherit; font-size: 12px; color: var(--accent); text-decoration: underline; cursor: pointer; }
+.wxstatus { font-size: 12.5px; color: var(--ink-2); background: var(--panel); border-radius: 8px; padding: 8px 10px; }
+.wxstatus.err { background: var(--warn-bg); color: var(--warn); }
+.credit { font-size: 11.5px; color: var(--muted); }
+.opt { font-weight: 400; color: var(--muted); }
+.outline-pick { display: grid; gap: 6px; }
+.outline-pick .btn { text-align: left; justify-content: flex-start; white-space: normal; min-width: 0; padding: 8px 10px; font-weight: 500; }
+.outline-pick .btn[disabled] { opacity: 0.6; cursor: default; }
+.outline-pick p { margin: 0; font-size: 12.5px; color: var(--ink-2); }
+.stage { position: relative; width: 100%; }
+.stage canvas { display: block; width: 100%; touch-action: none; border-radius: 8px; }
+.stage .msg { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; font-size: 14px; color: var(--ink-2); background: color-mix(in srgb, var(--surface) 72%, transparent); border-radius: 8px; padding: 12px; }
+.tools { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; font-size: 13px; color: var(--ink-2); background: var(--info-bg); border-radius: 8px; padding: 8px 10px; }
+.tools .btn { min-width: 0; padding: 6px 12px; font-size: 13px; }
+.mini-seg button { font-size: 12px; padding: 4px 10px; }
+.nochart { display: grid; place-items: center; min-height: 160px; text-align: center; color: var(--muted); font-size: 14px; padding: 12px; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 600; background: var(--panel); }
+tr:last-child td { border-bottom: 0; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+td small { color: var(--muted); }
+tr.group td { background: var(--panel); font-weight: 600; color: var(--ink-2); }
+.warnlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.warnlist li { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; font-size: 14px; }
+details.more { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; }
+details.more summary { cursor: pointer; font-weight: 600; }
+details.more[open] summary { margin-bottom: 12px; }
+details.more .tablewrap { border: 0; border-radius: 0; }
+footer .wrap { padding-block: 0 40px; font-size: 13px; color: var(--muted); display: grid; gap: 6px; }
+@media (max-width: 520px) { .controls { grid-template-columns: auto auto; } .controls input[type="range"] { grid-column: 1 / -1; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+/* section tabs and the built-in guide */
+.apptabs { display: inline-flex; gap: 2px; padding: 3px; border-radius: 999px; background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.24); width: fit-content; margin-top: 4px; }
+.apptabs button { font: inherit; font-size: 14px; font-weight: 600; color: var(--band-ink-2); background: transparent; border: 0; border-radius: 999px; padding: 7px 16px; cursor: pointer; }
+.apptabs button[aria-pressed="true"] { background: var(--band-ink); color: var(--band); }
+.guidewrap .wrap { padding-block: 24px 48px; }
+.guide { max-width: 80ch; margin: 0 auto; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: clamp(18px, 4vw, 40px); line-height: 1.62; min-width: 0; }
+.guide h1 { font-size: clamp(26px, 3.4vw, 34px); margin: 0 0 14px; }
+.guide h2 { margin: 30px 0 10px; }
+.guide h3 { font-size: 17px; margin: 22px 0 6px; }
+.guide p, .guide ul, .guide ol { margin: 0 0 12px; }
+.guide ul, .guide ol { padding-left: 22px; }
+.guide li { margin: 3px 0; }
+.guide blockquote { margin: 12px 0 16px; padding: 10px 14px; border-left: 3px solid var(--accent); background: var(--panel); border-radius: 0 8px 8px 0; }
+.guide blockquote p { margin: 0; }
+.guide hr { border: 0; border-top: 1px solid var(--line); margin: 28px 0; }
+.guide code { font-size: 0.92em; background: var(--panel); padding: 1px 5px; border-radius: 4px; }
+.guide .tablewrap { margin: 8px 0 18px; }
+.guide mark { background: #FFE97A; color: #1B2530; padding: 0 2px; border-radius: 2px; }
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow">CyanoSelect · Simulator: layers and map</div>
+    <h1>Pond treatment simulator</h1>
+    <p class="lede">Enter your pond and one treatment. The simulator follows the product and the bloom for 14 days, up and down through the layers and sideways across a map of the pond: where the product goes, how much of the bloom gets knocked down, how much toxin comes out, what happens to oxygen, and how close other organisms come to their lab effect levels.</p>
+    <div class="stamp"><b>Model prediction</b> · not a measurement and not a treatment recommendation · follow the product label and state rules</div>
+    <nav class="apptabs" aria-label="Sections">
+      <button type="button" id="tab-sim" aria-pressed="true">Simulator</button>
+      <button type="button" id="tab-guide" aria-pressed="false">How it works</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <form class="sheet" id="sim-form" autocomplete="off" novalidate>
+      <p class="example-note" id="example-note">An example pond is loaded. Replace it with your own numbers.</p>
+      <fieldset>
+        <legend>Your pond</legend>
+        <div class="field"><label for="place">Where is it? <span class="opt">(optional)</span></label>
+          <div class="inline"><input id="place" type="text" placeholder="Address, town, or 35.73, -78.85" autocomplete="off" enterkeyhint="search"><button type="button" class="btn ghost" id="place-find">Find</button></div>
+          <span class="hint"><button type="button" class="linkbtn" id="place-here">Use my location</button> · Finding the pond loads its real weather and lets you look up its outline.</span>
+          <div class="wxstatus" id="place-status" hidden></div>
+          <div class="outline-pick" id="outline-pick" hidden></div>
+          <span class="credit" id="place-credit" hidden>Place search © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors (ODbL) · Outlines: <a href="https://www.usgs.gov/national-hydrography/national-hydrography-dataset" target="_blank" rel="noopener">USGS National Hydrography Dataset</a></span>
+        </div>
+        <div class="row">
+          <div class="field"><label for="areaAcres">Surface area (acres)</label><input id="areaAcres" type="number" min="0.05" max="100" step="0.05" value="1"></div>
+          <div class="field"><label for="maxDepthFt">Deepest point (ft)</label><input id="maxDepthFt" type="number" min="1" max="40" step="0.5" value="8"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="meanDepthFt">Average depth (ft) <span class="opt">(optional)</span></label><input id="meanDepthFt" type="number" min="0.2" max="40" step="0.1" placeholder="estimated"><span class="hint">From depth soundings. Sets how bowl-shaped the pond is.</span></div>
+          <div class="field"><label for="deepSpot">Deepest water (for the map)</label><select id="deepSpot"><option value="middle" selected>In the middle</option><option value="N">Toward the north shore (dam)</option><option value="E">Toward the east shore (dam)</option><option value="S">Toward the south shore (dam)</option><option value="W">Toward the west shore (dam)</option></select><span class="hint">Dammed ponds are usually deepest near the dam.</span></div>
+        </div>
+        <div class="field">
+          <label for="shape">Shape (for the map)</label>
+          <select id="shape"><option value="round" selected>Round</option><option value="oval">Oval</option><option value="long">Long and narrow</option><option value="cove">Irregular, with lobes</option><option value="custom">Draw my own on the map</option></select>
+        </div>
+        <div class="field">
+          <label for="layering">Layered by temperature? (well-mixed model only)</label>
+          <select id="layering"><option value="auto" selected>Let the simulator decide</option><option value="mixed">No, mixed top to bottom</option><option value="layered">Yes, warm layer on top</option></select>
+          <span class="hint" id="layer-hint">The layered model works this out from the weather.</span>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Water</legend>
+        <div class="row">
+          <div class="field"><label for="tempF">Water temp, morning (°F)</label><input id="tempF" type="number" min="45" max="95" step="1" value="82"></div>
+          <div class="field"><label for="pH">Morning pH</label><input id="pH" type="number" min="5" max="10.5" step="0.1" value="8.0"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="bottomF">Bottom water temp (°F) <span class="opt">(optional)</span></label><input id="bottomF" type="number" min="33" max="95" step="1" placeholder="estimated"><span class="hint">A thermometer lowered to the deepest spot. This decides whether the pond is layered; left blank, it's guessed as 7 °F cooler than the top.</span></div>
+          <div class="field"><label for="secchiFt">Secchi depth (ft) <span class="opt">(optional)</span></label><input id="secchiFt" type="number" min="0.1" max="30" step="0.1" placeholder="estimated"><span class="hint">How deep a black-and-white disk stays visible. Sets how fast sunlight fades with depth.</span></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="alk">Alkalinity (mg/L)</label><input id="alk" type="number" min="5" max="300" step="5" value="40"><span class="hint">as CaCO₃; a test kit gives this</span></div>
+          <div class="field"><label for="ntu">Turbidity (NTU)</label><input id="ntu" type="number" min="0" max="200" step="1" value="10"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="hardness">Hardness (mg/L) <span class="opt">(optional)</span></label><input id="hardness" type="number" min="1" max="1000" step="1" placeholder="same as alkalinity"><span class="hint">as CaCO₃, from a hardness test kit. Copper is far more toxic to fish and water fleas in soft water; left blank, hardness is taken to equal alkalinity.</span></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="turbCause">Cloudiness is mostly</label><select id="turbCause"><option value="mineral" selected>Mud or clay</option><option value="algae">Algae</option></select></div>
+          <div class="field"><label for="clay">Kind of clay</label><select id="clay"><option value="typical" selected>Typical pond soil</option><option value="swelling">Swelling clay (bentonite)</option><option value="unknown">Not sure</option></select></div>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Weather</legend>
+        <div class="seg wide" role="group" aria-label="Weather source">
+          <button type="button" id="wx-real" aria-pressed="false">Real weather</button>
+          <button type="button" id="wx-ideal" aria-pressed="true">Idealized day</button>
+        </div>
+        <div id="wx-real-box" class="wxbox" hidden>
+          <div class="field"><label for="txDate">Treatment date</label><input id="txDate" type="date"><span class="hint">From 3 months back to 2 weeks ahead uses recent and forecast weather; older dates use the weather archive.</span></div>
+          <div class="wxstatus" id="wx-status">Find the pond above to load its weather. Until then the idealized day below is used.</div>
+          <div class="credit">Weather data by <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo.com</a> (CC BY 4.0)</div>
+        </div>
+        <div id="wx-ideal-box" class="wxbox">
+          <div class="row">
+            <div class="field"><label for="windMph">Wind (mph)</label><input id="windMph" type="number" min="0" max="30" step="0.5" value="4.5"></div>
+            <div class="field"><label for="windFrom">Wind from</label><select id="windFrom"><option value="0">North</option><option value="45">Northeast</option><option value="90">East</option><option value="135">Southeast</option><option value="180">South</option><option value="225" selected>Southwest</option><option value="270">West</option><option value="315">Northwest</option></select></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="sky">Sky</label><select id="sky"><option value="sunny" selected>Sunny</option><option value="partly">Partly cloudy</option><option value="overcast">Overcast</option></select></div>
+            <div class="field"><label for="month">Month</label><select id="month"><option value="135">May</option><option value="166">June</option><option value="196" selected>July</option><option value="227">August</option><option value="258">September</option><option value="288">October</option></select></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="airHighF">Air high (°F)</label><input id="airHighF" type="number" min="50" max="110" step="1" value="90"></div>
+            <div class="field"><label for="airLowF">Air low (°F)</label><input id="airLowF" type="number" min="35" max="90" step="1" value="72"></div>
+          </div>
+        </div>
+        <div class="field"><label for="shelter">Around the pond</label><select id="shelter"><option value="open" selected>Open</option><option value="partly">Some trees</option><option value="wooded">Wooded</option></select><span class="hint">Shore trees calm the water for about 50 tree heights downwind, so a small pond ringed by trees gets only about a fifth of the wind; a big lake keeps more of it.</span></div>
+      </fieldset>
+      <fieldset>
+        <legend>Bloom</legend>
+        <div class="field"><label for="severity">How bad is the bloom?</label>
+          <select id="severity"><option value="5">Barely visible (about 5 µg/L chlorophyll)</option><option value="30">Moderate, green tint (30)</option><option value="100" selected>Heavy, pea-soup green (100)</option><option value="300">Very heavy (300)</option><option value="1000">Surface scum (1,000)</option><option value="custom">I measured chlorophyll</option></select></div>
+        <div class="field" id="chl-field" hidden><label for="chl">Chlorophyll-a (µg/L)</label><input id="chl" type="number" min="1" max="5000" step="1" value="100"></div>
+        <div class="row">
+          <div class="field"><label for="target">Main cyanobacterium</label><select id="target"><option value="microcystis" selected>Microcystis</option><option value="planktothrix">Planktothrix</option><option value="anabaena">Anabaena / Dolichospermum</option></select></div>
+          <div class="field"><label for="toxin">Toxin level to assume</label><select id="toxin"><option value="low">Low</option><option value="typical" selected>Typical</option><option value="worst">Worst case (WHO)</option></select></div>
+        </div>
+        <div class="field"><label for="mcMeasured">Measured total microcystin (µg/L) <span class="opt">(optional)</span></label><input id="mcMeasured" type="number" min="0" max="100000" step="any" placeholder="use the toxin level above"><span class="hint">A lab or test-kit result for whole water (cells and all). Replaces the toxin level above. It's taken as the pond-wide average, so the top water can read higher where floating cells crowd.</span></div>
+        <label class="check"><input id="history" type="checkbox"> <span>This pond has had blooms before (bacteria that break down toxin are already there)</span></label>
+      </fieldset>
+      <fieldset>
+        <legend>Treatment</legend>
+        <div class="field"><label for="product">Product</label><select id="product"></select></div>
+        <div class="field"><label for="method">How it goes in</label><select id="method"></select></div>
+        <div class="field" id="grade-field" hidden><label for="grade">Crystal or granule size</label><select id="grade"></select></div>
+        <div class="field"><label for="dose" id="dose-label">Dose</label><input id="dose" type="number" min="0" step="any" value="3"><span class="hint">From your label, for the whole depth of the treated area</span></div>
+        <div class="field"><label for="where">Where you treat</label>
+          <select id="where"><option value="whole" selected>Whole pond</option><option value="upwind_half">Upwind half</option><option value="downwind_half">Downwind half</option><option value="upwind_strip">Strip along the upwind shore (a third)</option><option value="downwind_strip">Strip along the downwind shore (a third)</option><option value="middle">A spot in the middle (a tenth)</option><option value="custom">Paint my own on the map</option></select>
+          <span class="hint" id="where-hint">Upwind is the shore the wind comes from.</span></div>
+        <div class="field"><label for="appHour">Time of treatment</label><select id="appHour"></select></div>
+      </fieldset>
+      <details class="adv" id="own-tests">
+        <summary>Your own test results (optional)</summary>
+        <div class="field" id="h2o2half-field"><label for="h2o2Half">Peroxide half-life in your pond water (hours)</label><input id="h2o2Half" type="number" min="0.1" max="200" step="0.1" placeholder="estimated"><span class="hint">Add peroxide to a bottle of bloom water at your dose and read test strips over a few hours. Replaces the model's breakdown rate.</span></div>
+        <div class="field"><label for="myEC50" id="myEC50-label">Your own EC50</label><input id="myEC50" type="number" min="0" step="any" placeholder="from published tests"></div>
+        <div class="field"><label for="myEC50T">Test length (hours)</label><input id="myEC50T" type="number" min="1" max="500" step="1" placeholder="24"></div>
+        <span class="hint" id="myEC50-hint">From a test on your own bloom: the concentration that cut photosynthesis or growth in half. It applies to this product and bloom only and clears when you change either.</span>
+      </details>
+      <details class="adv">
+        <summary>Uncertainty settings</summary>
+        <div class="row">
+          <div class="field"><label for="members">Runs</label><select id="members"><option value="40">40</option><option value="100">100</option><option value="200" selected>200</option></select></div>
+          <div class="field"><label for="seed">Random seed</label><input id="seed" type="number" step="1" value="20261019"></div>
+        </div>
+        <span class="hint">Each run draws the uncertain numbers from their ranges. Bands show the middle 90% of runs.</span>
+      </details>
+    </form>
+
+    <div class="results" id="results" aria-live="polite">
+      <div class="bar">
+        <div class="status fade" id="status">Running the model…</div>
+        <div class="seg" role="group" aria-label="Model">
+          <button type="button" id="m-p2" aria-pressed="true">Layered pond</button>
+          <button type="button" id="m-p1" aria-pressed="false">Well-mixed</button>
+        </div>
+      </div>
+
+      <section class="section" id="pond-section">
+        <h2>Pond view</h2>
+        <div class="pondcard">
+          <div class="viewbar">
+            <div class="seg" role="group" aria-label="Pond view">
+              <button type="button" id="v-map" aria-pressed="true">Map from above</button>
+              <button type="button" id="v-slice" aria-pressed="false">Side slice</button>
+              <button type="button" id="v-layers" aria-pressed="false">Layers</button>
+            </div>
+            <div class="viewopts">
+              <div class="seg mini-seg" role="group" aria-label="What the colour shows" id="show-toggle">
+                <button type="button" id="s-prod" aria-pressed="true">Product</button>
+                <button type="button" id="s-tox" aria-pressed="false">Toxin</button>
+                <button type="button" id="s-oxy" aria-pressed="false">Oxygen</button>
+              </div>
+              <div class="seg mini-seg" role="group" aria-label="Which water" id="depth-toggle">
+                <button type="button" id="d-top" aria-pressed="true">Top water</button>
+                <button type="button" id="d-bot" aria-pressed="false">Bottom water</button>
+              </div>
+            </div>
+          </div>
+          <div class="pond-head">
+            <div class="clock" id="clock">–</div>
+            <div class="rampkey" id="rampkey"></div>
+          </div>
+          <div class="tools" id="tools" hidden></div>
+          <div class="stage" id="stage-map"><canvas id="mapcv" aria-label="Map of the pond from above"></canvas><div class="msg" id="map-msg" hidden></div></div>
+          <div class="stage" id="stage-slice" hidden><canvas id="slicecv" aria-label="Side slice through the pond along the wind"></canvas><div class="msg" id="slice-msg" hidden></div></div>
+          <div class="pondsvg" id="pondsvg" hidden></div>
+          <div class="controls">
+            <button type="button" class="btn" id="play">Play</button>
+            <button type="button" class="btn ghost" id="speed" aria-label="Playback speed">1×</button>
+            <input type="range" id="scrub" min="0" max="336" step="1" value="0" aria-label="Hours after treatment">
+          </div>
+          <div class="readouts" id="readouts"></div>
+          <div class="tracks" id="tracks"></div>
+          <p class="cap" style="margin:0;font-size:12.5px;color:var(--muted)" id="pond-cap"></p>
+        </div>
+        <h2>Predicted timeline</h2>
+        <ol class="events" id="events"></ol>
+      </section>
+      <p class="sub" id="pond-off" hidden style="margin:0;color:var(--muted)">The pond view needs the layered model. Switch to "Layered pond" above to see it.</p>
+
+      <div class="tiles fade" id="tiles"></div>
+
+      <section class="section fade">
+        <h2>Over time</h2>
+        <div class="charts" id="charts"></div>
+      </section>
+
+      <section class="section fade" id="compare-section">
+        <h2 id="compare-title">What layering changes</h2>
+        <p class="sub" id="compare-sub"></p>
+        <div class="tablewrap"><table id="compare-table"></table></div>
+      </section>
+
+      <section class="section fade">
+        <h2>Other organisms</h2>
+        <p class="sub" id="nt-sub"></p>
+        <div class="tablewrap"><table id="nt-table"></table></div>
+      </section>
+
+      <section class="section fade">
+        <h2>Read before trusting this</h2>
+        <ul class="warnlist" id="warnings"></ul>
+      </section>
+
+      <section class="section fade">
+        <h2>What the prediction is built on</h2>
+        <details class="more"><summary>Daily values (median of runs)</summary><div class="tablewrap"><table id="daily-table"></table></div></details>
+        <details class="more"><summary>Effect level used for the bloom</summary><div id="ec-info"></div></details>
+        <details class="more"><summary>Every number in the model, with its source</summary><div class="tablewrap"><table id="param-table"></table></div></details>
+      </section>
+    </div>
+  </div>
+</main>
+
+<section class="guidewrap" id="guide" hidden>
+  <div class="wrap"><article class="guide"><!--GUIDE--></article></div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div id="version-line"></div>
+    <div>The layered model follows one column of the treated water, with temperature from a daily heat budget. The map and side slice add the wind-driven currents and sideways mixing and track colonies one by one. They also carry toxin and oxygen, tilt the thermocline in wind, add the fast surface skin, and let injected dense liquids slide downhill. Not modeled yet: inflows, waves, the sloshing after the wind changes, oxygen in the cool bottom water, and colonies sinking by day. Known limits: in a strong wind, colonies that simply drift with the water can still gather up to about 10% too thickly along the downwind and upwind shores of the map, and in the side slice colonies at the very top move at the top level's average speed rather than the faster top centimetre. Nothing here has yet been compared with a measured pond: these are model predictions, not a treatment recommendation. Built from the CyanoSelect simulator blueprint (October 2026).</div>
+  </div>
+</footer>
+
+<script src="sim-core.js"></script>
+<script src="sim-column.js"></script>
+<script src="sim-2d.js"></script>
+<script>
+(function () {
+  'use strict';
+  const S = window.CyanoSim, CC = window.CyanoColumn, MP = window.CyanoMap;
+  // the single-file version builds its background workers from the code already on the page
+  const WORKER_SRC = window.__SIM_WORKER_URL || 'sim-worker.js';
+  const $ = id => document.getElementById(id);
+  const NS = 'http://www.w3.org/2000/svg';
+  const FT = 3.28084;
+
+  // ------------------------------------------------------------ inputs
+  const productSel = $('product'), methodSel = $('method'), gradeSel = $('grade');
+  Object.entries(S.PRODUCTS).forEach(([key, p]) => { const o = document.createElement('option'); o.value = key; o.textContent = p.name; productSel.appendChild(o); });
+  productSel.value = 'h2o2_liquid';
+  for (let h = 6; h <= 20; h++) { const o = document.createElement('option'); o.value = h; o.textContent = (h % 12 === 0 ? 12 : h % 12) + ':00 ' + (h < 12 ? 'AM' : 'PM'); if (h === 8) o.selected = true; $('appHour').appendChild(o); }
+
+  function syncProduct(resetValue) {
+    const key = productSel.value, p = S.PRODUCTS[key];
+    $('dose-label').textContent = 'Dose (' + p.inputUnit + ')';
+    if (resetValue) $('dose').value = p.example;
+    $('clay').disabled = p.chem !== 'diquat';
+    const keep = methodSel.value;
+    methodSel.textContent = '';
+    CC.METHODS[key].forEach(m => { const o = document.createElement('option'); o.value = m; o.textContent = CC.METHOD_NAMES[m]; methodSel.appendChild(o); });
+    if (CC.METHODS[key].includes(keep)) methodSel.value = keep;
+    if (resetValue) $('myEC50').value = '';
+    syncOwnTests();
+    syncMethod();
+  }
+  // the "your own test results" fields follow the product and bloom picked
+  function syncOwnTests() {
+    const p = S.PRODUCTS[productSel.value], tgt = S.TARGETS[$('target').value];
+    $('h2o2half-field').hidden = p.chem !== 'h2o2';
+    $('myEC50-label').textContent = `Your own EC50: ${p.name.split(' (')[0].toLowerCase()} on ${tgt ? tgt.name : 'the bloom'} (${p.inputUnit})`;
+    $('myEC50-hint').textContent = 'From a test on your own bloom: the concentration that cut photosynthesis or growth in half. It applies to this product and bloom only and clears when you change either.' +
+      (p.chem === 'h2o2' ? ' For peroxide, the test is taken to have dosed once and let it fade, at the half-life above if you entered one (otherwise an estimated 0.46 per hour).' : ' The test is taken to have held the concentration steady.');
+  }
+  function syncMethod() {
+    const key = productSel.value, g = CC.GRADES[key];
+    const show = methodSel.value === 'granules' && g;
+    $('grade-field').hidden = !show;
+    if (show) {
+      const keep = gradeSel.value; gradeSel.textContent = '';
+      Object.entries(g).forEach(([k, v]) => { const o = document.createElement('option'); o.value = k; o.textContent = v.name; gradeSel.appendChild(o); });
+      if (g[keep]) gradeSel.value = keep;
+    }
+  }
+  syncProduct(false);
+
+  function num(id, lo, hi, fb) { let v = parseFloat($(id).value); if (!isFinite(v)) v = fb; return Math.min(hi, Math.max(lo, v)); }
+  // optional fields: blank means "use the model's estimate"
+  function opt(id, lo, hi) { const e = $(id); if (!e || e.value.trim() === '') return null; const v = parseFloat(e.value); return isFinite(v) ? Math.min(hi, Math.max(lo, v)) : null; }
+  const fToC = f => (f - 32) * 5 / 9;
+  function readInputs() {
+    const sev = $('severity').value; $('chl-field').hidden = sev !== 'custom';
+    const chl = sev === 'custom' ? num('chl', 1, 5000, 100) : parseFloat(sev);
+    let hi = num('airHighF', 50, 110, 90), lo = num('airLowF', 35, 90, 72); if (lo > hi) { const t = lo; lo = hi; hi = t; }
+    const inp = {
+      areaAcres: num('areaAcres', 0.05, 100, 1), maxDepthM: num('maxDepthFt', 1, 40, 8) / FT,
+      tempC: fToC(num('tempF', 45, 95, 82)), pH: num('pH', 5, 10.5, 8), alk: num('alk', 5, 300, 40), ntu: num('ntu', 0, 200, 10),
+      turbCause: $('turbCause').value, clay: $('clay').value, windMs: num('windMph', 0, 30, 4.5) * 0.44704,
+      shelter: $('shelter').value, sky: $('sky').value, airHighC: fToC(hi), airLowC: fToC(lo), doy: parseInt($('month').value, 10),
+      chl, target: $('target').value, toxin: $('toxin').value, history: $('history').checked,
+      product: productSel.value, method: methodSel.value, grade: methodSel.value === 'granules' ? gradeSel.value : null,
+      dose: num('dose', 0, 1e6, S.PRODUCTS[productSel.value].example),
+      appHour: parseInt($('appHour').value, 10), layering: $('layering').value,
+      shape: $('shape').value === 'custom' && !(state.outline && state.outline.length >= 3) ? 'round' : $('shape').value,
+      outline: $('shape').value === 'custom' && state.outline ? state.outline.map(p => p.slice()) : null,
+      windFrom: parseInt($('windFrom').value, 10), where: $('where').value,
+      weather: null,
+      // the user's own measurements (null = use the estimate)
+      meanDepthM: (v => v == null ? null : v / FT)(opt('meanDepthFt', 0.2, 40)),
+      deepSpot: $('deepSpot').value,
+      bottomC: (v => v == null ? null : fToC(v))(opt('bottomF', 33, 95)),
+      secchiM: (v => v == null ? null : v / FT)(opt('secchiFt', 0.1, 30)),
+      mcMeasured: opt('mcMeasured', 0, 100000),
+      hardness: opt('hardness', 1, 1000),
+      h2o2HalfLifeH: S.PRODUCTS[productSel.value].chem === 'h2o2' ? opt('h2o2Half', 0.1, 200) : null,
+      myEC50: (v => v == null || v <= 0 ? null : { v: v * S.PRODUCTS[productSel.value].toMgL, T: opt('myEC50T', 1, 500) || 24 })(opt('myEC50', 0, 1e6))
+    };
+    if (state.wxMode === 'real' && state.wx) {
+      // the weather series starts at local midnight two days before the treatment day
+      const W = state.wx, it = Math.min(W.dir.length - 1, 48 + inp.appHour);
+      inp.weather = W; inp.windFrom = Math.round(W.dir[it]); inp.doy = doyOf(W.date);
+      // the well-mixed model and the summary numbers use the treatment day's averages
+      inp.windMs = W.summary.windMs; inp.airHighC = W.summary.airHighC; inp.airLowC = W.summary.airLowC; inp.sky = W.summary.sky;
+    }
+    return inp;
+  }
+  // The map grid is needed on the page too (for painting and for the treated share the column
+  // model uses). It only depends on shape, area and depth, so it is cached.
+  function gridFor(inp) {
+    const key = JSON.stringify([inp.shape, inp.outline, inp.areaAcres, inp.maxDepthM, inp.meanDepthM, inp.deepSpot]);
+    if (state.gridKey !== key) {
+      const old = state.gridKey;
+      state.grid0 = MP.buildGrid(inp, MP.centralParams(inp)); state.gridKey = key;
+      const sameShape = old && JSON.stringify(JSON.parse(old).slice(0, 2)) === JSON.stringify([inp.shape, inp.outline]);
+      if (!sameShape || !state.paintMask || state.paintMask.length !== state.grid0.nw) state.paintMask = new Uint8Array(state.grid0.nw);
+    }
+    return state.grid0;
+  }
+  function withTreatment(inp) {
+    const g = gridFor(inp);
+    let mask = null;
+    if (inp.where === 'custom') { const idx = []; state.paintMask.forEach((v, k) => { if (v) idx.push(k); }); mask = idx; }
+    inp.mask = mask;
+    const m = MP.treatMask(g, inp.where, inp.windFrom, mask);
+    let n = 0; for (let k = 0; k < g.nw; k++) n += m[k];
+    inp.fraction = n / g.nw;
+    return inp;
+  }
+
+  // ------------------------------------------------------------ helpers
+  const fmt = (v, d) => {
+    if (v == null || !isFinite(v)) return '–';
+    if (d != null) return v.toFixed(d);
+    const a = Math.abs(v);
+    if (a === 0) return '0'; if (a >= 100) return v.toFixed(0); if (a >= 10) return v.toFixed(1); if (a >= 1) return v.toFixed(2); if (a >= 0.01) return v.toFixed(3);
+    return v.toPrecision(2);
+  };
+  const pct = v => (v == null || !isFinite(v)) ? '–' : (v < 0.005 ? '0' : v > 0.995 ? '>99' : Math.round(v * 100)) + '%';
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function svgEl(tag, attrs, parent) { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
+  function sourceLink(key) {
+    const s = S.SRC[key] || CC.SRC2[key] || MP.SRC3[key];
+    if (!s) return document.createTextNode('');
+    if (!s.url) return document.createTextNode(s.label);
+    const a = document.createElement('a'); a.href = s.url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = s.label; return a;
+  }
+  function hexToRgb(h) { h = h.replace('#', ''); if (h.length === 3) h = h.split('').map(c => c + c).join(''); return [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16)); }
+  function ramp(t, name) {
+    const c = rampRGB(t, name);
+    return `rgb(${c[0]},${c[1]},${c[2]})`;
+  }
+  function mulberry(seed) { let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+  function clockLabel(hourOfDay) { const h = Math.floor(hourOfDay) % 24; return (h % 12 === 0 ? 12 : h % 12) + ':00 ' + (h < 12 ? 'AM' : 'PM'); }
+  function whenLabel(h) { if (h === 0) return 'start'; if (h < 1) return Math.round(h * 60) + ' min'; if (h < 48) return '+' + (h % 1 ? h.toFixed(1) : h) + ' h'; return 'day ' + (h / 24).toFixed(1).replace(/\.0$/, ''); }
+
+  // ------------------------------------------------------------ line charts (shared)
+  function niceStep(raw) { const p = Math.pow(10, Math.floor(Math.log10(raw))), n = raw / p; return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 5 ? 5 : 10) * p; }
+  function tickFmt(v, step) { const d = step >= 1 ? 0 : step >= 0.1 ? (Math.abs(step * 10 - Math.round(step * 10)) < 1e-9 ? 1 : 2) : 3; return v.toFixed(d); }
+  function chart(container, cfg) {
+    container.textContent = '';
+    const W = Math.max(260, container.clientWidth), Hh = 220, m = { l: 46, r: 12, t: 12, b: 28 }, iw = W - m.l - m.r, ih = Hh - m.t - m.b;
+    const nPts = cfg.hours.findIndex(h => h > cfg.xMaxH), N = nPts < 0 ? cfg.hours.length : nPts, hours = cfg.hours.slice(0, N);
+    let dataMax = 0, dataMin = Infinity;
+    cfg.series.forEach(s => { for (let i = 0; i < N; i++) { dataMax = Math.max(dataMax, (s.hi || s.mid)[i]); dataMin = Math.min(dataMin, (s.lo || s.mid)[i]); } });
+    const yMin = cfg.yMin != null ? cfg.yMin : 0;
+    const top = cfg.yMax != null ? cfg.yMax : Math.max(dataMax * 1.12, cfg.yFloor || 0, yMin + 1e-6);
+    const step = cfg.yStep || niceStep((top - yMin) / 4), yMax = yMin + Math.ceil((top - yMin) / step - 1e-9) * step;
+    const refs = (cfg.refs || []).filter(r => r.y <= yMax * 1.0001 && r.y - yMin > 0.05 * (yMax - yMin)).sort((a, b) => b.y - a.y).slice(0, 4);
+    const x = h => m.l + (h / cfg.xMaxH) * iw, y = v => m.t + ih - ((Math.min(Math.max(v, yMin), yMax) - yMin) / (yMax - yMin)) * ih;
+    const svg = svgEl('svg', { viewBox: `0 0 ${W} ${Hh}`, role: 'img', 'aria-label': cfg.aria });
+    for (let v = yMin, i = 0; v <= yMax + 1e-9; v += step, i++) {
+      svgEl('line', { x1: m.l, x2: m.l + iw, y1: y(v), y2: y(v), stroke: css(i === 0 ? '--axis' : '--grid'), 'stroke-width': 1 }, svg);
+      svgEl('text', { x: m.l - 6, y: y(v) + 3.5, 'text-anchor': 'end' }, svg).textContent = cfg.yFmt ? cfg.yFmt(v, step) : tickFmt(v, step);
+    }
+    const useHours = cfg.xMaxH <= 72;
+    let xStep = useHours ? (cfg.xMaxH <= 24 ? 6 : 12) : (cfg.xMaxH <= 168 ? 24 : 48);
+    while (iw / (cfg.xMaxH / xStep) < 46) xStep *= 2;
+    for (let h = 0; h <= cfg.xMaxH + 1e-9; h += xStep) svgEl('text', { x: x(h), y: m.t + ih + 18, 'text-anchor': h === 0 ? 'start' : 'middle' }, svg).textContent = useHours ? h + ' h' : 'day ' + (h / 24);
+    let lastR = -1e9, lastL = -1e9;
+    refs.forEach(r => {
+      const yy = y(r.y);
+      svgEl('line', { x1: m.l, x2: m.l + iw, y1: yy, y2: yy, stroke: css(r.tone === 'crit' ? '--crit' : r.tone === 'warn' ? '--warn' : '--muted'), 'stroke-width': 1, 'stroke-dasharray': r.tone ? '0' : '4 3', opacity: 0.85 }, svg);
+      if (yy - lastR >= 13) { svgEl('text', { x: m.l + iw - 4, y: yy - 4, 'text-anchor': 'end', class: 'ref-label' }, svg).textContent = r.label; lastR = yy; }
+      else if (yy - lastL >= 13) { svgEl('text', { x: m.l + 6, y: yy - 4, 'text-anchor': 'start', class: 'ref-label' }, svg).textContent = r.label; lastL = yy; }
+    });
+    cfg.series.forEach(s => {
+      if (!s.lo) return;
+      let d = ''; for (let i = 0; i < N; i++) d += (i ? 'L' : 'M') + x(hours[i]).toFixed(1) + ',' + y(s.hi[i]).toFixed(1);
+      for (let i = N - 1; i >= 0; i--) d += 'L' + x(hours[i]).toFixed(1) + ',' + y(s.lo[i]).toFixed(1);
+      svgEl('path', { d: d + 'Z', fill: css(s.wash), stroke: 'none' }, svg);
+    });
+    cfg.series.forEach(s => {
+      let d = ''; for (let i = 0; i < N; i++) d += (i ? 'L' : 'M') + x(hours[i]).toFixed(1) + ',' + y(s.mid[i]).toFixed(1);
+      svgEl('path', { d, fill: 'none', stroke: css(s.color), 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, svg);
+    });
+    const cross = svgEl('line', { x1: 0, x2: 0, y1: m.t, y2: m.t + ih, stroke: css('--ink-2'), 'stroke-width': 1, opacity: 0 }, svg);
+    const dots = cfg.series.map(s => svgEl('circle', { r: 4, fill: css(s.color), stroke: css('--surface'), 'stroke-width': 2, opacity: 0 }, svg));
+    const hit = svgEl('rect', { x: m.l, y: m.t, width: iw, height: ih, fill: 'transparent', tabindex: 0 }, svg);
+    container.appendChild(svg);
+    const tip = el('div', 'tip'); tip.hidden = true; container.appendChild(tip);
+    let cur = -1;
+    function show(i) {
+      cur = Math.max(0, Math.min(N - 1, i)); const h = hours[cur], xx = x(h);
+      cross.setAttribute('x1', xx); cross.setAttribute('x2', xx); cross.setAttribute('opacity', 0.5);
+      cfg.series.forEach((s, k) => { dots[k].setAttribute('cx', xx); dots[k].setAttribute('cy', y(s.mid[cur])); dots[k].setAttribute('opacity', 1); });
+      tip.textContent = ''; tip.appendChild(el('div', 't', h < 48 ? h + ' h after treatment' : 'day ' + (h / 24).toFixed(1)));
+      cfg.series.forEach(s => {
+        const r = el('div', 'r'); const i2 = el('i'); i2.style.background = css(s.color); r.appendChild(i2);
+        r.appendChild(el('b', null, cfg.vFmt(s.mid[cur])));
+        r.appendChild(el('span', null, s.lo ? s.name + ' · range ' + cfg.vFmt(s.lo[cur]) + '–' + cfg.vFmt(s.hi[cur]) : s.name)); tip.appendChild(r);
+      });
+      tip.hidden = false; const tw = tip.offsetWidth; tip.style.left = Math.max(0, xx + 12 + tw > W ? xx - 12 - tw : xx + 12) + 'px'; tip.style.top = (m.t + 4) + 'px';
+    }
+    function hide() { tip.hidden = true; cross.setAttribute('opacity', 0); dots.forEach(d => d.setAttribute('opacity', 0)); }
+    hit.addEventListener('pointermove', e => { const rect = svg.getBoundingClientRect(); const h = ((e.clientX - rect.left) * (W / rect.width) - m.l) / iw * cfg.xMaxH; let b = 0; for (let i = 1; i < N; i++) if (Math.abs(hours[i] - h) < Math.abs(hours[b] - h)) b = i; show(b); });
+    hit.addEventListener('pointerleave', hide); hit.addEventListener('focus', () => show(cur < 0 ? 0 : cur)); hit.addEventListener('blur', hide);
+    hit.addEventListener('keydown', e => { if (e.key === 'ArrowRight') { show(cur + (e.shiftKey ? 12 : 1)); e.preventDefault(); } if (e.key === 'ArrowLeft') { show(cur - (e.shiftKey ? 12 : 1)); e.preventDefault(); } });
+  }
+  function chartCard(title, caption, legendItems) {
+    const card = el('div', 'card'); card.appendChild(el('h3', null, title)); if (caption) card.appendChild(el('p', 'cap', caption));
+    if (legendItems && legendItems.length) {
+      const lg = el('div', 'legend');
+      legendItems.forEach(li => { const sp = el('span'); const i = el('i', li.band ? 'band' : null); i.style.background = css(li.band ? li.wash : li.color); sp.appendChild(i); sp.appendChild(document.createTextNode(li.label)); lg.appendChild(sp); });
+      card.appendChild(lg);
+    }
+    const box = el('div', 'chart'); card.appendChild(box); return { card, box };
+  }
+  const L_MED = { label: 'Median of runs', color: '--s1' }, L_BAND = { label: '5th–95th percentile of runs', band: true, wash: '--s1-wash' };
+
+  // ------------------------------------------------------------ state
+  const state = { model: 'p2', res1: null, res2: null, frame: 0, playing: false, timer: null, speed: 1,
+    view: 'map', depth: 'top', show: 'prod', mode: null, res2d: null, stale2d: true, prog2d: 0, err2d: null,
+    grid0: null, gridKey: null, paintMask: null, drawPts: [], outline: null, outlineSrc: null,
+    wxMode: 'ideal', wx: null, place: null,
+    cellOf: (g, i, j) => (i < 0 || j < 0 || i >= g.nx || j >= g.ny) ? -1 : (g.cellOf ? g.cellOf[j * g.nx + i] : cellIndex(g, i, j)) };
+  // grids that came back from the worker carry ci/cj but not the full lookup; rebuild it once
+  function cellIndex(g, i, j) {
+    if (!g._lut) { g._lut = new Int32Array(g.nx * g.ny).fill(-1); for (let k = 0; k < g.nw; k++) g._lut[g.cj[k] * g.nx + g.ci[k]] = k; }
+    return g._lut[j * g.nx + i];
+  }
+
+  // ------------------------------------------------------------ pond view (map, side slice, layers)
+  const VIEW_NAMES = { map: 'Map from above', slice: 'Side slice', layers: 'Layers' };
+  function skyColors(clock, doy) {
+    const sinE = CC.solarElevationSin(clock, doy), day = Math.max(0, Math.min(1, sinE * 3 + 0.15));
+    const A = hexToRgb(css('--sky-night')), B = hexToRgb(css('--sky-day'));
+    return { sinE, day, sky: `rgb(${A.map((v, i) => Math.round(v + (B[i] - v) * day)).join(',')})` };
+  }
+  const tOfQ = q => q === 0 ? 0 : Math.max(0, Math.min(1, (((q - 1) / 254) * 4 - 3 + 2) / 3));   // quantized → 0.01×..10× ramp
+  function windNow(fi) {
+    const r2 = state.res2, inp = r2.inputs, rec = r2.central.rec;
+    if (inp.weather && rec.Uopen && rec.Uopen.length > fi) return { ms: rec.Uopen[fi], from: rec.windFrom[fi] };
+    return { ms: inp.windMs, from: parseInt(inp.windFrom || 0, 10) };
+  }
+  function frameIndex() { const r2 = state.res2; return Math.max(0, Math.min(r2 ? r2.central.rec.hours.length - 1 : 336, state.frame)); }
+
+  function drawView() {
+    const r2 = state.res2; if (!r2) return;
+    const fi = frameIndex(), rec = r2.central.rec, inp = r2.inputs;
+    ['map', 'slice', 'layers'].forEach(v => $('v-' + v).setAttribute('aria-pressed', String(state.view === v)));
+    $('stage-map').hidden = state.view !== 'map'; $('stage-slice').hidden = state.view !== 'slice'; $('pondsvg').hidden = state.view !== 'layers';
+    ['prod', 'tox', 'oxy'].forEach(v => $('s-' + v).setAttribute('aria-pressed', String(state.show === v)));
+    $('show-toggle').hidden = state.view === 'layers';
+    $('depth-toggle').hidden = state.view !== 'map' || state.show === 'oxy';
+    drawRampKey();
+    // clock
+    const clock = Math.round(rec.clock[fi]) % 24, hAfter = Math.round(rec.hours[fi]), dayN = Math.floor((inp.appHour + hAfter) / 24) + 1;
+    $('clock').textContent = '';
+    $('clock').appendChild(document.createTextNode(inp.weather && inp.weather.date ? `${niceDate(addDays(inp.weather.date, dayN - 1))} · ${clockLabel(clock)}` : `Day ${dayN} · ${clockLabel(clock)}`));
+    $('clock').appendChild(el('small', null, hAfter === 0 ? 'right after treatment' : hAfter < 48 ? `${hAfter} h after treatment` : `${(hAfter / 24).toFixed(1)} days after treatment`));
+    if (state.view === 'map') drawMap(fi); else if (state.view === 'slice') drawSlice(fi); else drawLayers(fi);
+    drawReadouts(fi);
+    drawTracks();
+    drawCaption();
+    const items = $('events').children;
+    let nowIdx = -1; (state.events || []).forEach((e, i) => { if (e.h <= hAfter) nowIdx = i; });
+    Array.from(items).forEach((li, i) => li.classList.toggle('now', i === nowIdx));
+    $('scrub').value = fi;
+  }
+
+  function drawLayers(fi) {
+    const r2 = state.res2;
+    const c = r2.central, col = c.col, rec = c.rec, snaps = c.snaps, inp = r2.inputs;
+    const box = $('pondsvg'); box.textContent = '';
+    const W = Math.max(300, box.clientWidth), skyH = 64, waterH = Math.round(Math.min(260, Math.max(170, W * 0.32))), pad = 18, Hs = skyH + waterH + pad;
+    const svg = svgEl('svg', { viewBox: `0 0 ${W} ${Hs}`, role: 'img', 'aria-label': 'Cross-section of the pond at the selected time' });
+    const clock = Math.round(rec.clock[fi]) % 24;
+    const sk = skyColors(clock, inp.doy);
+    svgEl('rect', { x: 0, y: 0, width: W, height: skyH + 2, fill: sk.sky, rx: 8 }, svg);
+    if (sk.sinE > -0.05) {
+      const frac = Math.max(0, Math.min(1, (clock - 6.2) / 14.3));
+      svgEl('circle', { cx: 24 + frac * (W - 48), cy: skyH - 10 - Math.max(0, sk.sinE) * (skyH - 26), r: 9, fill: css('--sun') }, svg);
+    } else {
+      svgEl('circle', { cx: W * 0.78, cy: 22, r: 8, fill: css('--moon') }, svg);
+      svgEl('circle', { cx: W * 0.78 + 4, cy: 19, r: 7, fill: sk.sky }, svg);
+    }
+    const cx = W / 2, R = W / 2 - 12, y0 = skyH;
+    const hw = z => R * Math.pow(Math.max(0, 1 - z / col.zmax), col.p / 2);
+    const yz = z => y0 + (z / col.zmax) * waterH;
+    const ref = c.ec && !c.ec.none ? c.ec.v : (c.doseMgL || 1);
+    const tOf = C => C <= 0 ? 0 : Math.max(0, Math.min(1, (Math.log10(C / ref) + 2) / 3));
+    for (let k = 0; k < col.N; k++) {
+      const za = col.zi[k], zb = col.zi[k + 1];
+      const pts = [[cx - hw(za), yz(za)], [cx + hw(za), yz(za)], [cx + hw(zb), yz(zb)], [cx - hw(zb), yz(zb)]];
+      svgEl('polygon', { points: pts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' '), fill: ramp(tOf(snaps.C[fi][k])), stroke: ramp(tOf(snaps.C[fi][k])), 'stroke-width': 0.6 }, svg);
+    }
+    let d = ''; const steps = 60;
+    for (let i = 0; i <= steps; i++) { const z = col.zmax * i / steps; d += (i ? 'L' : 'M') + (cx - hw(z)).toFixed(1) + ',' + yz(z).toFixed(1); }
+    for (let i = steps; i >= 0; i--) { const z = col.zmax * i / steps; d += 'L' + (cx + hw(z)).toFixed(1) + ',' + yz(z).toFixed(1); }
+    svgEl('path', { d, fill: 'none', stroke: css('--sediment'), 'stroke-width': 5, 'stroke-linejoin': 'round' }, svg);
+    const bed = rec.bedLeft[fi] || 0;
+    if (bed > 0.002) {
+      const rng = mulberry(77), nG = Math.round(10 + 70 * bed);
+      for (let i = 0; i < nG; i++) { const z = col.zmax * (0.15 + 0.85 * Math.sqrt(rng())); const side = rng() < 0.5 ? -1 : 1; const xx = cx + side * hw(z) * (0.97 - 0.05 * rng()); svgEl('rect', { x: xx - 2, y: yz(z) - 5, width: 4, height: 4, fill: css('--grain') }, svg); }
+    }
+    const Kf = rec.K[fi], rngBase = 1000, cOn = css('--cell'), cOff = css('--cell-off'), cRing = css('--surface');
+    const totalDots = Math.round(Math.min(260, W * 0.3));
+    for (let k = 0; k < col.N; k++) {
+      const nk = Math.round(totalDots * snaps.B[fi][k] * col.V[k] / col.Vt);
+      const rng = mulberry(rngBase + k * 31);
+      for (let i = 0; i < nk; i++) {
+        const z = col.zi[k] + rng() * (col.zi[k + 1] - col.zi[k]), w = hw(z) * 0.94, xx = cx - w + rng() * 2 * w;
+        const off = rng() < Kf;
+        svgEl('circle', { cx: xx.toFixed(1), cy: yz(z).toFixed(1), r: 2.6, fill: off ? cOff : cOn, stroke: cRing, 'stroke-width': 0.9 }, svg);
+      }
+    }
+    const hm = rec.hmix[fi];
+    if (hm < 0.95 * col.zmax) {
+      const yy = yz(hm);
+      svgEl('line', { x1: cx - hw(hm), x2: cx + hw(hm), y1: yy, y2: yy, stroke: css('--thermo'), 'stroke-width': 1.5, 'stroke-dasharray': '6 4' }, svg);
+      svgEl('text', { x: cx + hw(hm) - 6, y: yy - 5, 'text-anchor': 'end', class: 'halo' }, svg).textContent = 'thermocline';
+    }
+    { const g = svgEl('g', {}, svg); const t = svgEl('text', { x: 18, y: 22 }, g); t.textContent = 'surface ' + rec.Ttop[fi].toFixed(1) + ' °C';
+      const wTxt = t.textContent.length * 6.4 + 12; const bg = svgEl('rect', { x: 12, y: 8, width: wTxt, height: 19, rx: 9, fill: css('--surface'), opacity: 0.9 }); g.insertBefore(bg, t); }
+    svgEl('text', { x: cx, y: yz(col.zmax) + 16, 'text-anchor': 'middle' }, svg).textContent = 'bottom ' + rec.Tbot[fi].toFixed(1) + ' °C · ' + (col.zmax * FT).toFixed(1) + ' ft deep';
+    box.appendChild(svg);
+  }
+
+  // ---- canvas helpers
+  function prepCanvas(cv, W, H) {
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); cv.style.height = H + 'px';
+    const ctx = cv.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+    return ctx;
+  }
+  function arrow(ctx, x, y, dx, dy, color, width, halo) {
+    const L = Math.hypot(dx, dy); if (L < 2) return;
+    const ux = dx / L, uy = dy / L, hl = Math.min(6, 0.45 * L);
+    const draw = (c, w) => {
+      ctx.strokeStyle = c; ctx.fillStyle = c; ctx.lineWidth = w;
+      ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + dx - ux * hl * 0.6, y + dy - uy * hl * 0.6); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x + dx, y + dy); ctx.lineTo(x + dx - ux * hl - uy * hl * 0.5, y + dy - uy * hl + ux * hl * 0.5); ctx.lineTo(x + dx - ux * hl + uy * hl * 0.5, y + dy - uy * hl - ux * hl * 0.5); ctx.closePath(); ctx.fill();
+    };
+    if (halo) { const a = ctx.globalAlpha; ctx.globalAlpha = a * 0.4; ctx.lineJoin = 'round'; draw(halo, (width || 1.3) + 1.6); ctx.globalAlpha = a; }
+    draw(color, width || 1.3);
+  }
+  function pill(ctx, x, y, text, align) {
+    ctx.font = '600 11.5px ' + css('--font-body').split(',')[0].replace(/'/g, '') + ', system-ui, sans-serif';
+    const w = ctx.measureText(text).width + 14, h = 20, x0 = align === 'right' ? x - w : x;
+    ctx.fillStyle = css('--surface'); ctx.globalAlpha = 0.92; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x0, y, w, h, 10) : ctx.rect(x0, y, w, h); ctx.fill(); ctx.globalAlpha = 1;
+    ctx.fillStyle = css('--ink'); ctx.textBaseline = 'middle'; ctx.textAlign = 'left'; ctx.fillText(text, x0 + 7, y + h / 2 + 0.5);
+    return w;
+  }
+  const COMPASS = ['north', 'northeast', 'east', 'southeast', 'south', 'southwest', 'west', 'northwest'];
+
+  // ---- the map from above
+  function mapGeometry(g, W) {
+    const ww = g.nx * g.dx, hh = g.ny * g.dx;
+    const Hmax = Math.min(480, Math.max(260, W * 0.72));
+    const s = Math.min((W - 24) / ww, (Hmax - 24) / hh);
+    const H = Math.round(hh * s + 24 + 24);
+    const ox = (W - ww * s) / 2, oy = 34;
+    return { s, H, ox, oy, X: x => ox + (x - g.x0) * s, Y: y => oy + (g.y0 + hh - y) * s, wx: X => g.x0 + (X - ox) / s, wy: Y => g.y0 + hh - (Y - oy) / s };
+  }
+  function drawMap(fi) {
+    const cv = $('mapcv'), box = $('stage-map'), W = Math.max(300, box.clientWidth);
+    if (state.mode === 'draw') { drawOutlineEditor(cv, W); return; }
+    const r = state.res2d && !state.stale2d ? state.res2d : null;
+    const g = r ? r.grid : state.grid0; if (!g) return;
+    const G = mapGeometry(g, W); state.mapGeom = { G, g };
+    const ctx = prepCanvas(cv, W, G.H);
+    const path = () => { ctx.beginPath(); g.P.forEach((p, i) => i ? ctx.lineTo(G.X(p[0]), G.Y(p[1])) : ctx.moveTo(G.X(p[0]), G.Y(p[1]))); ctx.closePath(); };
+    ctx.fillStyle = css('--land'); ctx.beginPath(); ctx.roundRect ? ctx.roundRect(0, 0, W, G.H, 8) : ctx.rect(0, 0, W, G.H); ctx.fill();
+    // water: product concentration as an image at grid resolution, smoothed and clipped to the shore
+    const nx = g.nx, ny = g.ny, nw = g.nw;
+    const off = document.createElement('canvas'); off.width = nx; off.height = ny;
+    const octx = off.getContext('2d'), img = octx.createImageData(nx, ny);
+    const col = new Int16Array(nx * ny * 3).fill(-1);
+    const useBot = state.depth === 'bot', show = state.show;
+    for (let k = 0; k < nw; k++) {
+      let c;
+      if (!r) c = rampRGB(0, SHOW_RAMP[show]);
+      else if (show === 'tox') c = rampRGB(tOfMC((useBot ? r.map.mcBotQ : r.map.mcTopQ)[fi * nw + k]), 'tox');
+      else if (show === 'oxy') c = rampRGB(tOfDO(r.map.doQ[fi * nw + k] / 20), 'oxy');
+      else c = rampRGB(tOfQ((useBot ? r.map.botQ : r.map.topQ)[fi * nw + k]));
+      const ix = (ny - 1 - g.cj[k]) * nx + g.ci[k];
+      col[ix * 3] = c[0]; col[ix * 3 + 1] = c[1]; col[ix * 3 + 2] = c[2];
+    }
+    for (let pass = 0; pass < 2; pass++) {                // extend colours one cell past the shore so smoothing has no dark rim
+      const src = Int16Array.from(col);
+      for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
+        const ix = j * nx + i; if (src[ix * 3] >= 0) continue;
+        let n = 0, a = 0, b = 0, c = 0;
+        for (let dj = -1; dj <= 1; dj++) for (let di = -1; di <= 1; di++) {
+          const ii = i + di, jj = j + dj; if (ii < 0 || jj < 0 || ii >= nx || jj >= ny) continue;
+          const q = (jj * nx + ii) * 3; if (src[q] >= 0) { n++; a += src[q]; b += src[q + 1]; c += src[q + 2]; }
+        }
+        if (n) { col[ix * 3] = a / n; col[ix * 3 + 1] = b / n; col[ix * 3 + 2] = c / n; }
+      }
+    }
+    for (let ix = 0; ix < nx * ny; ix++) { const o = ix * 4; if (col[ix * 3] >= 0) { img.data[o] = col[ix * 3]; img.data[o + 1] = col[ix * 3 + 1]; img.data[o + 2] = col[ix * 3 + 2]; img.data[o + 3] = 255; } }
+    octx.putImageData(img, 0, 0);
+    ctx.save(); path(); ctx.clip();
+    ctx.imageSmoothingEnabled = true;
+    ctx.drawImage(off, G.ox, G.oy, nx * g.dx * G.s, ny * g.dx * G.s);
+    // painted (or preset) treated area
+    const mask = state.mode === 'paint' ? state.paintMask : (r ? r.mask : null);
+    if (mask && (state.mode === 'paint' || (r && r.treatedShare < 0.999))) {
+      ctx.strokeStyle = css('--ink'); ctx.lineWidth = 1.4; ctx.setLineDash([5, 4]); ctx.globalAlpha = 0.75;
+      ctx.beginPath();
+      const has = (i, j) => { if (i < 0 || j < 0 || i >= nx || j >= ny) return false; const k = state.cellOf(g, i, j); return k >= 0 && !!mask[k]; };
+      for (let k = 0; k < nw; k++) {
+        if (!mask[k]) continue;
+        const i = g.ci[k], j = g.cj[k], x0 = g.x0 + i * g.dx, y0 = g.y0 + j * g.dx, x1 = x0 + g.dx, y1 = y0 + g.dx;
+        if (!has(i - 1, j)) { ctx.moveTo(G.X(x0), G.Y(y0)); ctx.lineTo(G.X(x0), G.Y(y1)); }
+        if (!has(i + 1, j)) { ctx.moveTo(G.X(x1), G.Y(y0)); ctx.lineTo(G.X(x1), G.Y(y1)); }
+        if (!has(i, j - 1)) { ctx.moveTo(G.X(x0), G.Y(y0)); ctx.lineTo(G.X(x1), G.Y(y0)); }
+        if (!has(i, j + 1)) { ctx.moveTo(G.X(x0), G.Y(y1)); ctx.lineTo(G.X(x1), G.Y(y1)); }
+      }
+      ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
+      if (state.mode === 'paint') {
+        ctx.fillStyle = css('--accent'); ctx.globalAlpha = 0.22;
+        for (let k = 0; k < nw; k++) if (mask[k]) ctx.fillRect(G.X(g.x0 + g.ci[k] * g.dx), G.Y(g.y0 + (g.cj[k] + 1) * g.dx), g.dx * G.s + 0.6, g.dx * G.s + 0.6);
+        ctx.globalAlpha = 1;
+      }
+    }
+    if (r && state.mode !== 'paint') {
+      // currents in the top water
+      const cf = r.map.configs[r.map.cfgOfHour[fi]];
+      let vmax = 0; for (let k = 0; k < nw; k++) vmax = Math.max(vmax, Math.hypot(cf.vtx[k], cf.vty[k]));
+      if (vmax > 1e-5) {
+        const step = Math.max(2, Math.round(Math.max(nx, ny) / 13)), half = Math.floor(step / 2);
+        const len = 0.8 * step * g.dx * G.s, ac = css('--ink'), halo = css('--surface');
+        ctx.globalAlpha = 0.8;
+        for (let k = 0; k < nw; k++) {
+          if (g.ci[k] % step !== half || g.cj[k] % step !== half) continue;
+          const vx = cf.vtx[k], vy = cf.vty[k], m = Math.hypot(vx, vy) / vmax;
+          const cx = G.X(g.x0 + (g.ci[k] + 0.5) * g.dx), cy = G.Y(g.y0 + (g.cj[k] + 0.5) * g.dx);
+          const L = len * (0.25 + 0.75 * m), dx = vx / (Math.hypot(vx, vy) || 1) * L, dy = -vy / (Math.hypot(vx, vy) || 1) * L;
+          arrow(ctx, cx - dx / 2, cy - dy / 2, dx, dy, ac, 1.2, halo);
+        }
+        ctx.globalAlpha = 1;
+      }
+      // colonies (deeper ones fainter)
+      const n = r.map.show, o = fi * n, cOn = css('--cell'), cOff = css('--cell-off'), ring = css('--surface');
+      for (const pass of [0, 1]) for (let p = 0; p < n; p++) {
+        const deep = r.map.sz[o + p] > 0.5; if ((pass === 0) !== deep) continue;
+        ctx.globalAlpha = deep ? 0.55 : 1;
+        ctx.beginPath(); ctx.arc(G.X(r.map.sx[o + p]), G.Y(r.map.sy[o + p]), deep ? 1.7 : 2.4, 0, 6.283);
+        ctx.fillStyle = r.map.sdead[o + p] ? cOff : cOn; ctx.fill();
+        if (!deep) { ctx.lineWidth = 0.8; ctx.strokeStyle = ring; ctx.stroke(); }
+      }
+      ctx.globalAlpha = 1;
+      // cells where the tilted thermocline reaches the surface (upwelling)
+      if (cf.outcrop) {
+        ctx.strokeStyle = css('--thermo'); ctx.lineWidth = 1; ctx.globalAlpha = 0.9;
+        for (let k = 0; k < nw; k++) if (cf.outcrop[k]) { const x0 = G.X(g.x0 + g.ci[k] * g.dx), y0 = G.Y(g.y0 + (g.cj[k] + 1) * g.dx), w = g.dx * G.s; ctx.beginPath(); ctx.moveTo(x0, y0 + w); ctx.lineTo(x0 + w, y0); ctx.stroke(); }
+        ctx.globalAlpha = 1;
+      }
+      // where the side slice is cut
+      ctx.setLineDash([2, 4]); ctx.strokeStyle = css('--thermo'); ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(G.X(r.slice.start[0]), G.Y(r.slice.start[1])); ctx.lineTo(G.X(r.slice.end[0]), G.Y(r.slice.end[1])); ctx.stroke(); ctx.setLineDash([]);
+    }
+    ctx.restore();
+    // shore
+    path(); ctx.lineWidth = 3; ctx.strokeStyle = css('--sediment'); ctx.lineJoin = 'round'; ctx.stroke();
+    // labels: north, wind, scale
+    const inp = state.res2.inputs;
+    ctx.fillStyle = css('--ink-2'); ctx.font = '600 12px system-ui, sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+    ctx.fillText('N', 12, 22); arrow(ctx, 16, 44, 0, -14, css('--ink-2'), 1.4);
+    const wnow = windNow(fi), wf = wnow.from, mph = wnow.ms / 0.44704;
+    const wtxt = mph < 0.5 ? 'No wind' : `Wind from the ${compass(wf)} · ${mph.toFixed(1)} mph`;
+    const pw = pill(ctx, W - 10, 8, wtxt, 'right');
+    if (mph >= 0.5) { const t = (wf + 180) * Math.PI / 180; arrow(ctx, W - 10 - pw - 18 - 9 * Math.sin(t), 18 + 9 * Math.cos(t), 18 * Math.sin(t), -18 * Math.cos(t), css('--accent'), 2); }
+    const ftPx = G.s / FT; let bar = 10; for (const b of [10, 20, 50, 100, 200, 500, 1000, 2000]) if (b * ftPx <= 130) bar = b;
+    const by = G.H - 12;
+    ctx.strokeStyle = css('--ink-2'); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(12, by); ctx.lineTo(12 + bar * ftPx, by); ctx.moveTo(12, by - 4); ctx.lineTo(12, by + 2); ctx.moveTo(12 + bar * ftPx, by - 4); ctx.lineTo(12 + bar * ftPx, by + 2); ctx.stroke();
+    ctx.fillStyle = css('--ink-2'); ctx.font = '11.5px system-ui, sans-serif'; ctx.fillText(bar + ' ft', 18 + bar * ftPx, by + 4);
+    if (r && state.mode !== 'paint') {
+      ctx.textAlign = 'right'; ctx.fillStyle = css('--muted');
+      const what = { prod: 'product', tox: 'dissolved toxin', oxy: 'oxygen' }[state.show];
+      ctx.fillText(state.show === 'oxy' ? 'oxygen in the stirred water' : `${what} · ${state.depth === 'bot' ? 'bottom' : 'top'} water`, W - 12, by + 4); ctx.textAlign = 'left';
+      // upwelling: the thermocline reaches the surface on the upwind side
+      const cfu = r.map.configs[r.map.cfgOfHour[fi]];
+      if (cfu.outcrop) { let n = 0; for (let k = 0; k < nw; k++) n += cfu.outcrop[k]; if (n) pill(ctx, 10, 52, 'Cooler water from below at the surface (upwelling)'); }
+    }
+    // status overlay
+    const msg = $('map-msg');
+    if (state.mode === 'paint') msg.hidden = true;
+    else if (!state.res2d || state.stale2d) { msg.hidden = false; msg.textContent = state.err2d ? 'The map could not be built: ' + state.err2d : `Building the map and side slice… ${Math.round(100 * (state.prog2d || 0))}%`; }
+    else msg.hidden = true;
+  }
+  // colour ramps: product (blue), toxin (amber), oxygen (red, stronger as oxygen drops below 7 mg/L)
+  function rampRGB(t, name) {
+    name = name || 'ramp';
+    if (!state.rampStops) state.rampStops = {};
+    if (!state.rampStops[name]) state.rampStops[name] = [0, 1, 2, 3, 4].map(i => hexToRgb(css('--' + name + '-' + i)));
+    const st = state.rampStops[name]; t = Math.max(0, Math.min(1, t)); const x = t * 4, i = Math.min(3, Math.floor(x)), f = x - i;
+    return st[i].map((v, j) => Math.round(v + (st[i + 1][j] - v) * f));
+  }
+  const tOfMC = q => q === 0 ? 0 : Math.max(0, Math.min(1, (((q - 1) / 254) * 4 - 1) / 3));    // toxin 0.1 to 100 µg/L (log)
+  const tOfDO = d => Math.max(0, Math.min(1, (7 - d) / 6));                                     // oxygen: 7 mg/L or more palest, 1 mg/L strongest
+  const SHOW_RAMP = { prod: 'ramp', tox: 'tox', oxy: 'oxy' };
+
+  // ---- drawing your own outline
+  function drawOutlineEditor(cv, W) {
+    const H = Math.round(Math.min(420, Math.max(260, W * 0.6)));
+    const ctx = prepCanvas(cv, W, H);
+    ctx.fillStyle = css('--land'); ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = css('--grid'); ctx.lineWidth = 1;
+    for (let x = 0; x < W; x += 24) { ctx.beginPath(); ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, H); ctx.stroke(); }
+    for (let y = 0; y < H; y += 24) { ctx.beginPath(); ctx.moveTo(0, y + 0.5); ctx.lineTo(W, y + 0.5); ctx.stroke(); }
+    const pts = state.drawPts;
+    state.drawBox = { W, H };
+    if (pts.length) {
+      ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0] * W, p[1] * H) : ctx.moveTo(p[0] * W, p[1] * H));
+      if (pts.length >= 3) { ctx.closePath(); ctx.fillStyle = css('--ramp-0'); ctx.fill(); }
+      ctx.lineWidth = 3; ctx.strokeStyle = css('--sediment'); ctx.stroke();
+      pts.forEach((p, i) => { ctx.beginPath(); ctx.arc(p[0] * W, p[1] * H, i === 0 ? 6 : 3.5, 0, 6.283); ctx.fillStyle = i === 0 ? css('--accent') : css('--sediment'); ctx.fill(); });
+    }
+    ctx.fillStyle = css('--ink-2'); ctx.font = '600 12px system-ui, sans-serif'; ctx.fillText('N', 12, 22); arrow(ctx, 16, 44, 0, -14, css('--ink-2'), 1.4);
+    $('map-msg').hidden = true;
+  }
+
+  // ---- the side slice
+  function drawSlice(fi) {
+    const cv = $('slicecv'), box = $('stage-slice'), W = Math.max(300, box.clientWidth);
+    const r = state.res2d && !state.stale2d ? state.res2d : null;
+    const msg = $('slice-msg');
+    const skyH = 34, Hw = Math.round(Math.min(300, Math.max(170, W * 0.32))), H = skyH + Hw + 30;
+    const ctx = prepCanvas(cv, W, H);
+    const rec = state.res2.central.rec, inp = state.res2.inputs;
+    const clock = Math.round(rec.clock[fi]) % 24, sk = skyColors(clock, inp.doy);
+    ctx.fillStyle = sk.sky; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(0, 0, W, skyH + 4, 8) : ctx.rect(0, 0, W, skyH + 4); ctx.fill();
+    if (sk.sinE > -0.05) { const fr = Math.max(0, Math.min(1, (clock - 6.2) / 14.3)); ctx.beginPath(); ctx.arc(20 + fr * (W - 40), skyH - 6 - Math.max(0, sk.sinE) * (skyH - 18), 7, 0, 6.283); ctx.fillStyle = css('--sun'); ctx.fill(); }
+    else { ctx.beginPath(); ctx.arc(W * 0.78, 15, 6, 0, 6.283); ctx.fillStyle = css('--moon'); ctx.fill(); }
+    if (!r) { msg.hidden = false; msg.textContent = state.err2d ? 'The side slice could not be built: ' + state.err2d : `Building the map and side slice… ${Math.round(100 * (state.prog2d || 0))}%`; return; }
+    msg.hidden = true;
+    const sl = r.slice, N = sl.N, dz = sl.dz, zmax = N * dz, pad = 10;
+    const sx = (W - 2 * pad) / sl.L, sz = Hw / zmax, top = skyH;
+    const X = x => pad + x * sx, Y = z => top + z * sz;
+    const cells = sl.nxs * N, o = fi * cells, show = state.show;
+    let noModel = false;
+    for (let i = 0; i < sl.nxs; i++) for (let k = 0; k < sl.nlev[i]; k++) {
+      const ix = o + i * N + k;
+      let c;
+      if (show === 'tox') c = rampRGB(tOfMC(sl.mcQ[ix]), 'tox');
+      else if (show === 'oxy') { const q = sl.doQ[ix]; if (q === 255) { c = hexToRgb(css('--nomodel')); noModel = true; } else c = rampRGB(tOfDO(q / 20), 'oxy'); }
+      else c = rampRGB(tOfQ(sl.cQ[ix]));
+      ctx.fillStyle = `rgb(${c[0]},${c[1]},${c[2]})`;
+      ctx.fillRect(X(i * sl.dxs) - 0.3, Y(k * dz) - 0.3, sl.dxs * sx + 0.6, dz * sz + 0.6);
+    }
+    // bed (stair steps, as the model sees it)
+    ctx.beginPath(); ctx.moveTo(X(0), Y(0));
+    for (let i = 0; i < sl.nxs; i++) { ctx.lineTo(X(i * sl.dxs), Y(sl.nlev[i] * dz)); ctx.lineTo(X((i + 1) * sl.dxs), Y(sl.nlev[i] * dz)); }
+    ctx.lineTo(X(sl.L), Y(0)); ctx.lineTo(X(sl.L), top + Hw + 4); ctx.lineTo(X(0), top + Hw + 4); ctx.closePath();
+    ctx.fillStyle = css('--land'); ctx.fill();
+    ctx.beginPath(); for (let i = 0; i < sl.nxs; i++) { const y = Y(sl.nlev[i] * dz); if (!i) ctx.moveTo(X(0), Y(0)); ctx.lineTo(X(i * sl.dxs), y); ctx.lineTo(X((i + 1) * sl.dxs), y); } ctx.lineTo(X(sl.L), Y(0));
+    ctx.lineWidth = 3; ctx.strokeStyle = css('--sediment'); ctx.lineJoin = 'round'; ctx.stroke();
+    // thermocline
+    const cf = sl.configs[sl.cfgOfHour[fi]];
+    ctx.setLineDash([6, 4]); ctx.strokeStyle = css(show === 'tox' ? '--ink' : '--thermo'); ctx.lineWidth = 1.5; ctx.beginPath();
+    let drew = false;
+    for (let i = 0; i < sl.nxs; i++) if (cf.layered[i]) { ctx.moveTo(X(i * sl.dxs), Y(cf.Dcol[i])); ctx.lineTo(X((i + 1) * sl.dxs), Y(cf.Dcol[i])); drew = true; }
+    ctx.stroke(); ctx.setLineDash([]);
+    // flow arrows (screen space, with the same depth stretch as the drawing)
+    let vmax = 0; const stepI = Math.max(1, Math.round(sl.nxs / 14)), stepK = Math.max(1, Math.round(N / 7));
+    const pick = [];
+    for (let i = Math.floor(stepI / 2); i < sl.nxs; i += stepI) for (let k = Math.floor(stepK / 2); k < sl.nlev[i]; k += stepK) {
+      const u = cf.uc[i * N + k] * sx, w = -cf.wc[i * N + k] * sz; pick.push([i, k, u, w]); vmax = Math.max(vmax, Math.hypot(u, w));
+    }
+    if (vmax > 0) {
+      const len = Math.min(stepI * sl.dxs * sx, 26) * 0.9;
+      ctx.globalAlpha = 0.8;
+      for (const [i, k, u, w] of pick) { const m = Math.hypot(u, w); if (m < 0.04 * vmax) continue; const L = len * (0.3 + 0.7 * m / vmax); const cx = X((i + 0.5) * sl.dxs), cy = Y((k + 0.5) * dz); arrow(ctx, cx - u / m * L / 2, cy - w / m * L / 2, u / m * L, w / m * L, css('--ink'), 1.2, css('--surface')); }
+      ctx.globalAlpha = 1;
+    }
+    // colonies
+    const n = sl.show, po = fi * n, cOn = css('--cell'), cOff = css('--cell-off'), ring = css('--surface');
+    for (let p = 0; p < n; p++) { ctx.beginPath(); ctx.arc(X(sl.qx[po + p]), Y(sl.qz[po + p]), 2.3, 0, 6.283); ctx.fillStyle = sl.qdead[po + p] ? cOff : cOn; ctx.fill(); ctx.lineWidth = 0.8; ctx.strokeStyle = ring; ctx.stroke(); }
+    // labels
+    ctx.font = '11.5px system-ui, sans-serif'; ctx.fillStyle = css('--ink-2'); ctx.textBaseline = 'alphabetic';
+    const narrow = W < 560;
+    ctx.textAlign = 'left'; ctx.fillText(narrow ? '← upwind' : 'upwind shore', pad, H - 8);
+    ctx.textAlign = 'right'; ctx.fillText(narrow ? 'downwind →' : 'downwind shore', W - pad, H - 8);
+    ctx.textAlign = 'center'; ctx.fillText(narrow ? `${(sl.L * FT).toFixed(0)} × ${(zmax * FT).toFixed(1)} ft` : `${(sl.L * FT).toFixed(0)} ft across · ${(zmax * FT).toFixed(1)} ft deep`, W / 2, H - 8);
+    { const wn = windNow(fi), along = Math.cos((wn.from - inp.windFrom) * Math.PI / 180);
+      const wl = wn.ms <= 0.2 ? '' : !inp.weather || along > 0.38 ? 'wind →' : along < -0.38 ? '← wind' : narrow ? 'crosswind' : 'wind across the slice';
+      if (wl) { ctx.textAlign = 'left'; pill(ctx, 10, 7, wl); } }
+    if (drew) { ctx.textAlign = 'right'; ctx.font = '11.5px system-ui, sans-serif'; ctx.fillStyle = css('--ink'); const i = Math.floor(sl.nxs * 0.62); if (cf.layered[i]) ctx.fillText('thermocline', X((i + 1) * sl.dxs), Y(cf.Dcol[i]) - 5); }
+    let upw = 0; if (cf.outcrop) for (let i = 0; i < sl.nxs; i++) upw += cf.outcrop[i];
+    if (upw) { ctx.textAlign = 'left'; pill(ctx, 10, skyH + 8, narrow ? 'upwelling' : 'cooler water from below reaches the surface (upwelling)'); }
+    if (show === 'oxy' && noModel) { ctx.textAlign = 'right'; pill(ctx, W - 10, skyH + Hw - 26, narrow ? 'grey: not modeled' : 'grey: oxygen below the thermocline is not modeled', 'right'); }
+    state.sliceExag = sz / sx;
+  }
+
+  function drawReadouts(fi) {
+    const r2 = state.res2, c = r2.central, rec = c.rec, inp = r2.inputs, prod = S.PRODUCTS[inp.product];
+    const mul = prod.inputUnit === 'µg/L' ? 1000 : 1, unit = prod.inputUnit === 'µg/L' ? 'µg/L' : prod.unit;
+    const ro = $('readouts'); ro.textContent = '';
+    const add = (k, v) => { const b = el('div', 'ro'); b.appendChild(el('div', 'k', k)); b.appendChild(el('div', 'v', v)); ro.appendChild(b); };
+    const r = state.res2d && !state.stale2d ? state.res2d : null;
+    if (state.view === 'layers' || !r) {
+      add('Where the bloom sits', fmt(rec.Cexp[fi] * mul) + ' ' + unit);
+      add('Near the bottom', fmt(rec.Cbot[fi] * mul) + ' ' + unit);
+      if (c.kill) { add('Bloom knocked down', pct(rec.K[fi])); add('Toxin, top water (all)', fmt(rec.MCall[fi]) + ' µg/L'); add('Dissolved toxin', fmt(rec.MCtop[fi]) + ' µg/L'); add('Oxygen, top layer', fmt(rec.DOml[fi], 1) + ' mg/L'); }
+      const hm = rec.hmix[fi];
+      add('Warm top layer', hm < 0.95 * c.col.zmax ? (hm * FT).toFixed(1) + ' ft thick' : 'mixed to bottom');
+      return;
+    }
+    const m = state.view === 'map' ? r.map : r.slice;
+    if (c.kill) add('Bloom knocked down', pct(m.K[fi]));
+    // the warm layer: thickness, and its tilt on the map
+    const warm = () => {
+      const hm = rec.hmix[fi];
+      if (!(hm < 0.95 * c.col.zmax)) return 'mixed to bottom';
+      if (state.view === 'map') {
+        const cf = r.map.configs[r.map.cfgOfHour[fi]];
+        if (cf.slope > 0) { let lo = Infinity, hi = 0; for (let k = 0; k < r.grid.nw; k++) if (cf.layered[k]) { lo = Math.min(lo, cf.Dc[k]); hi = Math.max(hi, cf.Dc[k]); } if (hi - lo > 0.03) return `${(lo * FT).toFixed(1)} ft upwind → ${(hi * FT).toFixed(1)} ft downwind`; }
+      }
+      return (hm * FT).toFixed(1) + ' ft thick';
+    };
+    if (state.show === 'tox') {
+      add('Dissolved toxin, stirred water', fmt(m.MCml[fi]) + ' µg/L');
+      add('Dissolved toxin, worst spot', fmt(m.MCtopMax[fi]) + ' µg/L');
+      add('All toxin, layers model', fmt(rec.MCall[fi]) + ' µg/L');
+      add('EPA swimming level (all toxin)', '8 µg/L');
+      return;
+    }
+    if (state.show === 'oxy') {
+      add('Oxygen, stirred water average', fmt(m.DOml[fi], 1) + ' mg/L');
+      add('Oxygen, lowest spot', fmt(m.DOmin[fi], 1) + ' mg/L');
+      add('Layers model, top layer', fmt(rec.DOml[fi], 1) + ' mg/L');
+      add('Warm top layer', warm());
+      return;
+    }
+    add('Where the colonies are', fmt(m.Cexp[fi] * mul) + ' ' + unit);
+    if (m.film && m.film.used && m.filmMass[fi] > 0.001 * m.film.filmIn) add('Dense layer on the bed', Math.round(100 * m.filmMass[fi] / m.film.filmIn) + '% of the injected product');
+    if (state.view === 'map') {
+      let qm = 0; for (let k = 0; k < r.grid.nw; k++) qm = Math.max(qm, r.map.topQ[fi * r.grid.nw + k]);
+      add('Top water, highest', fmt(CyanoMap.unquant(qm, r.map.ref) * mul) + ' ' + unit);
+      add('Bottom water, average', fmt(r.map.CbotMean[fi] * mul) + ' ' + unit);
+      const cf = r.map.configs[r.map.cfgOfHour[fi]]; let sp = 0; for (let k = 0; k < r.grid.nw; k++) sp += Math.hypot(cf.vtx[k], cf.vty[k]);
+      add('Top-water current', (100 * sp / r.grid.nw / 0.3048 * 60 / 100).toFixed(1) + ' ft/min');
+      add('Area treated', Math.round(100 * r.treatedShare) + '% of the pond');
+      add('Warm top layer', warm());
+    } else {
+      add('Highest in the slice', fmt(r.slice.Cmax[fi] * mul) + ' ' + unit);
+      add('On the bottom, highest', fmt(r.slice.CbotMax[fi] * mul) + ' ' + unit);
+      add('Warm top layer', warm());
+    }
+  }
+  function drawCaption() {
+    const r2 = state.res2, en = r2.ensemble, r = state.res2d;
+    let t = '';
+    const what = state.show === 'tox' ? `dissolved microcystin in the ${state.view === 'map' ? (state.depth === 'bot' ? 'bottom' : 'top') + ' water' : 'water'}` : state.show === 'oxy' ? (state.view === 'map' ? 'oxygen, averaged through the wind-stirred water' : 'oxygen in the wind-stirred water (grey below the thermocline: not modeled)') : `the product in the ${state.view === 'map' ? (state.depth === 'bot' ? 'bottom' : 'top') + ' water' : 'water'}`;
+    const r2w = !!(state.res2 && state.res2.inputs.weather);
+    if (state.view === 'map') t = `Map: one run with central settings, seen from above. Colour is ${what}; dots are tracked colonies (${r ? r.map.show.toLocaleString() + ' of ' + r.map.np.toLocaleString() : 'a sample'} shown, fainter ones are deeper than 1.6 ft); arrows are the current in the top water; the dashed line is where the side slice is cut.`;
+    else if (state.view === 'slice') t = `Side slice: a cut along the ${r2w ? 'treatment-time ' : ''}wind through the deepest point, treated as a channel of even width. One run with central settings. Colour is ${what}. Arrows show the wind-driven loop: top water moving downwind, return flow underneath. Colonies at the very top move at the top level\'s average speed; the map follows the faster top centimetre.${r2w ? ' When the wind turns, only the part blowing along the slice drives the loop.' : ''} Depth is stretched about ${Math.round(state.sliceExag || 1)}×.`;
+    else t = `Layers: the column model, one run with central settings; the charts below show the spread of ${en.n} runs. Depth is stretched about ${Math.round(exaggeration())}× so the layers are visible.`;
+    // the views show one run with central settings; say where it sits among the runs
+    if (en && en.centralPct48 != null && r2.central.kill) t += ` With central settings, this run's 2-day knock-down sits at about the ${ordinal(Math.round(100 * en.centralPct48))} percentile of the ${en.n} runs.`;
+    $('pond-cap').textContent = t;
+  }
+  function ordinal(n) { const v = n % 100; return n + (v >= 11 && v <= 13 ? 'th' : ['th', 'st', 'nd', 'rd'][n % 10] || 'th'); }
+  function drawRampKey() {
+    const r2 = state.res2; if (!r2) return;
+    const c = r2.central, prod = S.PRODUCTS[r2.inputs.product];
+    const k = $('rampkey'); k.textContent = '';
+    const show = state.view === 'layers' ? 'prod' : state.show, name = { prod: 'ramp', tox: 'tox', oxy: 'oxy' }[show];
+    const rb = el('div', 'rampbar'); const g = el('div', 'g');
+    g.style.background = `linear-gradient(90deg, ${[0, 0.25, 0.5, 0.75, 1].map(t => ramp(t, name)).join(',')})`;
+    rb.appendChild(g);
+    const ticks = show === 'tox' ? ['0.1', '1', '10', '100'] : show === 'oxy' ? ['7+', '5', '3', '1'] : ['0.01×', '0.1×', '1×', '10×'];
+    const t = el('div', 't'); ticks.forEach(s => t.appendChild(el('span', null, s))); rb.appendChild(t);
+    k.appendChild(el('span', null, show === 'tox' ? 'Dissolved toxin, µg/L' : show === 'oxy' ? 'Oxygen, mg/L' : c.ec && !c.ec.none ? `Product, × the ${S.TARGETS[r2.inputs.target].name} EC50` : 'Product, × the label dose'));
+    k.appendChild(rb);
+    const a = el('span', 'dotkey'); const i1 = el('i'); i1.style.background = css('--cell'); a.appendChild(i1); a.appendChild(document.createTextNode('active cells')); k.appendChild(a);
+    const b = el('span', 'dotkey'); const i2 = el('i'); i2.style.background = css('--cell-off'); b.appendChild(i2); b.appendChild(document.createTextNode('knocked down')); k.appendChild(b);
+  }
+
+  function drawTracks() {
+    const r2 = state.res2; if (!r2) return;
+    const c = r2.central, rec = c.rec, box = $('tracks');
+    box.textContent = '';
+    const W = Math.max(300, box.clientWidth), lw = 118, rw = 8, th = 34, gap = 8;
+    const r = state.res2d && !state.stale2d && state.view !== 'layers' ? state.res2d : null;
+    const m = r ? (state.view === 'map' ? r.map : r.slice) : null;
+    const pe = m ? Array.from(m.Cexp) : rec.Cexp, pb = m ? Array.from(state.view === 'map' ? r.map.CbotMean : r.slice.CbotMax) : rec.Cbot;
+    const rows = [
+      { lab: 'Product (bloom)', data: pe, max: Math.max(...pe) || 1, color: '--s1' },
+      { lab: state.view === 'slice' && m ? 'On the bottom' : 'Near bottom', data: pb, max: Math.max(...pe, ...pb) || 1, color: '--s2' }
+    ];
+    if (c.kill) {
+      rows.push({ lab: 'Knocked down', data: m ? Array.from(m.K) : rec.K, max: 1, color: '--s1', ghost: m ? rec.K : null });
+    }
+    // toxin and oxygen: the map or slice run, with the layers model dashed behind it
+    const tox = m ? Array.from(m.MCml) : Array.from(rec.MCall), oxy = m ? Array.from(m.DOml) : rec.DOml;
+    if (c.kill || m) {
+      // the map tracks dissolved toxin only; the EPA level is for all toxin, inside cells and out
+      rows.push({ lab: m ? 'Dissolved toxin' : 'Toxin (all)', data: tox, max: Math.max(10, ...tox, ...(m ? rec.MCtop : [])), color: '--s2', ref: m ? null : 8, refLab: '8', ghost: m ? rec.MCtop : null });
+      rows.push({ lab: m ? 'Oxygen' : 'Oxygen, top', data: oxy, max: 10, color: '--s1', ref: 4, refLab: '4', ghost: m ? rec.DOml : null });
+    }
+    if (r2.inputs.weather && rec.Uopen) {
+      const wm = Array.from(rec.Uopen, u => u / 0.44704);
+      rows.push({ lab: 'Wind (mph)', data: wm, max: Math.max(10, ...wm), color: '--s2', ref: 10, refLab: '10' });
+    }
+    const Hs = rows.length * (th + gap) + 16;
+    const svg = svgEl('svg', { viewBox: `0 0 ${W} ${Hs}`, role: 'img', 'aria-label': 'Predicted timeline tracks over 14 days; click to jump' });
+    const x = h => lw + (h / 336) * (W - lw - rw);
+    rows.forEach((r, i) => {
+      const y0 = i * (th + gap);
+      svgEl('rect', { x: lw, y: y0, width: W - lw - rw, height: th, fill: css('--panel'), rx: 4 }, svg);
+      svgEl('text', { x: 0, y: y0 + th / 2 + 4, class: 'lab' }, svg).textContent = r.lab;
+      if (r.ref != null && r.ref <= r.max) { const yy = y0 + th - (r.ref / r.max) * th; svgEl('line', { x1: lw, x2: W - rw, y1: yy, y2: yy, stroke: css('--muted'), 'stroke-dasharray': '1 3', 'stroke-width': 1 }, svg); svgEl('text', { x: W - rw - 2, y: yy - 2, 'text-anchor': 'end' }, svg).textContent = r.refLab; }
+      if (r.ghost) { let g2 = ''; r.ghost.forEach((v, j) => { g2 += (j ? 'L' : 'M') + x(rec.hours[j]).toFixed(1) + ',' + (y0 + th - Math.min(1, v / r.max) * th).toFixed(1); }); svgEl('path', { d: g2, fill: 'none', stroke: css('--muted'), 'stroke-width': 1.2, 'stroke-dasharray': '3 3' }, svg); }
+      let d = ''; r.data.forEach((v, j) => { d += (j ? 'L' : 'M') + x(rec.hours[j]).toFixed(1) + ',' + (y0 + th - Math.min(1, v / r.max) * th).toFixed(1); });
+      svgEl('path', { d, fill: 'none', stroke: css(r.color), 'stroke-width': 1.6 }, svg);
+    });
+    const yA = rows.length * (th + gap) + 10;
+    const dStep = (W - lw - rw) / 7 >= 46 ? 2 : 7;
+    for (let dd = 0; dd <= 14; dd += dStep) svgEl('text', { x: x(dd * 24), y: yA, 'text-anchor': dd === 0 ? 'start' : dd === 14 ? 'end' : 'middle' }, svg).textContent = 'day ' + dd;
+    (state.events || []).forEach(e => svgEl('line', { x1: x(e.h), x2: x(e.h), y1: 0, y2: 4, stroke: css('--ink-2'), 'stroke-width': 1 }, svg));
+    const ph = x(rec.hours[state.frame] || 0);
+    svgEl('line', { x1: ph, x2: ph, y1: 0, y2: rows.length * (th + gap) - gap, stroke: css('--ink'), 'stroke-width': 1.5 }, svg);
+    svg.addEventListener('click', ev => { const rect = svg.getBoundingClientRect(); const px = (ev.clientX - rect.left) * (W / rect.width); const h = Math.round((px - lw) / (W - lw - rw) * 336); setFrame(Math.max(0, Math.min(336, h))); });
+    box.appendChild(svg);
+    if (!(c.kill || m)) return;
+    const note = el('p', 'cap', m ? `Solid: the ${state.view === 'map' ? 'map' : 'side slice'} (dissolved toxin and oxygen, averaged through the wind-stirred water). Dashed grey: the layers model. Dotted: 4 mg/L oxygen.` : 'Toxin counts what is inside the cells and out. Dotted: 8 µg/L toxin (EPA swimming level, written for all toxin) and 4 mg/L oxygen.');
+    note.style.cssText = 'margin:4px 0 0;font-size:12px;color:var(--muted)';
+    box.appendChild(note);
+  }
+
+  // a few moments only the map can show
+  function mapEvents() {
+    const r = state.res2d; if (!r || state.stale2d) return [];
+    const ev = [], g = r.grid, nw = g.nw, m = r.map;
+    if (r.treatedShare < 0.999) {
+      let un = 0; for (let k = 0; k < nw; k++) if (!r.mask[k]) un++;
+      for (let h = 1; h <= 336 && un; h++) {
+        let got = 0; for (let k = 0; k < nw; k++) if (!r.mask[k] && m.topQ[h * nw + k] > 64) got++;
+        if (got >= 0.5 * un) { ev.push({ h, kind: 'map', text: 'Map: product has spread over half of the water you did not treat (at 3% of the effect level or more).' }); break; }
+      }
+    }
+    if (r.column.kill) ev.push({ h: 48, kind: 'map', text: `Map: ${Math.round(100 * m.K[48])}% of the colonies knocked down after 2 days, counted colony by colony${r.treatedShare < 0.999 ? ` (layers model, treated area only: ${Math.round(100 * r.column.K[48])}%)` : ` (layers model: ${Math.round(100 * r.column.K[48])}%)`}.` });
+    if (r.inputs.weather) {
+      // the wind turns hour by hour, so report the net drift and its compass direction
+      const mean = h => { let x = 0, y = 0, c = 0; const n = m.show; for (let p = 0; p < n; p++) if (m.sz[h * n + p] < 0.5) { x += m.sx[h * n + p]; y += m.sy[h * n + p]; c++; } return c > 20 ? [x / c, y / c] : null; };
+      const a0 = mean(0), a1 = mean(24);
+      if (a0 && a1) { const dx = a1[0] - a0[0], dy = a1[1] - a0[1], d = Math.hypot(dx, dy) * FT;
+        if (d > 3) ev.push({ h: 24, kind: 'map', text: `Map: after a day, colonies near the surface have drifted about ${Math.round(d)} ft toward the ${compass((Math.atan2(dx, dy) * 180 / Math.PI + 360) % 360)} on average.` }); }
+    } else if (r.inputs.windMs > 0.5) {
+      const w = r.wind, along = h => { let s = 0, c = 0; const n = m.show; for (let p = 0; p < n; p++) if (m.sz[h * n + p] < 0.5) { s += (m.sx[h * n + p] - g.cx) * w[0] + (m.sy[h * n + p] - g.cy) * w[1]; c++; } return c > 20 ? s / c : null; };
+      const a0 = along(0), a1 = along(24);
+      if (a0 != null && a1 != null && (a1 - a0) * FT > 3) ev.push({ h: 24, kind: 'map', text: `Map: colonies near the surface have drifted about ${Math.round((a1 - a0) * FT)} ft downwind on average.` });
+    }
+    const H = m.MCml.length - 1;
+    // toxin: the highest spot in the top water
+    let ih = 0; for (let h = 1; h <= H; h++) if (m.MCtopMax[h] > m.MCtopMax[ih]) ih = h;
+    if (m.MCtopMax[ih] > 1.05 * m.MCtopMax[0]) {
+      ev.push({ h: ih, kind: 'toxin', text: `Map: dissolved toxin in the top water peaks at ${fmt(m.MCtopMax[ih])} µg/L in the worst spot (stirred-water average ${fmt(m.MCml[ih])} µg/L).` });
+      // (no EPA comparison here: the map tracks dissolved toxin, and the EPA level is for all toxin)
+    }
+    // oxygen: the lowest spot
+    let io = 0; for (let h = 1; h <= H; h++) if (m.DOmin[h] < m.DOmin[io]) io = h;
+    if (m.DOmin[io] < m.DOmin[0] - 0.3) ev.push({ h: io, kind: 'oxygen', text: `Map: oxygen at the lowest spot bottoms out at ${fmt(m.DOmin[io], 1)} mg/L (stirred-water average ${fmt(m.DOml[io], 1)} mg/L).` });
+    let i4 = -1; for (let h = 0; h <= H; h++) if (m.DOmin[h] < 4) { i4 = h; break; }
+    if (i4 >= 0) ev.push({ h: i4, kind: 'warn', text: 'Map: oxygen falls below 4 mg/L somewhere in the stirred water, a level that stresses many fish.' });
+    // the thermocline tilting until cool water comes up on the upwind side
+    if (m.tilt && m.tilt.upwellH !== null) ev.push({ h: m.tilt.upwellH, kind: 'mix', text: `Map: the wind tilts the thermocline until water from below the warm layer${m.tilt.upwellDT > 0.05 ? ` (about ${fmt(m.tilt.upwellDT * 1.8, 1)} °F cooler)` : ''} reaches the surface along the upwind shore (upwelling).` });
+    // the dense film from an injection
+    if (m.film && m.film.used) {
+      if (m.film.stirredAtOnce) ev.push({ h: 0, kind: 'map', text: 'Map: wind stirring mixes the injected product into the bottom water at once (too little density difference to slide).' });
+      else {
+        ev.push({ h: 0, kind: 'map', text: 'Map: the injected product forms a dense layer on the bed and slides toward deeper water.' });
+        if (m.film.endH) ev.push({ h: m.film.endH, kind: 'map', text: 'Map: the dense layer has mixed into the water above it.' });
+      }
+    }
+    return ev;
+  }
+  function renderEvents() {
+    const r2 = state.res2, list = $('events'); list.textContent = '';
+    state.events = r2.events.concat(mapEvents()).sort((p, q) => p.h - q.h);
+    const colors = { treat: '--accent', chem: '--s1', bloom: '--cell', toxin: '--s2', oxygen: '--s1', mix: '--thermo', warn: '--crit', info: '--muted', rebound: '--warn', map: '--s2' };
+    state.events.forEach(e => {
+      const li = el('li'); const b = el('button'); b.type = 'button';
+      b.appendChild(el('span', 'when', whenLabel(e.h)));
+      const dt = el('span', 'dot'); dt.style.background = css(colors[e.kind] || '--muted'); b.appendChild(dt);
+      b.appendChild(el('span', 'txt', e.text));
+      b.addEventListener('click', () => { stop(); setFrame(Math.round(e.h)); });
+      li.appendChild(b); list.appendChild(li);
+    });
+  }
+
+  function setFrame(f) { state.frame = f; drawView(); }
+  function stop() { state.playing = false; clearInterval(state.timer); $('play').textContent = 'Play'; }
+  $('play').addEventListener('click', () => {
+    if (state.playing) { stop(); return; }
+    if (state.frame >= 336) state.frame = 0;
+    state.playing = true; $('play').textContent = 'Pause';
+    state.timer = setInterval(() => { const nf = state.frame + state.speed; if (nf >= 336) { setFrame(336); stop(); return; } setFrame(nf); }, 110);
+  });
+  $('speed').addEventListener('click', () => { state.speed = state.speed === 1 ? 4 : 1; $('speed').textContent = state.speed + '×'; });
+  $('scrub').addEventListener('input', e => { stop(); setFrame(parseInt(e.target.value, 10)); });
+
+  // ------------------------------------------------------------ tiles, charts, tables
+  function tile(k, v, unit, d, pill) {
+    const t = el('div', 'tile'); t.appendChild(el('div', 'k', k));
+    const vv = el('div', 'v', v); if (unit) vv.appendChild(el('small', null, unit)); t.appendChild(vv);
+    if (pill) t.appendChild(el('span', 'pill ' + pill.tone, pill.text)); if (d) t.appendChild(el('div', 'd', d));
+    $('tiles').appendChild(t);
+  }
+  function marginPill(m) { return m < 1 ? { tone: 'crit', text: 'Above lab effect level' } : m < 10 ? { tone: 'warn', text: 'Thin margin' } : { tone: 'good', text: 'Wide margin' }; }
+
+  function renderAll() {
+    const p2 = state.model === 'p2', r1 = state.res1, r2 = state.res2, res = p2 ? r2 : r1;
+    if (!res) return;
+    const inp = res.inputs, prod = S.PRODUCTS[inp.product], en = res.ensemble;
+    const PR = en ? `5th–95th percentile of ${en.n} runs:` : 'Range';
+    const mul = prod.inputUnit === 'µg/L' ? 1000 : 1, unit = prod.inputUnit === 'µg/L' ? 'µg/L' : prod.unit;
+    $('m-p2').setAttribute('aria-pressed', String(p2)); $('m-p1').setAttribute('aria-pressed', String(!p2));
+    $('pond-section').hidden = !p2; $('pond-off').hidden = p2;
+    $('layering').disabled = p2; $('layer-hint').textContent = p2 ? 'The layered model works this out from the weather.' : 'Used by the well-mixed model.';
+
+    // status
+    const st = $('status'); st.textContent = '';
+    const g1 = r1.central.g;
+    const items = [['Pond', `${inp.areaAcres} acre${inp.areaAcres === 1 ? '' : 's'}, ${(g1.V / 1233.48).toFixed(2)} acre-ft`]];
+    if (p2) { const s2 = r2.summary; items.push(['Water', s2.layeredShare > 0.5 ? `layered ${Math.round(100 * s2.layeredShare)}% of the time` : `mixed most of the time (layered ${Math.round(100 * s2.layeredShare)}%)`]); }
+    else items.push(['Water', g1.layered ? `layered, treated layer ${(g1.zLayer * FT).toFixed(1)} ft` : `mixed, average depth ${(g1.zmean * FT).toFixed(1)} ft`]);
+    items.push(['Runs', `${en.n} (seed ${en.seed})`]);
+    items.forEach(([k, v]) => { const s = el('span'); s.appendChild(el('strong', null, k + ': ')); s.appendChild(document.createTextNode(v)); st.appendChild(s); });
+
+    // tiles
+    $('tiles').textContent = '';
+    const c = res.central;
+    if (p2) {
+      tile('Peak where the bloom sits', fmt(en.CexpPeak.p50 * mul), unit, `${PR} ${fmt(en.CexpPeak.p05 * mul)}–${fmt(en.CexpPeak.p95 * mul)}`);
+      tile('Peak near the bottom', fmt(en.CbotPeak.p50 * mul), unit, `Deepest tenth of the water. ${PR} ${fmt(en.CbotPeak.p05 * mul)}–${fmt(en.CbotPeak.p95 * mul)}`);
+    } else {
+      tile('Peak in the treated water', fmt(en.Cpeak.p50 * mul), unit, `${g1.CF > 1.01 ? 'About ' + g1.CF.toFixed(1) + '× the label dose (layered). ' : ''}${PR} ${fmt(en.Cpeak.p05 * mul)}–${fmt(en.Cpeak.p95 * mul)}`);
+    }
+    if (c.kill) {
+      tile('Bloom knocked down by 48 h', pct(en.kill48.p50), null, `${PR} ${pct(en.kill48.p05)}–${pct(en.kill48.p95)}${inp.fraction < 1 ? '. Whole pond: about ' + pct(en.kill48.p50 * inp.fraction) : ''}${p2 && r2.altSD ? `. If cells instead die at random (the other kill model): ${pct(r2.altSD.kill48)}` : ''}`,
+        { tone: 'info', text: c.chem === 'h2o2' || c.chem === 'diquat' ? 'Photosynthesis stopped' : 'Growth stopped' });
+      // Guideline levels (EPA 8, WHO 24 µg/L) are written for all toxin, inside cells and out.
+      // Treatment mostly moves toxin out of cells; it doesn't make new toxin.
+      const mcp = en.mcPeak.p50, t0 = en.mcTot0.p50, tb8 = en.mcTotBelow8Day.p50;
+      tile(p2 ? 'Toxin in the top water, inside cells and out' : 'Toxin, inside cells and out', fmt(t0), 'µg/L at the start',
+        `${t0 < 8 ? 'Under the EPA swimming level (8 µg/L) from the start' : tb8 > 14 ? 'Median run is still above 8 µg/L at day 14' : 'Median run falls below 8 µg/L by about day ' + tb8.toFixed(1)}${!p2 && inp.fraction < 1 ? ' in the treated area; untreated water keeps all its toxin' : ''}. Dissolved toxin, the part a water plant's filters don't remove, peaks at ${fmt(mcp)} µg/L (${PR} ${fmt(en.mcPeak.p05)}–${fmt(en.mcPeak.p95)}).`,
+        t0 < 8 ? { tone: 'good', text: 'Under EPA swimming level' } : tb8 > 14 ? { tone: 'crit', text: 'Above EPA level all 14 days' } : { tone: 'warn', text: 'Above EPA level until about day ' + Math.ceil(tb8) });
+      const dom = en.doMin.p50;
+      tile(p2 ? 'Lowest oxygen, top layer' : 'Lowest oxygen', fmt(dom, 1), 'mg/L', `The lowest hour, usually just before dawn. ${PR} ${fmt(en.doMin.p05, 1)}–${fmt(en.doMin.p95, 1)}${!p2 && inp.fraction < 1 && en.doMinPond ? '. Whole pond ' + fmt(en.doMinPond.p50, 1) : ''}`,
+        dom < 2 ? { tone: 'crit', text: 'Fish deaths likely' } : dom < 4 ? { tone: 'warn', text: 'Fish stress' } : { tone: 'good', text: 'Above fish stress level' });
+    } else {
+      tile('Bloom knocked down', 'No prediction', null, c.ec ? c.ec.reason : '', { tone: 'warn', text: 'No effect data' });
+    }
+    // each organism is judged the way its lab test was run (see the guide): the median run's exposure
+    const nts = (p2 ? r2.nonTargets : r1.nonTargets).map((n, j) => {
+      if (n.none) return n;
+      const ex = en.ntExpo && en.ntExpo[j] ? en.ntExpo[j].p50 : n.expo, exB = p2 && en.ntExpoBot && en.ntExpoBot[j] ? en.ntExpoBot[j].p50 : null;
+      return Object.assign({}, n, { margin: ex > 0 ? n.v / ex : Infinity, bottomMargin: exB > 0 ? n.v / exB : null });
+    });
+    const real = nts.filter(n => !n.none && isFinite(n.margin));
+    if (real.length) { const w = real.reduce((a, b) => b.margin < a.margin ? b : a); tile('Tightest margin for other organisms', w.margin >= 100 ? '>100' : fmt(w.margin), '×', w.who, marginPill(w.margin)); }
+
+    // charts
+    const charts = $('charts'); charts.textContent = ''; const b = en.band, H = c.rec.hours;
+    const scale = a => a.map(v => v * mul);
+    const refs = [];
+    if (c.kill) refs.push({ y: c.ec.v * mul, label: S.TARGETS[inp.target].name + ' EC50' });
+    real.forEach(n => { const sp = n.who.match(/\(([^)]+)\)/); refs.push({ y: n.v * mul, label: (sp ? sp[1] : n.who) + ' effect level' }); });
+    const series1 = p2 ? b.Cexp : b.C;
+    let xC = 24; const pk = Math.max(...series1.p95, ...(p2 ? b.Cbot.p95 : [0]));
+    for (let i = H.length - 1; i >= 0; i--) { const v = Math.max(series1.p95[i], p2 ? b.Cbot.p95[i] : 0); if (v > 0.02 * pk) { xC = Math.min(336, Math.max(24, Math.ceil(H[i] / 24) * 24)); break; } }
+    if (p2) {
+      const cc = chartCard('Product where the bloom sits, and near the bottom', `${prod.name}. "Where the bloom sits" weights each layer by how many cells are in it.`, [{ label: 'Where the bloom sits', color: '--s1' }, { label: '5th–95th percentile of runs', band: true, wash: '--s1-wash' }, { label: 'Near the bottom (median)', color: '--s2' }]);
+      charts.appendChild(cc.card);
+      chart(cc.box, { hours: H, xMaxH: xC, aria: 'Product concentration over time', vFmt: v => fmt(v) + ' ' + unit, refs,
+        series: [{ name: 'where the bloom sits', color: '--s1', wash: '--s1-wash', mid: scale(b.Cexp.p50), lo: scale(b.Cexp.p05), hi: scale(b.Cexp.p95) }, { name: 'near the bottom', color: '--s2', mid: scale(b.Cbot.p50) }] });
+    } else {
+      const cc = chartCard('Product in the treated water', `${prod.name}. One well-mixed layer.`, [L_MED, L_BAND]);
+      charts.appendChild(cc.card);
+      chart(cc.box, { hours: H, xMaxH: xC, aria: 'Concentration over time', vFmt: v => fmt(v) + ' ' + unit, refs, series: [{ name: 'treated water', color: '--s1', wash: '--s1-wash', mid: scale(b.C.p50), lo: scale(b.C.p05), hi: scale(b.C.p95) }] });
+    }
+    if (c.kill) {
+      const two = !p2 && inp.fraction < 1;
+      const kc = chartCard('Bloom knocked down', inp.fraction < 1 ? 'Inside the treated area. Multiply by the treated share for the whole pond.' : 'Share of the bloom with photosynthesis or growth stopped.', [L_MED, L_BAND]); charts.appendChild(kc.card);
+      chart(kc.box, { hours: H, xMaxH: 168, yMax: 1, yStep: 0.25, aria: 'Bloom knocked down over time', yFmt: v => Math.round(v * 100) + '%', vFmt: v => pct(v), series: [{ name: 'treated area', color: '--s1', wash: '--s1-wash', mid: b.K.p50, lo: b.K.p05, hi: b.K.p95 }] });
+      const totB = b.MCall, dissB = p2 ? b.MCtop : b.MC;
+      const L_TWO = [{ label: 'Treated area', color: '--s1' }, { label: 'Whole pond, if fully mixed', color: '--s2' }];
+      const mc = chartCard(p2 ? 'Microcystin in the top water' : 'Microcystin', `All toxin, inside cells and out: the guideline levels are written for this.${p2 ? ' It swings each day as floating cells crowd into the thinner afternoon top layer.' : ''}${two ? '' : ' Second line: dissolved toxin, which damaged cells release and bacteria break down after a lag.'} Guideline lines too close to zero to show: dog caution 0.2 µg/L, WHO lifetime drinking water 1 µg/L.`, two ? L_TWO : [L_MED, L_BAND, { label: 'Dissolved (median)', color: '--s2' }]); charts.appendChild(mc.card);
+      const mcSeries = [{ name: p2 ? 'all toxin, top water' : 'all toxin, treated area', color: '--s1', wash: '--s1-wash', mid: totB.p50, lo: totB.p05, hi: totB.p95 }];
+      if (two) mcSeries.push({ name: 'all toxin, whole pond', color: '--s2', mid: totB.p50.map(v => inp.fraction * v + (1 - inp.fraction) * r1.central.MCtot) });
+      else mcSeries.push({ name: 'dissolved', color: '--s2', mid: dissB.p50 });
+      chart(mc.box, { hours: H, xMaxH: 336, yFloor: 10, aria: 'Microcystin over time', vFmt: v => fmt(v) + ' µg/L', series: mcSeries, refs: S.THRESHOLDS.mc.map(t => ({ y: t.v, label: t.label + ' ' + t.v })) });
+      const doB = p2 ? b.DOml : b.DOt;
+      const oc = chartCard(p2 ? 'Oxygen in the top layer, hour by hour' : 'Dissolved oxygen, hour by hour', 'The living bloom makes oxygen by day and the pond breathes day and night. Dead bloom uses oxygen as it decays; wind puts it back.', two ? L_TWO : [L_MED, L_BAND]); charts.appendChild(oc.card);
+      const doSeries = [{ name: p2 ? 'top layer' : 'treated area', color: '--s1', wash: '--s1-wash', mid: doB.p50, lo: doB.p05, hi: doB.p95 }];
+      if (two) doSeries.push({ name: 'whole pond', color: '--s2', wash: '--s2-wash', mid: b.DOp.p50, lo: b.DOp.p05, hi: b.DOp.p95 });
+      chart(oc.box, { hours: H, xMaxH: 336, yMax: Math.max(10, (r1.central.DOsat || 9) + 1), yStep: 2, aria: 'Dissolved oxygen over time', vFmt: v => fmt(v, 1) + ' mg/L', series: doSeries, refs: [{ y: 4, label: 'Fish stress below 4', tone: 'warn' }, { y: 2, label: 'Fish deaths likely below 2', tone: 'crit' }] });
+    } else {
+      const nc = el('div', 'card'); nc.appendChild(el('h3', null, 'Knock-down, toxin and oxygen'));
+      nc.appendChild(el('div', 'nochart', 'These need an effect level for this product and cyanobacterium, and none has been published. ' + (c.ec && c.ec.reason ? c.ec.reason : '')));
+      charts.appendChild(nc);
+    }
+    if (p2) {
+      const rc = r2.central.rec;
+      const tc = chartCard('Water temperature', 'Central run. The gap between surface and bottom is what traps a surface treatment.', [{ label: 'Surface', color: '--s1' }, { label: 'Bottom', color: '--s2' }]); charts.appendChild(tc.card);
+      const lo = Math.floor(Math.min(...rc.Tbot, ...rc.Ttop) - 1), hi = Math.ceil(Math.max(...rc.Ttop, ...rc.Tbot) + 1);
+      chart(tc.box, { hours: H, xMaxH: 72, yMin: lo, yMax: hi, aria: 'Surface and bottom water temperature', vFmt: v => fmt(v, 1) + ' °C', series: [{ name: 'surface', color: '--s1', mid: rc.Ttop }, { name: 'bottom', color: '--s2', mid: rc.Tbot }] });
+    }
+    if (c.chem === 'flumioxazin' || prod.granular || c.chem === 'cu_sulfate' || c.chem === 'cu_chelated') {
+      const pc = chartCard('pH in the top layer', c.chem === 'flumioxazin' ? 'Flumioxazin breaks down much faster at high pH, so the afternoon rise matters.' : prod.granular ? 'The granules add alkalinity, then the daily swing rides on top.' : 'Higher pH pushes free copper down sharply.', [L_MED, L_BAND]); charts.appendChild(pc.card);
+      chart(pc.box, { hours: H, xMaxH: 72, yMin: 6, yMax: 11, yStep: 1, aria: 'pH over time', vFmt: v => 'pH ' + fmt(v, 2), series: [{ name: 'pH', color: '--s1', wash: '--s1-wash', mid: b.pH.p50, lo: b.pH.p05, hi: b.pH.p95 }] });
+    }
+
+    // comparison table
+    const ct = $('compare-table'); ct.textContent = '';
+    const head = el('tr'); const thead = el('thead'); const tb = el('tbody');
+    if (p2) {
+      $('compare-title').textContent = 'What layering and sideways spreading change';
+      $('compare-sub').textContent = 'The same inputs through three models. Well-mixed spreads the product evenly through the treated water. Layered follows the product and the cells up and down. The map also follows them sideways, colony by colony. The first two are medians of runs; the map is one run with central settings.';
+      ['', 'Well-mixed', 'Layered', 'Map (2-D)'].forEach(h => head.appendChild(el('th', null, h)));
+      const e1 = r1.ensemble, e2 = r2.ensemble, r = state.res2d && !state.stale2d ? state.res2d : null;
+      const wait = r ? null : (state.err2d ? 'not available' : 'building…');
+      const mx = a => { let v = 0; for (let i = 0; i < a.length; i++) if (a[i] > v) v = a[i]; return v; };
+      const rows = [
+        ['Peak exposure the bloom gets', fmt(e1.Cpeak.p50 * mul) + ' ' + unit, fmt(e2.CexpPeak.p50 * mul) + ' ' + unit, wait || fmt(mx(r.map.Cexp) * mul) + ' ' + unit],
+        ['Highest concentration anywhere', fmt(e1.Cpeak.p50 * mul) + ' ' + unit, fmt(e2.CmaxPeak.p50 * mul) + ' ' + unit, wait || fmt(mx(r.map.Cmax) * mul) + ' ' + unit],
+        ['Peak near the bottom', '–', fmt(e2.CbotPeak.p50 * mul) + ' ' + unit, wait || fmt(mx(r.map.CbotMean) * mul) + ' ' + unit + ' (average)']
+      ];
+      const mn = a => { let v = Infinity; for (let i = 0; i < a.length; i++) if (a[i] < v) v = a[i]; return v; };
+      const dayMin = a => { let v = Infinity; for (let d = 0; d + 24 < a.length; d += 24) { let s2 = 0; for (let h = d; h < d + 24; h++) s2 += a[h]; v = Math.min(v, s2 / 24); } return v; };
+      if (c.kill) rows.push(['Bloom knocked down at 48 h', pct(e1.kill48.p50) + (inp.fraction < 0.999 ? ' (treated area)' : ''), pct(e2.kill48.p50) + (inp.fraction < 0.999 ? ' (treated area)' : ''), wait || pct(r.map.K[48]) + ' (whole pond)']);
+      const by8 = e => !e.mcTotBelow8Day ? '–' : e.mcTot0.p50 < 8 ? 'from the start' : e.mcTotBelow8Day.p50 > 14 ? 'not within 14 days' : 'day ' + e.mcTotBelow8Day.p50.toFixed(1);
+      rows.push(['All toxin under 8 µg/L by', by8(e1), by8(e2) + ', top water', wait || 'not tracked on the map']);
+      rows.push(['Peak dissolved toxin', fmt(e1.mcPeak.p50) + ' µg/L', fmt(e2.mcPeak.p50) + ' µg/L near surface', wait || `${fmt(mx(r.map.MCml))} µg/L stirred water (worst spot ${fmt(mx(r.map.MCtopMax))})`],
+        ['Lowest oxygen (lowest hour)', fmt(e1.doMin.p50, 1) + ' mg/L', fmt(e2.doMin.p50, 1) + ' mg/L, top layer', wait || `${fmt(mn(r.map.DOml), 1)} mg/L stirred water (lowest spot ${fmt(mn(r.map.DOmin), 1)})`]);
+      rows.forEach(r => { const tr = el('tr'); tr.appendChild(el('td', null, r[0])); for (let i = 1; i < 4; i++) tr.appendChild(el('td', 'num', r[i])); tb.appendChild(tr); });
+    } else {
+      $('compare-title').textContent = 'How much the answer depends on the kill model';
+      $('compare-sub').textContent = 'Nobody has published the time-course data needed to pick one kill model for these chemicals. The same exposure gives very different answers depending on how you turn concentration into effect. The uncertainty runs split between the two damage models.';
+      const md = r1.models;
+      if (md) {
+        ['Model', `Knocked down at ${md.T} h, central settings`, 'What it assumes'].forEach(h => head.appendChild(el('th', null, h)));
+        [['Average exposure over the test length', `${pct(md.twaKill[0])} / ${pct(md.twaKill[1])} / ${pct(md.twaKill[2])}`, `Effect follows the ${md.T}-h average (${fmt(md.twa * mul)} ${unit}). Slopes 1 / 2 / 4.`],
+          ['Peak exposure', `${pct(md.peakKill[0])} / ${pct(md.peakKill[1])} / ${pct(md.peakKill[2])}`, `Effect follows the peak (${fmt(md.peak * mul)} ${unit}). Slopes 1 / 2 / 4.`],
+          ['Concentration × time', pct(md.ctKill), 'Every mg·h counts the same, like disinfection.'],
+          ['Damage model, sudden death (GUTS-SD)', pct(md.sdKill), 'Cells die at random once damage passes a threshold.'],
+          ['Damage model, tolerance (GUTS-IT)', pct(md.itKill), 'Each cell has its own tolerance; damage fades after exposure ends.']]
+          .forEach(r => { const tr = el('tr'); tr.appendChild(el('td', null, r[0])); tr.appendChild(el('td', 'num', r[1])); tr.appendChild(el('td', null, r[2])); tb.appendChild(tr); });
+      }
+      $('compare-section').hidden = !md;
+    }
+    if (p2) $('compare-section').hidden = false;
+    thead.appendChild(head); ct.appendChild(thead); ct.appendChild(tb);
+
+    // non-targets
+    $('nt-sub').textContent = (p2 ? 'Median exposure in the stirred top water, where these organisms live, ' : 'Median exposure in the treated water, ') + 'judged the way each organism\'s lab test was run, compared with its lab effect level. A margin under 1 means the exposure goes above the level that affected half the test organisms.';
+    const nt = $('nt-table'); nt.textContent = '';
+    const nh = el('tr'); ['Organism', 'Lab effect level', 'Margin', 'Hours above', 'Source'].forEach(h => nh.appendChild(el('th', null, h)));
+    const nth = el('thead'); nth.appendChild(nh); nt.appendChild(nth);
+    const ntb = el('tbody');
+    const hiSeries = p2 ? b.Ctop.p50 : b.C.p50;
+    nts.forEach(n => {
+      const tr = el('tr'); tr.appendChild(el('td', null, n.who));
+      if (n.none) { const td = el('td', null, n.reason); td.colSpan = 4; tr.appendChild(td); ntb.appendChild(tr); return; }
+      const lv = el('td', 'num', (n.censored ? '>' : '') + fmt(n.v * mul) + ' ' + unit); lv.appendChild(el('br')); lv.appendChild(el('small', null, (n.T ? n.T + ' h, ' : '') + n.endpoint + '. Compared with ' + (n.basis === 'peak' ? 'the 1-hour peak' : `the worst ${n.basisT}-hour average${n.assumedT ? ' (test length assumed)' : ''}`) + (p2 ? ' in the stirred top water' : '') + (n.hardFactor ? `. Adjusted from ${fmt(n.vLab * mul)} ${unit} in lab water to your water's hardness (${Math.round(n.hardness)} mg/L${n.hardnessEstimated ? ', estimated from alkalinity' : ''})` : ''))); tr.appendChild(lv);
+      const mt = el('td', 'num'); mt.appendChild(document.createTextNode((n.margin >= 100 ? '>100' : fmt(n.margin)) + '× ')); const mp = marginPill(n.margin); mt.appendChild(el('span', 'pill ' + mp.tone, n.margin < 1 ? 'Above' : n.margin < 10 ? 'Thin' : 'Wide'));
+      if (n.bottomMargin != null && isFinite(n.bottomMargin) && n.bottomMargin < 0.5 * n.margin) { mt.appendChild(el('br')); mt.appendChild(el('small', null, 'near the bottom: ' + (n.bottomMargin >= 100 ? '>100' : fmt(n.bottomMargin)) + '×')); }
+      tr.appendChild(mt);
+      const ha = hiSeries.filter(v => v > n.v).length; tr.appendChild(el('td', 'num', ha ? ha + ' h' : 'none'));
+      const sc = el('td'); sc.appendChild(sourceLink(n.src)); tr.appendChild(sc); ntb.appendChild(tr);
+    });
+    nt.appendChild(ntb);
+
+    // warnings
+    const wl = $('warnings'); wl.textContent = '';
+    const drop = p2 ? ['layer', 'granules-sink', 'plankto-layer', 'predawn'] : [];
+    const ws = (p2 ? r2.warnings : []).concat(r1.warnings.filter(w => !drop.includes(w.id)));
+    ws.forEach(w => { const li = el('li'); li.appendChild(el('span', 'pill ' + (w.level === 'high' ? 'crit' : w.level === 'mid' ? 'warn' : 'info'), w.level === 'high' ? 'Big effect' : w.level === 'mid' ? 'Check' : 'Note')); li.appendChild(el('span', null, w.text)); wl.appendChild(li); });
+
+    // daily values
+    const dt = $('daily-table'); dt.textContent = '';
+    const cols = p2 ? ['Day', `Where the bloom sits (${unit})`, `Near the bottom (${unit})`, 'Knocked down', 'All toxin, top water (µg/L)', 'Dissolved toxin (µg/L)', 'Lowest oxygen that day, top layer (mg/L)'] : ['Day', `Product (${unit})`, 'Knocked down', 'All toxin (µg/L)', 'Dissolved toxin (µg/L)', 'Lowest oxygen that day, treated (mg/L)', 'Lowest oxygen that day, whole pond (mg/L)'];
+    const dayLow = (a, i) => { let v = Infinity; for (let h = i; h < Math.min(a.length, i + 24); h++) v = Math.min(v, a[h]); return v; };
+    const dh = el('tr'); cols.forEach(h => dh.appendChild(el('th', null, h))); const dthd = el('thead'); dthd.appendChild(dh); dt.appendChild(dthd);
+    const dtb = el('tbody');
+    for (let d = 0; d <= 14; d++) {
+      const i = d * 24, tr = el('tr');
+      const vals = p2 ? [String(d), fmt(b.Cexp.p50[i] * mul), fmt(b.Cbot.p50[i] * mul), c.kill ? pct(b.K.p50[i]) : '–', c.kill ? fmt(b.MCall.p50[i]) : '–', c.kill ? fmt(b.MCtop.p50[i]) : '–', c.kill ? fmt(dayLow(b.DOml.p50, i), 1) : '–']
+        : [String(d), fmt(b.C.p50[i] * mul), c.kill ? pct(b.K.p50[i]) : '–', c.kill ? fmt(b.MCall.p50[i]) : '–', c.kill ? fmt(b.MC.p50[i]) : '–', c.kill ? fmt(dayLow(b.DOt.p50, i), 1) : '–', c.kill ? fmt(dayLow(b.DOp.p50, i), 1) : '–'];
+      vals.forEach((v, k) => tr.appendChild(el('td', k ? 'num' : null, v))); dtb.appendChild(tr);
+    }
+    dt.appendChild(dtb);
+
+    // effect level
+    const ei = $('ec-info'); ei.textContent = '';
+    if (c.kill) { const p = el('p'); p.appendChild(document.createTextNode(`${S.TARGETS[inp.target].name} × ${prod.name}: EC50 ${fmt(c.ec.v * mul)} ${unit}, ${c.ec.T}-hour test, endpoint: ${c.ec.endpoint}. Source: `)); p.appendChild(sourceLink(c.ec.src)); p.appendChild(document.createTextNode('. The uncertainty runs spread this value by about a factor of 2 either way to cover strain differences.')); ei.appendChild(p); }
+    else ei.appendChild(el('p', null, c.ec && c.ec.reason ? c.ec.reason : 'No effect level available.'));
+
+    $('version-line').textContent = `Simulator ${S.VERSION} + ${CC.VERSION} + ${MP.VERSION} · parameters ${S.PARAMS_VERSION} · ${en.n} runs, seed ${en.seed}`;
+    if (p2) { drawRampKey(); drawView(); renderTools(); }
+  }
+  function exaggeration() {
+    const r2 = state.res2, col = r2.central.col, W = Math.max(300, $('pondsvg').clientWidth), waterH = Math.round(Math.min(260, Math.max(170, W * 0.32)));
+    const R = Math.sqrt(col.A0 / Math.PI); return (waterH / col.zmax) / ((W / 2 - 12) / R);
+  }
+
+  function renderParams() {
+    const t = $('param-table'); t.textContent = '';
+    const h = el('tr'); ['Number', 'Value', 'Range used', 'Status', 'Source'].forEach(x => h.appendChild(el('th', null, x)));
+    const th = el('thead'); th.appendChild(h); t.appendChild(th);
+    const tb = el('tbody');
+    const addRows = (table, title) => {
+      const g = el('tr', 'group'); const td = el('td', null, title); td.colSpan = 5; g.appendChild(td); tb.appendChild(g);
+      Object.entries(table).forEach(([key, p]) => {
+        if (key === 'ec50_z') return;
+        const tr = el('tr'); const n = el('td'); n.appendChild(el('code', null, key)); if (p.note) { n.appendChild(el('br')); n.appendChild(el('small', null, p.note)); } tr.appendChild(n);
+        tr.appendChild(el('td', 'num', fmt(p.v) + (p.units ? ' ' + p.units : '')));
+        tr.appendChild(el('td', 'num', p.sample && p.dist !== 'normal01' ? fmt(p.lo) + '–' + fmt(p.hi) : '–'));
+        const stc = el('td'); const tone = /SOURCED/.test(p.status) && !/ESTIMATE/.test(p.status) ? 'good' : p.status === 'DERIVED' ? 'info' : 'warn'; stc.appendChild(el('span', 'pill ' + tone, p.status)); tr.appendChild(stc);
+        const s = el('td'); s.appendChild(sourceLink(p.src)); tr.appendChild(s); tb.appendChild(tr);
+      });
+    };
+    addRows(S.PARAMS, 'Chemistry, kill, toxin and oxygen (both models)');
+    addRows(CC.PARAMS2, 'Layered pond (heat, mixing, where the product starts, colonies)');
+    addRows(MP.PARAMS3, 'Map and side slice (sideways flow and mixing)');
+    t.appendChild(tb);
+  }
+
+  // ------------------------------------------------------------ map tools: draw your outline, paint the treated area
+  function renderTools() {
+    const t = $('tools'); t.textContent = '';
+    const btn = (label, fn, ghost) => { const b = el('button', 'btn' + (ghost ? ' ghost' : ''), label); b.type = 'button'; b.addEventListener('click', fn); t.appendChild(b); return b; };
+    const say = txt => t.appendChild(el('span', null, txt));
+    if (state.mode === 'draw') {
+      say(state.drawErr ? state.drawErr : state.drawPts.length < 3 ? 'Click around your pond\'s edge on the map (north is up). At least 3 points.' : `${state.drawPts.length} points. Click the green dot or press Finish to close the outline.`);
+      btn('Undo point', () => { state.drawPts.pop(); state.drawErr = null; renderTools(); drawView(); }, true);
+      const f = btn('Finish', finishDraw); f.disabled = state.drawPts.length < 3;
+      btn('Cancel', () => { state.mode = null; if (!state.outline) $('shape').value = 'round'; renderTools(); requestRun(); }, true);
+    } else if (state.mode === 'paint') {
+      let n = 0; state.paintMask.forEach(v => n += v);
+      say(`Click or drag on the map to paint where you treat (${Math.round(100 * n / state.grid0.nw)}% of the pond painted). Click a painted spot to erase.`);
+      btn('Clear', () => { state.paintMask.fill(0); renderTools(); drawView(); }, true);
+      const d = btn('Done', () => { state.mode = null; renderTools(); requestRun(); }); d.disabled = n === 0;
+    } else if ($('where').value === 'custom' || ($('shape').value === 'custom' && state.outline)) {
+      if ($('shape').value === 'custom' && state.outline) { say(state.outlineSrc ? `Using the USGS map outline of ${state.outlineSrc.name}.` : 'Using your drawn outline.'); btn('Redraw', startDraw, true); }
+      if ($('where').value === 'custom') { let n = 0; if (state.paintMask) state.paintMask.forEach(v => n += v); say(n ? `Painted area: ${Math.round(100 * n / state.grid0.nw)}% of the pond.` : 'Nothing painted yet, so the whole pond is treated.'); btn('Edit painting', startPaint, true); }
+    } else { t.hidden = true; return; }
+    t.hidden = false;
+  }
+  function startDraw() { stop(); state.mode = 'draw'; state.drawPts = []; state.drawErr = null; state.view = 'map'; renderTools(); drawView(); }
+  function finishDraw() {
+    if (state.drawPts.length < 3) return;
+    const b = state.drawBox || { W: 1, H: 1 };
+    const ol = state.drawPts.map(p => [p[0] * b.W, -p[1] * b.H]);          // metres don't matter: the area input sets the scale
+    // an edge that crosses itself makes a pond of the wrong size and shape: ask for another try
+    if (MP.selfCrossing(ol)) { state.drawErr = 'The edge crosses itself. Undo points back to before the crossing, or Cancel and draw again.'; renderTools(); return; }
+    state.drawErr = null;
+    state.outline = ol;
+    state.mode = null; $('shape').value = 'custom'; state.gridKey = null; state.outlineSrc = null;
+    renderTools(); requestRun();
+  }
+  function startPaint() { stop(); readInputsSafe(); state.mode = 'paint'; state.view = 'map'; renderTools(); drawView(); }
+  function readInputsSafe() { try { gridFor(readInputs()); } catch (e) { /* keep the last grid */ } }
+  let painting = null;
+  function cellAtCanvas(ev) {
+    const cv = $('mapcv'), rect = cv.getBoundingClientRect(), mg = state.mapGeom; if (!mg) return -1;
+    const X = ev.clientX - rect.left, Y = ev.clientY - rect.top, g = mg.g;
+    const x = mg.G.wx(X), y = mg.G.wy(Y);
+    const i = Math.floor((x - g.x0) / g.dx), j = Math.floor((y - g.y0) / g.dx);
+    return { i, j, g };
+  }
+  function paintAt(ev) {
+    const c = cellAtCanvas(ev); if (c === -1) return;
+    const g = state.grid0; let changed = false;
+    for (let dj = -1; dj <= 1; dj++) for (let di = -1; di <= 1; di++) {
+      const k = state.cellOf(g, c.i + di, c.j + dj);
+      if (k >= 0 && state.paintMask[k] !== painting) { state.paintMask[k] = painting; changed = true; }
+    }
+    if (changed) { drawView(); renderTools(); }
+  }
+  $('mapcv').addEventListener('pointerdown', ev => {
+    if (state.mode === 'draw') {
+      const cv = $('mapcv'), rect = cv.getBoundingClientRect(), b = state.drawBox; if (!b) return;
+      const u = (ev.clientX - rect.left) / b.W, v = (ev.clientY - rect.top) / b.H;
+      if (state.drawPts.length >= 3) { const p0 = state.drawPts[0]; if (Math.hypot((p0[0] - u) * b.W, (p0[1] - v) * b.H) < 12) { finishDraw(); return; } }
+      state.drawPts.push([Math.max(0, Math.min(1, u)), Math.max(0, Math.min(1, v))]); renderTools(); drawView(); return;
+    }
+    if (state.mode !== 'paint') return;
+    const c = cellAtCanvas(ev); if (c === -1) return;
+    const k = state.cellOf(state.grid0, c.i, c.j);
+    painting = k >= 0 && state.paintMask[k] ? 0 : 1;
+    $('mapcv').setPointerCapture(ev.pointerId); paintAt(ev);
+  });
+  $('mapcv').addEventListener('pointermove', ev => { if (state.mode === 'paint' && painting !== null) paintAt(ev); });
+  $('mapcv').addEventListener('pointerup', () => { painting = null; });
+  $('mapcv').addEventListener('pointercancel', () => { painting = null; });
+
+  ['map', 'slice', 'layers'].forEach(v => $('v-' + v).addEventListener('click', () => { if (state.mode) return; state.view = v; drawView(); }));
+  ['prod', 'tox', 'oxy'].forEach(v => $('s-' + v).addEventListener('click', () => { state.show = v; drawView(); }));
+  $('d-top').addEventListener('click', () => { state.depth = 'top'; $('d-top').setAttribute('aria-pressed', 'true'); $('d-bot').setAttribute('aria-pressed', 'false'); drawView(); });
+  $('d-bot').addEventListener('click', () => { state.depth = 'bot'; $('d-bot').setAttribute('aria-pressed', 'true'); $('d-top').setAttribute('aria-pressed', 'false'); drawView(); });
+
+  // ------------------------------------------------------------ running (background workers when possible)
+  // Worker 1 runs the column models with their uncertainty runs; workers 2 and 3 build the map and the
+  // side slice side by side.
+  let worker = null, reqId = 0, inFlight = false, debounce = null, touched = false;
+  const PARTS = ['map', 'slice'];
+  const w2 = { map: null, slice: null }, busy2 = { map: false, slice: false };
+  let req2 = 0, last2 = null, got2 = {}, prog = { map: 0, slice: 0 };
+  function startWorker() {
+    try { worker = new Worker(WORKER_SRC); worker.onmessage = e => onResult(e.data); worker.onerror = () => { worker = null; if (inFlight) runHere(lastMsg); }; }
+    catch (e) { worker = null; }
+  }
+  function startWorker2(part) {
+    try { const w = new Worker(WORKER_SRC); w.onmessage = e => on2d(e.data, part); w.onerror = () => { w2[part] = null; if (busy2[part]) run2dHere(last2, part); }; w2[part] = w; }
+    catch (e) { w2[part] = null; }
+  }
+  let lastMsg = null;
+  function runHere(msg) {
+    setTimeout(() => {
+      try { onResult({ id: msg.id, p1: S.run(msg.inp, { members: msg.members, seed: msg.seed }), p2: CC.run(msg.inp, { members: msg.members, seed: msg.seed }) }); }
+      catch (err) { onResult({ id: msg.id, error: err.message }); }
+    }, 20);
+  }
+  function run2dHere(msg, part) {
+    setTimeout(() => {
+      if (msg.id !== req2) return;
+      try { on2d({ id: msg.id, kind: '2d', r: MP.run2d(msg.inp, { seed: msg.seed, only: part }) }, part); }
+      catch (err) { on2d({ id: msg.id, kind: '2d', error: err.message }, part); }
+    }, 30);
+  }
+  function requestRun() {
+    if (state.mode) return;                      // drawing or painting: wait until Done
+    const inp = withTreatment(readInputs());
+    const seed = parseInt($('seed').value, 10) || 20261019;
+    const msg = { id: ++reqId, kind: '1d', inp, members: parseInt($('members').value, 10), seed };
+    lastMsg = msg;
+    $('results').classList.add('updating');
+    if (worker) { if (inFlight) { worker.terminate(); startWorker(); } inFlight = true; if (worker) worker.postMessage(msg); else runHere(msg); }
+    else { inFlight = true; runHere(msg); }
+    // the map and the slice (central run), in parallel
+    const m2 = { id: ++req2, kind: '2d', inp, seed };
+    last2 = m2; got2 = {}; prog = { map: 0, slice: 0 }; state.stale2d = true; state.prog2d = 0; state.err2d = null;
+    for (const part of PARTS) {
+      const msg = Object.assign({ only: part }, m2);
+      if (w2[part] && busy2[part]) { w2[part].terminate(); startWorker2(part); }
+      busy2[part] = true;
+      if (w2[part]) w2[part].postMessage(msg); else run2dHere(m2, part);
+    }
+    if (state.res2) drawView();
+  }
+  function onResult(d) {
+    if (d.id !== reqId) return;
+    inFlight = false; $('results').classList.remove('updating');
+    if (d.error) { $('status').textContent = 'Something went wrong running the model: ' + d.error; return; }
+    stop();
+    state.res1 = d.p1; state.res2 = d.p2; state.frame = Math.min(state.frame, 336);
+    renderEvents(); renderAll();
+  }
+  let progTimer = null;
+  function on2d(d, part) {
+    if (d.id !== req2) return;
+    if (d.kind === 'progress') {
+      prog[part] = d.frac;
+      state.prog2d = 0.7 * prog.map + 0.3 * prog.slice;          // the map takes about twice as long
+      if (!progTimer) progTimer = setTimeout(() => { progTimer = null; const m = $('map-msg'), s2 = $('slice-msg'); const t = `Building the map and side slice… ${Math.round(100 * state.prog2d)}%`; if (!m.hidden) m.textContent = t; if (!s2.hidden) s2.textContent = t; }, 120);
+      return;
+    }
+    busy2[part] = false;
+    if (d.error) { state.err2d = d.error; if (state.res2) drawView(); return; }
+    got2[part] = d.r;
+    if (!got2.map || !got2.slice) return;
+    state.res2d = Object.assign({}, got2.map, { slice: got2.slice.slice, ms: Math.max(got2.map.ms, got2.slice.ms) });
+    state.stale2d = false;
+    if (state.res2) { renderEvents(); renderAll(); }
+  }
+  const NO_RUN = new Set(['place', 'txDate']);
+  $('sim-form').addEventListener('input', e => {
+    if (NO_RUN.has(e.target.id)) return;
+    if (!touched) { touched = true; $('example-note').hidden = true; }
+    if (e.target === productSel) syncProduct(true);
+    if (e.target === methodSel) syncMethod();
+    clearTimeout(debounce); debounce = setTimeout(requestRun, 250);
+  });
+  $('sim-form').addEventListener('change', e => {
+    if (NO_RUN.has(e.target.id)) return;
+    if (e.target === $('appHour') && state.wx) say('wx-status', wxDescribe(state.wx));
+    if (e.target === productSel) syncProduct(true);
+    if (e.target === methodSel) syncMethod();
+    if (e.target === $('target')) { $('myEC50').value = ''; syncOwnTests(); }
+    if (e.target === $('shape')) { state.outlineSrc = null; if ($('shape').value === 'custom') { startDraw(); return; } state.outline = null; }
+    if (e.target === $('where')) {
+      $('where-hint').textContent = $('where').value === 'custom' ? 'Paint the area on the map.' : 'Upwind is the shore the wind comes from.';
+      if ($('where').value === 'custom') { startPaint(); return; }
+      if (state.mode === 'paint') state.mode = null;
+      renderTools();
+    }
+    clearTimeout(debounce); debounce = setTimeout(requestRun, 250);
+  });
+  $('sim-form').addEventListener('submit', e => e.preventDefault());
+  $('m-p2').addEventListener('click', () => { state.model = 'p2'; renderAll(); });
+  $('m-p1').addEventListener('click', () => { stop(); state.model = 'p1'; renderAll(); });
+  let rw = null;
+  // re-draw only when the width changes (height changes come from our own drawing and would loop)
+  let lastW = 0;
+  new ResizeObserver(entries => {
+    const w = Math.round(entries[0].contentRect.width);
+    if (Math.abs(w - lastW) < 2) return; lastW = w;
+    clearTimeout(rw); rw = setTimeout(() => { if (state.res1) renderAll(); }, 150);
+  }).observe($('results'));
+  const retheme = () => { state.rampStops = null; if (state.res1) renderAll(); };
+  if (window.matchMedia) window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', retheme);
+  new MutationObserver(retheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+
+  // ------------------------------------------------------------ the pond's place: real weather and a mapped outline
+  // Place search: OpenStreetMap's Nominatim (one request per click, at most one a second, results kept
+  // for this visit). Weather: Open-Meteo, hour by hour. Outline: the USGS National Hydrography Dataset.
+  // Nothing is stored after the page closes.
+  const WX_VARS = 'temperature_2m,relative_humidity_2m,wind_speed_10m,wind_direction_10m,cloud_cover,shortwave_radiation';
+  const WX_HOURS = 17 * 24;                 // 2 days of spin-up + the treatment day + 14 days
+  const placeCache = new Map(), wxCache = new Map();
+  let lastNominatim = 0, wxToken = 0, outlineToken = 0;
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const pad2 = n => String(n).padStart(2, '0');
+  function todayISO() { const d = new Date(); return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`; }
+  function addDays(iso, n) { const d = new Date(iso + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); }
+  function daysBetween(a, b) { return Math.round((Date.parse(b + 'T12:00:00Z') - Date.parse(a + 'T12:00:00Z')) / 864e5); }
+  function doyOf(iso) { return daysBetween(iso.slice(0, 4) + '-01-01', iso) + 1; }
+  function niceDate(iso) { return new Date(iso + 'T12:00:00Z').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' }); }
+  function say(id, text, err) { const e = $(id); e.hidden = !text; e.textContent = text || ''; e.classList.toggle('err', !!err); }
+  const compass = deg => COMPASS[Math.round((((deg % 360) + 360) % 360) / 45) % 8];
+
+  async function getJSON(url, what) {
+    let r;
+    try { r = await fetch(url); } catch (e) { throw new Error(`Couldn't reach ${what}. Check the internet connection. (Some hosted copies of this page block outside requests; cyanoselect.org and the downloaded file don't.)`); }
+    let j = null; try { j = await r.json(); } catch (e) { /* not JSON */ }
+    if (!r.ok) throw new Error(r.status === 429 ? `${what} is busy right now. Wait a minute and try again.` : `${what} said no (${(j && (j.reason || (j.error && j.error.message))) || 'HTTP ' + r.status}).`);
+    if (!j) throw new Error(`${what} sent back something unreadable.`);
+    return j;
+  }
+  async function findPlace(q) {
+    const m = q.match(/^\s*(-?\d{1,2}(?:\.\d+)?)\s*[,\s]\s*(-?\d{1,3}(?:\.\d+)?)\s*$/);
+    if (m) {
+      const lat = parseFloat(m[1]), lon = parseFloat(m[2]);
+      if (Math.abs(lat) > 90 || Math.abs(lon) > 180) throw new Error('Those numbers aren\'t a latitude and longitude. Latitude comes first (for example 35.73, -78.85).');
+      return { lat, lon, label: `${lat.toFixed(4)}, ${lon.toFixed(4)}`, typed: true };
+    }
+    const key = q.toLowerCase().replace(/\s+/g, ' ');
+    if (placeCache.has(key)) return placeCache.get(key);
+    const wait = lastNominatim + 1100 - Date.now(); if (wait > 0) await sleep(wait);
+    lastNominatim = Date.now();
+    const j = await getJSON('https://nominatim.openstreetmap.org/search?' + new URLSearchParams({ q, format: 'jsonv2', limit: '1' }), 'The place search');
+    if (!Array.isArray(j) || !j.length) throw new Error('No place found for that. Try a street address or town, or type the pond\'s latitude and longitude (for example 35.73, -78.85).');
+    const parts = String(j[0].display_name || '').split(',').map(t => t.trim()).filter(Boolean);
+    const p = { lat: parseFloat(j[0].lat), lon: parseFloat(j[0].lon), label: parts.slice(0, 3).join(', ') || q };
+    placeCache.set(key, p); return p;
+  }
+
+  // Hourly weather for 17 local days starting two days before the treatment date.
+  async function fetchWeather(p, date) {
+    const today = todayISO(), start = addDays(date, -2);
+    if (daysBetween(today, date) > 15) throw new Error('That date is more than about two weeks away, past the end of the forecast. Pick a nearer date or use the idealized day.');
+    const back = daysBetween(start, today);              // > 0 when the run starts in the past
+    const common = { latitude: p.lat.toFixed(4), longitude: p.lon.toFixed(4), hourly: WX_VARS, wind_speed_unit: 'ms', timezone: 'auto' };
+    let url, archive = false;
+    if (back <= 90) {
+      const past = Math.min(92, Math.max(0, back + 1));  // a spare day in case the pond's date differs from yours
+      const ahead = Math.max(1, Math.min(16, daysBetween(today, addDays(start, 16)) + 1));
+      url = 'https://api.open-meteo.com/v1/forecast?' + new URLSearchParams(Object.assign({ past_days: String(past), forecast_days: String(ahead) }, common));
+    } else {
+      archive = true;
+      url = 'https://archive-api.open-meteo.com/v1/archive?' + new URLSearchParams(Object.assign({ start_date: start, end_date: addDays(start, 16) }, common));
+    }
+    const j = await getJSON(url, 'The weather service');
+    const h = j.hourly || {}, T = h.time || [];
+    const i0 = T.indexOf(start + 'T00:00');
+    if (i0 < 0) throw new Error('The weather service didn\'t cover that date.');
+    const names = ['temperature_2m', 'relative_humidity_2m', 'wind_speed_10m', 'wind_direction_10m', 'cloud_cover', 'shortwave_radiation'];
+    const cols = names.map(n => (h[n] || []).slice(i0, i0 + WX_HOURS));
+    let n = Math.min(...cols.map(c => c.length));
+    while (n > 0 && cols.some(c => c[n - 1] == null)) n--;          // drop a missing tail
+    for (const c of cols) for (let k = 0; k < n; k++) if (c[k] == null) c[k] = k ? c[k - 1] : c.find(v => v != null);   // fill a gap with the hour before
+    const days = Math.floor(n / 24);
+    if (days < 3) throw new Error('The weather service has no data for the treatment day there yet.');
+    const W = { source: archive ? 'Open-Meteo (ERA5 historical weather)' : 'Open-Meteo', place: p.label, date, lat: p.lat, lon: p.lon,
+      Ta: [], rh: [], U: [], dir: [], cloud: [], sw: [], filledFrom: null, forecast: daysBetween(today, addDays(date, 14)) > 0, tz: j.timezone || '' };
+    for (let k = 0; k < WX_HOURS; k++) {
+      const src = k < days * 24 ? k : (days - 1) * 24 + (k % 24);  // past the data: repeat the last whole day
+      W.Ta.push(+cols[0][src]); W.rh.push(+cols[1][src] / 100); W.U.push(Math.max(0, +cols[2][src])); W.dir.push(+cols[3][src]);
+      W.cloud.push(+cols[4][src] / 100); W.sw.push(Math.max(0, +cols[5][src]));
+    }
+    if (days < 17) W.filledFrom = days * 24;
+    W.forecastDays = Math.max(0, Math.min(14, daysBetween(today, addDays(date, 14))));
+    // treatment-day summary (local midnight to midnight)
+    let u = 0, hi = -99, lo = 99, cc = 0, nc = 0;
+    for (let k = 48; k < 72; k++) { u += W.U[k]; hi = Math.max(hi, W.Ta[k]); lo = Math.min(lo, W.Ta[k]); if (W.sw[k] > 20) { cc += W.cloud[k]; nc++; } }
+    const cloud = nc ? cc / nc : 0.5;
+    W.summary = { windMs: u / 24, airHighC: hi, airLowC: lo, cloud, sky: cloud < 0.3 ? 'sunny' : cloud < 0.7 ? 'partly' : 'overcast' };
+    return W;
+  }
+
+  function wxDescribe(W) {
+    const S2 = W.summary, mph = v => (v / 0.44704).toFixed(0), F = c => Math.round(c * 9 / 5 + 32);
+    let lo = 1e9, hi = 0; for (let k = 48; k < 72; k++) { lo = Math.min(lo, W.U[k]); hi = Math.max(hi, W.U[k]); }
+    const dTreat = W.dir[48 + parseInt($('appHour').value, 10)];
+    let t = `Loaded hour-by-hour weather for ${niceDate(W.date)}: wind ${mph(lo)}–${mph(hi)} mph (from the ${compass(dTreat)} at treatment time), air ${F(S2.airLowC)}–${F(S2.airHighC)} °F, ${S2.sky === 'sunny' ? 'mostly sunny' : S2.sky === 'partly' ? 'partly cloudy' : 'mostly cloudy'}.`;
+    const ahead = daysBetween(todayISO(), W.date);
+    if (ahead >= 0) t += ' This is a forecast.';
+    else if (W.forecastDays > 0) t += ` The last ${W.forecastDays} of the 14 days after it are a forecast.`;
+    if (W.filledFrom != null) t += ` The forecast ends ${Math.round((WX_HOURS - W.filledFrom) / 24)} day(s) early, so its last day repeats.`;
+    return t;
+  }
+  async function loadWeather() {
+    const p = state.place, date = $('txDate').value;
+    if (!p) { state.wx = null; say('wx-status', 'Find the pond above to load its weather. Until then the idealized day below is used.'); syncWxBoxes(); return; }
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) { say('wx-status', 'Pick the treatment date.', true); return; }
+    const key = [p.lat.toFixed(3), p.lon.toFixed(3), date].join('|'), token = ++wxToken;
+    let W = wxCache.get(key);
+    if (!W) {
+      say('wx-status', 'Loading hour-by-hour weather…');
+      try { W = await fetchWeather(p, date); wxCache.set(key, W); }
+      catch (e) { if (token !== wxToken) return; state.wx = null; say('wx-status', e.message + ' The idealized day below is used instead.', true); syncWxBoxes(); requestRun(); return; }
+    }
+    if (token !== wxToken) return;
+    state.wx = W; say('wx-status', wxDescribe(W)); syncWxBoxes(); requestRun();
+  }
+  function syncWxBoxes() {
+    const real = state.wxMode === 'real';
+    $('wx-real').setAttribute('aria-pressed', String(real)); $('wx-ideal').setAttribute('aria-pressed', String(!real));
+    $('wx-real-box').hidden = !real; $('wx-ideal-box').hidden = real && !!state.wx;
+  }
+  function setWxMode(m) { state.wxMode = m; syncWxBoxes(); if (m === 'real' && state.place && !state.wx) loadWeather(); else requestRun(); }
+
+  async function onPlaceFound(p) {
+    state.place = p;
+    say('place-status', `Found: ${p.label}${p.typed ? '' : ` (${p.lat.toFixed(4)}, ${p.lon.toFixed(4)})`}.`);
+    $('place-credit').hidden = false;
+    const pick = $('outline-pick'); pick.textContent = ''; pick.hidden = false;
+    const b = el('button', 'btn ghost', 'Look up the pond\'s outline on USGS maps (US only)'); b.type = 'button';
+    b.addEventListener('click', lookupOutline); pick.appendChild(b);
+    state.wxMode = 'real'; state.wx = null; syncWxBoxes(); loadWeather();
+  }
+  async function onFind() {
+    const q = $('place').value.trim();
+    if (!q) { say('place-status', 'Type an address, a town, or the pond\'s latitude and longitude.', true); return; }
+    $('place-find').disabled = true; say('place-status', 'Looking up the place…');
+    try { await onPlaceFound(await findPlace(q)); }
+    catch (e) { say('place-status', e.message, true); }
+    finally { $('place-find').disabled = false; }
+  }
+  function onHere() {
+    if (!navigator.geolocation) { say('place-status', 'This browser can\'t share a location. Type the place instead.', true); return; }
+    say('place-status', 'Asking the browser for your location…');
+    navigator.geolocation.getCurrentPosition(pos => {
+      const lat = pos.coords.latitude, lon = pos.coords.longitude;
+      $('place').value = `${lat.toFixed(5)}, ${lon.toFixed(5)}`;
+      onPlaceFound({ lat, lon, label: `your location (${lat.toFixed(4)}, ${lon.toFixed(4)})`, typed: true });
+    }, err => say('place-status', `The browser didn't share a location${err && err.message ? ' (' + err.message + ')' : ''}. Type the place instead.`, true),
+    { enableHighAccuracy: true, timeout: 15000, maximumAge: 600000 });
+  }
+
+  // ---- outline from the USGS National Hydrography Dataset (lakes, ponds and reservoirs)
+  const NHD = 'https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer/12/query';
+  const NHD_RADIUS = 400;                    // metres around the found point
+  async function nhd(params) {
+    const url = NHD + '?' + new URLSearchParams(Object.assign({ f: 'geojson' }, params));
+    try { return await getJSON(url, 'The USGS map service'); }
+    catch (e) { await sleep(900); return getJSON(url, 'The USGS map service'); }   // it fails now and then; one retry
+  }
+  function toLocal(ring, lat0, lon0) {
+    const kx = 111320 * Math.cos(lat0 * Math.PI / 180), ky = 110540;
+    const P = ring.map(c => [(c[0] - lon0) * kx, (c[1] - lat0) * ky]);
+    if (P.length > 1 && P[0][0] === P[P.length - 1][0] && P[0][1] === P[P.length - 1][1]) P.pop();
+    return P;
+  }
+  const ringArea = P => { let a = 0; for (let i = 0, j = P.length - 1; i < P.length; j = i++) a += P[j][0] * P[i][1] - P[i][0] * P[j][1]; return Math.abs(a / 2); };
+  function ringDist(P) {                     // distance from (0, 0) to the ring; 0 when inside
+    let inside = false, d2 = Infinity;
+    for (let i = 0, j = P.length - 1; i < P.length; j = i++) {
+      const [xi, yi] = P[i], [xj, yj] = P[j];
+      if (((yi > 0) !== (yj > 0)) && (0 < (xj - xi) * (0 - yi) / (yj - yi) + xi)) inside = !inside;
+      const vx = xi - xj, vy = yi - yj, L2 = vx * vx + vy * vy, t = L2 > 0 ? Math.max(0, Math.min(1, (-xj * vx - yj * vy) / L2)) : 0;
+      const dx = xj + t * vx, dy = yj + t * vy; d2 = Math.min(d2, dx * dx + dy * dy);
+    }
+    return inside ? 0 : Math.sqrt(d2);
+  }
+  function simplify(P, maxPts) {             // Douglas-Peucker on a closed ring, loosened until it is small enough
+    if (P.length <= maxPts) return P;
+    let tol = Math.sqrt(ringArea(P)) / 500, out = P;
+    const dp = (pts, a, b, keep) => {
+      let best = -1, idx = -1; const [ax, ay] = pts[a], [bx, by] = pts[b], vx = bx - ax, vy = by - ay, L2 = vx * vx + vy * vy;
+      for (let i = a + 1; i < b; i++) { const t = L2 > 0 ? Math.max(0, Math.min(1, ((pts[i][0] - ax) * vx + (pts[i][1] - ay) * vy) / L2)) : 0; const d = Math.hypot(pts[i][0] - ax - t * vx, pts[i][1] - ay - t * vy); if (d > best) { best = d; idx = i; } }
+      if (best > tol) { keep[idx] = 1; dp(pts, a, idx, keep); dp(pts, idx, b, keep); }
+    };
+    for (let guard = 0; guard < 30 && out.length > maxPts; guard++) {
+      const pts = P.concat([P[0]]), keep = new Uint8Array(pts.length); keep[0] = keep[pts.length - 1] = 1;
+      dp(pts, 0, pts.length - 1, keep);
+      out = pts.filter((_, i) => keep[i]); out.pop(); tol *= 1.5;
+    }
+    return out;
+  }
+  function outerRings(geom) {
+    if (!geom) return [];
+    if (geom.type === 'Polygon') return [geom.coordinates[0]];
+    if (geom.type === 'MultiPolygon') return geom.coordinates.map(pg => pg[0]);
+    return [];
+  }
+  const ACRE = 4046.8564224;
+  async function lookupOutline() {
+    const p = state.place; if (!p) return;
+    const pick = $('outline-pick'), token = ++outlineToken;
+    pick.textContent = ''; pick.appendChild(el('p', null, 'Looking for mapped ponds near that point…'));
+    try {
+      const near = { geometry: `${p.lon},${p.lat}`, geometryType: 'esriGeometryPoint', inSR: '4326', spatialRel: 'esriSpatialRelIntersects', distance: String(NHD_RADIUS), units: 'esriSRUnit_Meter' };
+      const list = await nhd(Object.assign({ outFields: 'OBJECTID,GNIS_NAME,AREASQKM,FTYPE', returnGeometry: 'false' }, near));
+      if (token !== outlineToken) return;
+      const feats = (list.features || []).map(f => ({ id: f.id != null ? f.id : f.properties && f.properties.OBJECTID, name: (f.properties && f.properties.GNIS_NAME) || '', km2: +(f.properties && f.properties.AREASQKM), ftype: +(f.properties && f.properties.FTYPE) }))
+        .filter(f => f.id != null && (f.ftype === 390 || f.ftype === 436) && f.km2 > 0);
+      const fits = feats.filter(f => f.km2 * 1e6 / ACRE <= 150).slice(0, 25), big = feats.filter(f => f.km2 * 1e6 / ACRE > 150);
+      let cands = [];
+      if (fits.length) {
+        const g = await nhd({ objectIds: fits.map(f => f.id).join(','), outFields: 'OBJECTID,GNIS_NAME,AREASQKM', returnGeometry: 'true', outSR: '4326', geometryPrecision: '6' });
+        if (token !== outlineToken) return;
+        for (const f of g.features || []) {
+          const id = f.id != null ? f.id : f.properties && f.properties.OBJECTID, meta = fits.find(m => String(m.id) === String(id));
+          const rings = outerRings(f.geometry).map(r => toLocal(r, p.lat, p.lon)).filter(r => r.length >= 3);
+          if (!meta || !rings.length) continue;
+          const ring = rings.reduce((a, b) => ringArea(b) > ringArea(a) ? b : a);
+          cands.push({ name: meta.name, acres: meta.km2 * 1e6 / ACRE, dist: Math.min(...rings.map(ringDist)), ring });
+        }
+        cands.sort((a, b) => a.dist - b.dist); cands = cands.slice(0, 6);
+      }
+      pick.textContent = '';
+      if (!cands.length && !big.length) {
+        pick.appendChild(el('p', null, `No mapped pond within ${Math.round(NHD_RADIUS * FT / 10) * 10} ft of that point. USGS maps can miss small or new ponds. Type the pond's own latitude and longitude to search right on it, or choose "Draw my own on the map" under Shape.`));
+        return;
+      }
+      pick.appendChild(el('p', null, 'Pick your pond. The outline and area come from USGS maps; check the area, and enter the depth yourself (maps don\'t have it).'));
+      const acr = a => a >= 10 ? Math.round(a).toLocaleString('en-US') : a.toFixed(a >= 1 ? 1 : 2);
+      for (const c of cands) {
+        const tooSmall = c.acres < 0.05, tooBig = c.acres > 100;
+        const where = c.dist < 1 ? 'the point is on it' : `${Math.round(c.dist * FT / 10) * 10 || 10} ft away`;
+        const b = el('button', 'btn ghost', `${c.name || 'Unnamed pond'} · ${acr(c.acres)} acres · ${where}${tooBig ? ' · too big for this simulator (100 acres at most)' : tooSmall ? ' · too small (under 0.05 acre)' : ''}`);
+        b.type = 'button'; b.disabled = tooBig || tooSmall;
+        b.addEventListener('click', () => useOutline(c));
+        pick.appendChild(b);
+      }
+      big.slice(0, 3).forEach(f => { const b = el('button', 'btn ghost', `${f.name || 'Unnamed lake'} · ${acr(f.km2 * 1e6 / ACRE)} acres · too big for this simulator (100 acres at most)`); b.type = 'button'; b.disabled = true; pick.appendChild(b); });
+    } catch (e) {
+      if (token !== outlineToken) return;
+      pick.textContent = ''; pick.appendChild(el('p', null, e.message + ' You can still choose "Draw my own on the map" under Shape.'));
+    }
+  }
+  function useOutline(c) {
+    const ol = simplify(c.ring, 150).map(q => [q[0], q[1]]);
+    if (MP.selfCrossing(ol)) { say('place-status', `The USGS outline of ${c.name || 'that pond'} crosses itself once simplified, so it can't be used. Choose "Draw my own on the map" under Shape instead.`); return; }
+    state.outline = ol;
+    state.outlineSrc = { name: c.name || 'Unnamed pond', acres: c.acres };
+    $('shape').value = 'custom'; state.gridKey = null; state.mode = null;
+    $('areaAcres').value = String(Math.max(0.05, Math.round(c.acres / 0.05) * 0.05).toFixed(2)).replace(/\.?0+$/, '');
+    if (!touched) { touched = true; $('example-note').hidden = true; }
+    say('place-status', `Using the USGS outline of ${state.outlineSrc.name} (${c.acres.toFixed(2)} acres). Now enter its deepest point.`);
+    renderTools(); requestRun();
+  }
+
+  $('place-find').addEventListener('click', onFind);
+  $('place').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); onFind(); } });
+  $('place-here').addEventListener('click', onHere);
+  $('wx-real').addEventListener('click', () => setWxMode('real'));
+  $('wx-ideal').addEventListener('click', () => setWxMode('ideal'));
+  $('txDate').value = todayISO(); $('txDate').max = addDays(todayISO(), 15); $('txDate').min = '1950-01-01';
+  $('txDate').addEventListener('change', () => { if (state.wxMode === 'real') loadWeather(); });
+
+  // section tabs: the simulator and the built-in guide
+  function showTab(which) {
+    const g = which === 'guide';
+    $('guide').hidden = !g; document.querySelector('main').hidden = g;
+    $('tab-sim').setAttribute('aria-pressed', String(!g)); $('tab-guide').setAttribute('aria-pressed', String(g));
+    if (g) stop();
+    try { history.replaceState(null, '', g ? '#how-it-works' : location.pathname + location.search); } catch (e) { /* file pages may refuse */ }
+    window.scrollTo(0, 0);
+    if (!g && state.res1) renderAll();
+  }
+  $('tab-sim').addEventListener('click', () => showTab('sim'));
+  $('tab-guide').addEventListener('click', () => showTab('guide'));
+  if (location.hash === '#how-it-works') showTab('guide');
+
+  renderParams();
+  startWorker();
+  PARTS.forEach(startWorker2);
+  requestRun();
+})();
+</script>

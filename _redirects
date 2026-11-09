@@ -1,0 +1,14 @@
+# Netlify redirects (https://docs.netlify.com/routing/redirects/)
+# The site was reorganized in November 2026: the old About page moved to /about/.
+/about.html            /about/          301!
+
+# The simulator folder also holds its source, tests and review notes; only the page and the files
+# it loads are part of the site.
+/simulator/tests/*                 /404.html  404!
+/simulator/tools/*                 /404.html  404!
+/simulator/reference/*             /404.html  404!
+/simulator/README.md               /404.html  404!
+/simulator/SIMULATOR_REVIEW.md     /404.html  404!
+/simulator/params.json             /404.html  404!
+/SITE_AUDIT.md                     /404.html  404!
+/review-screenshots/*              /404.html  404!

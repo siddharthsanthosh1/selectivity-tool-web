@@ -12,20 +12,26 @@ identify the lowest-risk option.
 
 ## What's here
 
-Two static pages: `index.html` (the tool) and `about.html` (who built it). No build
-step, no dependencies, no backend. It runs entirely in the browser and deploys to
-GitHub Pages as-is. `about.html` carries its own copy of the shared styles, so keep
-them in sync when the main page's styles change.
+A static site with no backend. It runs entirely in the browser and deploys to **Netlify** from the `main` branch, root folder. Reorganized in November 2026 (see `SITE_AUDIT.md`).
 
-The page covers:
-- The problem, using the June 2022 Jordan Lake incident as a case
-- How the Selectivity Index works (SI = non-target EC50 divided by target EC50)
-- Why three non-target axes are tracked separately rather than averaged
-- Bliss independence for predicting treatment combinations
-- A ranked results table for *Microcystis aeruginosa*
-- Where the numbers come from: the published EC50 values behind each score
-- **An interactive version of the ranking model** (see below)
-- An honest list of limitations
+| Page | File | What's on it |
+|---|---|---|
+| Home | `index.html` | What CyanoSelect is, three steps, credibility strip |
+| Rank treatments | `rank/index.html` | The interactive ranking (`assets/rank.js`), the results table, limitations |
+| Simulate your pond | `simulator/index.html` | The pond simulator in the site's header and footer |
+| How it works | `how-it-works/index.html` | The story, the ranking math and every simulator equation (KaTeX 0.16.11 from jsDelivr, pinned with integrity hashes) |
+| Data | `data/index.html` | Dataset download (`data/cyanoselect-dataset-2026-11-01.xlsx`), the data gap, sources, labels, corrections |
+| About | `about/index.html` | Team, timeline, talks and articles, outreach, thanks, what's next, contact |
+
+Shared files: `assets/chrome.css` (header and footer, also used by the simulator), `assets/site.css` (page styles), `assets/site.js` (menu, accordions, carousels). The header and footer are repeated in each page's HTML, so change them everywhere at once. `_redirects` sends `/about.html` to `/about/` and keeps the simulator's tests, tools and notes off the public site; `about.html` is a small redirect page for hosts without `_redirects`. Links to the old single-page anchors (`/#try`, `/#sources` …) are forwarded by a script on the home page.
+
+**Rebuilding the simulator page** after changing anything in `simulator/`:
+
+```
+cd simulator && node tools/build-page.js && cd .. && node tools/wrap-simulator.js
+```
+
+`build-page.js` needs the `marked` package for the built-in guide. `wrap-simulator.js` adds the site header, intro and footer; it refuses to run twice on the same build. The simulator's own tests, review and README are in `simulator/`.
 
 ## The interactive tool
 
@@ -67,11 +73,13 @@ September 2026: diquat values corrected after expert review. An earlier version
 paired mismatched studies and ranked diquat last.
 
 October 2026: Data-gap count updated from 13 to 15 of 52 after published
-Anabaena values for endothall and diquat were added.
+Anabaena values for endothall and diquat were added. Thiazole amide (compound 10)
+vs. Microcystis corrected from 0.08 to 1.51 mg/L; the earlier value belonged to a
+different organism in the same study table.
 
 ## Deploying
 
-GitHub Pages, from the `main` branch, root folder. No build step required.
+Netlify, from the `main` branch, root folder. No build step on Netlify: commit the built pages.
 
 ## Authors
 

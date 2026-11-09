@@ -1,0 +1,1249 @@
+{
+  "version": "0.1.0-phase1",
+  "paramsVersion": "2026-10-19",
+  "dtHours": 0.05,
+  "runDays": 14,
+  "recEvery": 20,
+  "params": {
+    "r_meanmax": {
+      "v": 0.4,
+      "lo": 0.3,
+      "hi": 0.5,
+      "dist": "uniform",
+      "sample": true,
+      "units": "mean depth ÷ max depth",
+      "status": "ESTIMATE",
+      "src": "seekell2021",
+      "note": "Measured lake ratios average about 0.41 across the whole Seekell et al. 2021 dataset; dug ponds run steeper. (Until Nov 8, 2026 this note also gave 0.34 \"global\", which is not in that paper.)"
+    },
+    "h_mix": {
+      "v": 1,
+      "lo": 0.5,
+      "hi": 1.5,
+      "dist": "uniform",
+      "sample": true,
+      "units": "m",
+      "status": "ESTIMATE",
+      "src": "holgerson2022",
+      "note": "Depth of the warm top layer on a calm warm afternoon or in a summer-layered pond. No NC measurements found."
+    },
+    "strat_depth": {
+      "v": 2,
+      "units": "m",
+      "status": "SOURCED",
+      "src": "holgerson2022",
+      "note": "Ponds under 4.17 ha and deeper than 2 m were \"rarely mixed\" in summer."
+    },
+    "strat_area": {
+      "v": 4.17,
+      "units": "ha",
+      "status": "SOURCED",
+      "src": "holgerson2022"
+    },
+    "h2o2_dinst": {
+      "v": 0.4,
+      "lo": 0.1,
+      "hi": 1.2,
+      "dist": "uniform",
+      "sample": true,
+      "units": "mg/L",
+      "status": "SOURCED range, ESTIMATE centre",
+      "src": "weenink2015",
+      "note": "Instant demand \"typically 0.1 up to 1.2 mg/L\"; the upper end fits scums."
+    },
+    "h2o2_kab": {
+      "v": 0.01,
+      "lo": 0.002,
+      "hi": 0.04,
+      "dist": "log",
+      "sample": true,
+      "units": "1/h",
+      "status": "SOURCED range",
+      "src": "marsico2015",
+      "note": "Background loss with little biomass."
+    },
+    "h2o2_b": {
+      "v": 0.002,
+      "lo": 0.001,
+      "hi": 0.004,
+      "dist": "uniform",
+      "sample": true,
+      "units": "L/(µg chlorophyll·h)",
+      "status": "ESTIMATE",
+      "src": "blueprint",
+      "note": "No published slope of decay rate against chlorophyll was found. First number to measure."
+    },
+    "h2o2_theta": {
+      "v": 1.078,
+      "units": "per °C",
+      "status": "SOURCED",
+      "src": "pedersen2019",
+      "note": "Measured in aquaculture water."
+    },
+    "h2o2_o2": {
+      "v": 0.47,
+      "units": "g O2 per g H2O2",
+      "status": "DERIVED",
+      "src": "blueprint",
+      "note": "2 H2O2 → 2 H2O + O2."
+    },
+    "perc_alk": {
+      "v": 1.96,
+      "units": "mg/L CaCO3 per mg/L H2O2",
+      "status": "DERIVED",
+      "src": "solvay",
+      "note": "Na2CO3·1.5H2O2 stoichiometry."
+    },
+    "perc_dic": {
+      "v": 0.0196,
+      "units": "mmol/L DIC per mg/L H2O2",
+      "status": "DERIVED",
+      "src": "solvay"
+    },
+    "pK1": {
+      "v": 6.35,
+      "units": "",
+      "status": "ESTIMATE",
+      "src": "blueprint",
+      "note": "25 °C. Standard value, citation pending. (Labelled SOURCED until Nov 8, 2026, but cited only to the project notes.)"
+    },
+    "pK2": {
+      "v": 10.33,
+      "units": "",
+      "status": "ESTIMATE",
+      "src": "blueprint",
+      "note": "25 °C. Standard value, citation pending. (Labelled SOURCED until Nov 8, 2026, but cited only to the project notes.)"
+    },
+    "ph_amp_low": {
+      "v": 0.3,
+      "lo": 0.2,
+      "hi": 0.4,
+      "dist": "uniform",
+      "sample": true,
+      "units": "pH units",
+      "status": "ESTIMATE",
+      "src": "blueprint",
+      "note": "Afternoon rise above morning pH with little bloom (under 10 µg/L chlorophyll)."
+    },
+    "ph_amp_mod": {
+      "v": 0.75,
+      "lo": 0.5,
+      "hi": 1,
+      "dist": "uniform",
+      "sample": true,
+      "units": "pH units",
+      "status": "ESTIMATE",
+      "src": "marpleph",
+      "note": "Ponds averaged 0.5-0.9 units higher in the afternoon."
+    },
+    "ph_amp_soft": {
+      "v": 2,
+      "lo": 1.5,
+      "hi": 2.5,
+      "dist": "uniform",
+      "sample": true,
+      "units": "pH units",
+      "status": "ESTIMATE",
+      "src": "sandrini2016",
+      "note": "Dense bloom in soft water (alkalinity under 50)."
+    },
+    "ph_amp_hard": {
+      "v": 1.1,
+      "lo": 0.75,
+      "hi": 1.5,
+      "dist": "uniform",
+      "sample": true,
+      "units": "pH units",
+      "status": "ESTIMATE",
+      "src": "blueprint",
+      "note": "Dense bloom, alkalinity 50 or more (buffered)."
+    },
+    "ph_cap": {
+      "v": 10.4,
+      "units": "pH",
+      "status": "ESTIMATE",
+      "src": "sandrini2016",
+      "note": "A bloom lake reached 10.3."
+    },
+    "sunrise": {
+      "v": 6.5,
+      "units": "hour",
+      "status": "ESTIMATE",
+      "src": "blueprint",
+      "note": "NC summer."
+    },
+    "daylength": {
+      "v": 13.5,
+      "units": "h",
+      "status": "ESTIMATE",
+      "src": "blueprint"
+    },
+    "cu_k78": {
+      "v": 0.761,
+      "units": "1/day at 26.8 °C, alkalinity 78",
+      "status": "DERIVED",
+      "src": "marple2001",
+      "note": "Free copper fell 53-58% per day at 26.8 °C. The paper prints mg/L; values must be µg/L."
+    },
+    "cu_alkslope": {
+      "v": 0.0018,
+      "units": "1/day per mg/L alkalinity",
+      "status": "DERIVED",
+      "src": "marple2001",
+      "note": "Valid for alkalinity 78-132 mg/L only."
+    },
+    "cu_theta": {
+      "v": 1.09,
+      "units": "per °C",
+      "status": "DERIVED",
+      "src": "marple2001"
+    },
+    "cu_u": {
+      "v": 0.5,
+      "lo": 0,
+      "hi": 1,
+      "dist": "uniform",
+      "sample": true,
+      "units": "",
+      "status": "ESTIMATE",
+      "src": "blueprint",
+      "note": "Uncertainty multiplier: 0.85-1.15 inside Marple's alkalinity range, 0.5-1.5 outside it."
+    },
+    "cu_free7": {
+      "v": 0.028,
+      "units": "mg/L at pH 7",
+      "status": "SOURCED",
+      "src": "boyd2005",
+      "note": "Ceiling on the free copper ion only; falls 100-fold per pH unit."
+    },
+    "cu_hard_slope": {
+      "v": 0.9422,
+      "units": "exponent on hardness",
+      "status": "SOURCED",
+      "src": "cfr131_38",
+      "note": "US EPA hardness slope for acute copper toxicity to freshwater animals. Effect levels for fish and water fleas are scaled by (pond hardness ÷ test hardness) to this power."
+    },
+    "cu_test_hard": {
+      "v": 100,
+      "units": "mg/L as CaCO₃",
+      "status": "ESTIMATE",
+      "src": "ecotox",
+      "note": "Hardness of the lab water behind the fish and water-flea copper values. They are geometric means of ECOTOX tests whose hardness the CyanoSelect matrix does not record. If the tests averaged 50 or 250 instead, every copper margin for animals shifts by about 0.5× or 2.4×."
+    },
+    "hard_per_alk": {
+      "v": 1,
+      "units": "hardness ÷ alkalinity",
+      "status": "ESTIMATE",
+      "src": "blueprint",
+      "note": "Used only when no hardness is entered. Many ponds have hardness close to alkalinity, but not all; a hardness test kit settles it."
+    },
+    "cuchel_k": {
+      "v": 0.23,
+      "lo": 0.1,
+      "hi": 0.7,
+      "dist": "log",
+      "sample": true,
+      "units": "1/day",
+      "status": "ESTIMATE",
+      "src": "calomeni2017",
+      "note": "Lab sediment binding half-life about 3 days. Field loss was faster, mostly from dilution."
+    },
+    "dq_tss": {
+      "v": 1.5,
+      "lo": 1,
+      "hi": 2,
+      "dist": "uniform",
+      "sample": true,
+      "units": "mg/L solids per NTU",
+      "status": "ESTIMATE",
+      "src": "blueprint",
+      "note": "No standard conversion exists; mineral turbidity under 40 NTU only."
+    },
+    "dq_cec_typ": {
+      "v": 0.35,
+      "units": "meq/g",
+      "status": "SOURCED",
+      "src": "poovey2002",
+      "note": "Field sediment, CEC 35 meq/100 g."
+    },
+    "dq_cec_swell": {
+      "v": 1,
+      "units": "meq/g",
+      "status": "SOURCED",
+      "src": "poovey2002",
+      "note": "Bentonite, CEC 100 meq/100 g."
+    },
+    "dq_cec_unk": {
+      "v": 0.5,
+      "lo": 0.2,
+      "hi": 1,
+      "dist": "uniform",
+      "sample": true,
+      "units": "meq/g",
+      "status": "ESTIMATE",
+      "src": "poovey2002"
+    },
+    "dq_mgmeq": {
+      "v": 92.1,
+      "units": "mg diquat per meq",
+      "status": "DERIVED",
+      "src": "blueprint",
+      "note": "Cation weight 184.2 ÷ charge 2."
+    },
+    "dq_ksorb": {
+      "v": 6,
+      "lo": 1,
+      "hi": 30,
+      "dist": "log",
+      "sample": true,
+      "units": "1/h (per unit of free binding room)",
+      "status": "ESTIMATE",
+      "src": "poovey2002",
+      "note": "How fast suspended clay takes up diquat. Poovey & Getsinger 2002 cite a calcium bentonite binding to capacity within about 10 minutes (Faust & Zarins 1969); in their own bentonite tanks diquat was already near its 3-hour level at the first sample, 6 minutes in."
+    },
+    "dq_access": {
+      "v": 0.6,
+      "lo": 0.3,
+      "hi": 1,
+      "dist": "uniform",
+      "sample": true,
+      "units": "share of the clay's exchange capacity",
+      "status": "ESTIMATE",
+      "src": "poovey2002",
+      "note": "Poovey & Getsinger 2002 still measured about 0.35-0.45 mg/L diquat in the water after 3 hours at 15-50 NTU of bentonite, where the full exchange capacity would have bound it all. Their clear-water control tanks lost diquat too, so the data can't pin this down closely."
+    },
+    "dq_kwc": {
+      "v": 0.5,
+      "lo": 0.35,
+      "hi": 0.7,
+      "dist": "uniform",
+      "sample": true,
+      "units": "1/day",
+      "status": "SOURCED range",
+      "src": "wilsonwu2012",
+      "note": "Pond water-column half-lives of 1-2 days."
+    },
+    "en_lag": {
+      "v": 7,
+      "lo": 5,
+      "hi": 11,
+      "dist": "uniform",
+      "sample": true,
+      "units": "days",
+      "status": "SOURCED",
+      "src": "islam2018",
+      "note": "Breakdown starts after a 5-11 day lag, and only with sediment microbes."
+    },
+    "en_kslow": {
+      "v": 0.015,
+      "lo": 0,
+      "hi": 0.03,
+      "dist": "uniform",
+      "sample": true,
+      "units": "1/day",
+      "status": "ESTIMATE",
+      "src": "blueprint"
+    },
+    "en_kbio": {
+      "v": 0.45,
+      "lo": 0.3,
+      "hi": 0.6,
+      "dist": "uniform",
+      "sample": true,
+      "units": "1/day at 20 °C",
+      "status": "DERIVED",
+      "src": "islam2018"
+    },
+    "en_theta": {
+      "v": 1.07,
+      "units": "per °C",
+      "status": "ESTIMATE",
+      "src": "blueprint",
+      "note": "No measured temperature effect found."
+    },
+    "fl_k0": {
+      "v": 0.0067,
+      "units": "1/h",
+      "status": "DERIVED",
+      "src": "jmpr2015"
+    },
+    "fl_koh": {
+      "v": 224000,
+      "units": "1/h per mol/L OH-",
+      "status": "DERIVED",
+      "src": "jmpr2015",
+      "note": "Reproduces half-lives of about 24 h at pH 7 and 6 min at pH 9.5."
+    },
+    "kd": {
+      "v": 0.45,
+      "lo": 0.1,
+      "hi": 2,
+      "dist": "log",
+      "sample": true,
+      "units": "1/h",
+      "status": "ESTIMATE",
+      "src": "piel2020",
+      "note": "Damage rate. Set from the hours-scale collapse in peroxide studies; no fitted value exists for any pair."
+    },
+    "z_frac": {
+      "v": 0.25,
+      "lo": 0,
+      "hi": 0.5,
+      "dist": "uniform",
+      "sample": true,
+      "units": "× EC50",
+      "status": "ESTIMATE",
+      "src": "blueprint",
+      "note": "Damage threshold below which nothing happens."
+    },
+    "ec50_sd": {
+      "v": 0.3,
+      "units": "log10 units",
+      "status": "ESTIMATE",
+      "src": "blueprint",
+      "note": "Spread between strains and species (0.2-0.4 suggested). Sampled as a log-normal multiplier."
+    },
+    "ec50_z": {
+      "v": 0,
+      "lo": 0,
+      "hi": 1,
+      "dist": "normal01",
+      "sample": true,
+      "units": "standard normal draw",
+      "status": "ESTIMATE",
+      "src": "blueprint"
+    },
+    "hill_b": {
+      "v": 2,
+      "units": "",
+      "status": "ESTIMATE",
+      "src": "blueprint",
+      "note": "Used only by the comparison models (no slope was found for any pair)."
+    },
+    "kill_struct": {
+      "v": 0.75,
+      "lo": 0,
+      "hi": 1,
+      "dist": "uniform",
+      "sample": false,
+      "units": "below 0.5 = stochastic death (SD), else individual tolerance (IT)",
+      "status": "ESTIMATE",
+      "src": "weenink2022",
+      "note": "The central run uses IT because it comes closer to the one field check than SD: for the Oosterduinse Meer peroxide treatment, where Microcystis biovolume fell 35.9%, central IT predicts about 15% and SD about 2%. Both likely underpredict short pulses. Every uncertainty run uses IT; SD is shown as its own scenario (until Oct 21, 2026 half the runs used SD)."
+    },
+    "lab_k": {
+      "v": 0.46,
+      "lo": 0.1,
+      "hi": 2,
+      "dist": "log",
+      "sample": true,
+      "units": "1/h",
+      "status": "ESTIMATE",
+      "src": "weenink2015",
+      "note": "How fast peroxide faded in the lab tests behind the peroxide EC50s (Weenink 2022 dosed once and measured only at the start). Centre: the apparent rate Weenink 2015 saw for 2.5 mg/L in diluted lake water (down to 0.4 mg/L in 4 h). Dense cultures could be faster."
+    },
+    "it_beta": {
+      "v": 2,
+      "lo": 1,
+      "hi": 4,
+      "dist": "uniform",
+      "sample": true,
+      "units": "",
+      "status": "ESTIMATE",
+      "src": "blueprint",
+      "note": "Spread of tolerance between cells (IT model)."
+    },
+    "mc_low": {
+      "v": 0.05,
+      "units": "µg MC per µg chlorophyll",
+      "status": "ESTIMATE",
+      "src": "blueprint"
+    },
+    "mc_typ": {
+      "v": 0.4,
+      "units": "µg MC per µg chlorophyll",
+      "status": "ESTIMATE",
+      "src": "blueprint",
+      "note": "20 µg/L toxin ÷ 50 µg/L chlorophyll, the pairing in the WHO (2003) recreational guidance categories. Standard value, citation pending: WHO 2003 could not be opened to check it, and WHO 2020 (cited until Nov 8, 2026) is not where the pairing comes from."
+    },
+    "mc_worst": {
+      "v": 1,
+      "units": "µg MC per µg chlorophyll",
+      "status": "SOURCED",
+      "src": "who2020",
+      "note": "WHO worst-case conversion."
+    },
+    "mc_fext": {
+      "v": 0.05,
+      "lo": 0.01,
+      "hi": 0.1,
+      "dist": "uniform",
+      "sample": true,
+      "units": "fraction",
+      "status": "SOURCED range",
+      "src": "who2020",
+      "note": "Dissolved MC is \"typically\" under 10% of the total."
+    },
+    "mc_krel": {
+      "v": 1,
+      "lo": 0.5,
+      "hi": 1.5,
+      "dist": "uniform",
+      "sample": true,
+      "units": "1/day",
+      "status": "ESTIMATE",
+      "src": "greenstein2020",
+      "note": "Rate damaged cells leak toxin and become dead biomass."
+    },
+    "mc_lag": {
+      "v": 3,
+      "lo": 0,
+      "hi": 7,
+      "dist": "uniform",
+      "sample": true,
+      "units": "days",
+      "status": "SOURCED range",
+      "src": "welgamage2012",
+      "note": "Bacteria need about 3 days to start; no lag in ponds with a bloom history."
+    },
+    "mc_kbio": {
+      "v": 0.46,
+      "lo": 0.155,
+      "hi": 1,
+      "dist": "log",
+      "sample": true,
+      "units": "1/day",
+      "status": "SOURCED upper end, ESTIMATE rest",
+      "src": "christoffersen2002",
+      "note": "Christoffersen et al. 2002 measured 0.485-1.057 per day (half-lives around 1 day), with no lag. The slower end used here (0.155 per day, a 4.5-day half-life) and the centre are not from that paper. (Relabelled from SOURCED range on Nov 8, 2026.)"
+    },
+    "mc_cu_slow": {
+      "v": 0.1,
+      "units": "multiplier when dissolved Cu > 1 mg/L",
+      "status": "SOURCED",
+      "src": "iwinski2017",
+      "note": "5 mg Cu/L cut biodegradation about tenfold; 1 mg/L or less had no significant effect. The study tested 1 and 5 mg/L only, so switching at 1 mg/L is an extrapolation."
+    },
+    "mc_photo": {
+      "v": 105,
+      "lo": 90,
+      "hi": 120,
+      "dist": "uniform",
+      "sample": true,
+      "units": "days of half-life per metre depth",
+      "status": "SOURCED",
+      "src": "welker2000"
+    },
+    "thetaC": {
+      "v": 30,
+      "lo": 20,
+      "hi": 60,
+      "dist": "uniform",
+      "sample": true,
+      "units": "g C per g chlorophyll",
+      "status": "ESTIMATE",
+      "src": "geider1987"
+    },
+    "kd20": {
+      "v": 0.2,
+      "lo": 0.1,
+      "hi": 0.5,
+      "dist": "log",
+      "sample": true,
+      "units": "1/day at 20 °C",
+      "status": "ESTIMATE",
+      "src": "blueprint",
+      "note": "Decay of dead bloom biomass; not verified for cyanobacteria."
+    },
+    "kd_theta": {
+      "v": 1.047,
+      "units": "per °C",
+      "status": "ESTIMATE",
+      "src": "blueprint",
+      "note": "Conventional BOD value, not verified."
+    },
+    "rOC": {
+      "v": 2.67,
+      "lo": 2.67,
+      "hi": 3.47,
+      "dist": "uniform",
+      "sample": true,
+      "units": "g O2 per g C",
+      "status": "SOURCED",
+      "src": "redfield",
+      "note": "2.67 for carbon only, 3.47 with full nitrification."
+    },
+    "sod20": {
+      "v": 1,
+      "lo": 0.5,
+      "hi": 1.8,
+      "dist": "uniform",
+      "sample": true,
+      "units": "g O2/m²/day at 20 °C",
+      "status": "SOURCED centre, ESTIMATE range",
+      "src": "hammermeister1982",
+      "note": "Summer means corrected to 20 °C were 1.01 and 1.11. The 1.8 upper end is the highest single reading at the water's own temperature, and 0.5 is not from the paper. (Relabelled from SOURCED range on Nov 8, 2026.)"
+    },
+    "sod_theta": {
+      "v": 1.065,
+      "units": "per °C",
+      "status": "ESTIMATE",
+      "src": "blueprint"
+    },
+    "k600_a": {
+      "v": 2.07,
+      "units": "cm/h",
+      "status": "SOURCED",
+      "src": "colecaraco1998"
+    },
+    "k600_b": {
+      "v": 0.215,
+      "units": "cm/h",
+      "status": "SOURCED",
+      "src": "colecaraco1998"
+    },
+    "k600_c": {
+      "v": 1.7,
+      "units": "exponent on wind (m/s)",
+      "status": "SOURCED",
+      "src": "colecaraco1998"
+    },
+    "pmax_chl": {
+      "v": 4.5,
+      "lo": 2,
+      "hi": 9,
+      "dist": "log",
+      "sample": true,
+      "units": "mg C per mg chlorophyll per hour at 25 °C, in bright light",
+      "status": "ESTIMATE",
+      "src": "behrenfeld1997",
+      "note": "Median of a large ocean dataset; not measured for pond cyanobacteria."
+    },
+    "met_theta": {
+      "v": 1.066,
+      "units": "per °C",
+      "status": "SOURCED",
+      "src": "eppley1972",
+      "note": "Photosynthesis and breathing scaled from 25 °C."
+    },
+    "ik_sw": {
+      "v": 75,
+      "lo": 35,
+      "hi": 150,
+      "dist": "log",
+      "sample": true,
+      "units": "W/m² of sunlight",
+      "status": "ESTIMATE",
+      "src": "blueprint",
+      "note": "Light at which photosynthesis is half its maximum (about 150 µmol photons/m²/s of PAR)."
+    },
+    "resp_frac": {
+      "v": 0.1,
+      "lo": 0.05,
+      "hi": 0.2,
+      "dist": "uniform",
+      "sample": true,
+      "units": "× the maximum photosynthesis rate",
+      "status": "ESTIMATE",
+      "src": "blueprint",
+      "note": "Breathing of the living bloom, day and night."
+    },
+    "ro_live": {
+      "v": 0.5,
+      "lo": 0,
+      "hi": 1,
+      "dist": "uniform",
+      "sample": true,
+      "units": "share",
+      "status": "ESTIMATE",
+      "src": "blueprint",
+      "note": "How much of the pond's other breathing (bacteria, animals) falls when the bloom is knocked down: 0 = keeps going as before, 1 = falls with the live bloom. Its food is partly the bloom's daily output, partly older organic matter."
+    },
+    "pq": {
+      "v": 1.2,
+      "lo": 1,
+      "hi": 1.4,
+      "dist": "uniform",
+      "sample": true,
+      "units": "mol O₂ per mol C fixed",
+      "status": "ESTIMATE",
+      "src": "blueprint",
+      "note": "Photosynthetic quotient; breathing uses 1."
+    }
+  },
+  "sources": {
+    "weenink2022": {
+      "label": "Weenink et al. 2022, Water Research",
+      "url": "https://doi.org/10.1016/j.watres.2022.119169"
+    },
+    "behrenfeld1997": {
+      "label": "Behrenfeld & Falkowski 1997, Limnology and Oceanography 42 (light-saturated photosynthesis per unit chlorophyll; median 4.5 mg C per mg chlorophyll per hour)",
+      "url": "https://frouingroup.ucsd.edu/Most_recent_figs/Refs/Beherenfeld-LO-1997a.pdf"
+    },
+    "eppley1972": {
+      "label": "Eppley 1972, Fishery Bulletin 70 (phytoplankton rates rise about 1.07× per °C)",
+      "url": ""
+    },
+    "weenink2015": {
+      "label": "Weenink et al. 2015, Frontiers in Microbiology",
+      "url": "https://doi.org/10.3389/fmicb.2015.00714"
+    },
+    "marsico2015": {
+      "label": "Marsico et al. 2015, Aquatic Sciences",
+      "url": "https://doi.org/10.1007/s00027-015-0399-2"
+    },
+    "pedersen2019": {
+      "label": "Pedersen et al. 2019 (H2O2 decomposition, aquaculture water)",
+      "url": "http://hdl.handle.net/11250/2629609"
+    },
+    "drabkova2007": {
+      "label": "Drábková et al. 2007, Photosynthetica",
+      "url": "https://ps.ueb.cas.cz/pdfs/phs/2007/03/07.pdf"
+    },
+    "piel2020": {
+      "label": "Piel et al. 2020, Toxins",
+      "url": "https://www.mdpi.com/2072-6651/12/1/18"
+    },
+    "solvay": {
+      "label": "Solvay sodium percarbonate data sheet (stoichiometry DERIVED)",
+      "url": "https://www.solvay.com/sites/g/files/srpend221/files/tridion/documents/PDS-Oxyper_SCM_201301.pdf"
+    },
+    "marple2001": {
+      "label": "Marple et al. 2001, SEAFWA proceedings (copper in ponds)",
+      "url": "https://seafwa.org/sites/default/files/journal-articles/Marple-235-242.pdf"
+    },
+    "boyd2005": {
+      "label": "Boyd 2005, Global Seafood Alliance (copper treatments)",
+      "url": "https://www.globalseafood.org/advocate/copper-treatments-control-phytoplankton/"
+    },
+    "calomeni2017": {
+      "label": "Calomeni et al. 2017, Water Air Soil Pollution",
+      "url": "https://doi.org/10.1007/s11270-017-3634-8"
+    },
+    "calomeni2014": {
+      "label": "Calomeni et al. 2014, Water Air Soil Pollution",
+      "url": "https://doi.org/10.1007/s11270-014-2231-3"
+    },
+    "tsai2016": {
+      "label": "Tsai 2016, Water Air Soil Pollution",
+      "url": "https://doi.org/10.1007/s11270-016-2926-8"
+    },
+    "kinley2017": {
+      "label": "Kinley et al. 2017, Ecotoxicology and Environmental Safety 145:591-596",
+      "url": "https://doi.org/10.1016/j.ecoenv.2017.08.010"
+    },
+    "ecotox": {
+      "label": "US EPA ECOTOX Knowledgebase (accessed 2026-06-11)",
+      "url": "https://cfpub.epa.gov/ecotox/"
+    },
+    "poovey2002": {
+      "label": "Poovey & Getsinger 2002, J. Aquatic Plant Management",
+      "url": "https://apms.org/wp-content/uploads/japm-40-01-006.pdf"
+    },
+    "wilsonwu2012": {
+      "label": "Wilson & Wu 2012, UF/IFAS EDIS (diquat)",
+      "url": "https://journals.flvc.org/edis/article/download/120226/118459/178736"
+    },
+    "peterson1997": {
+      "label": "Peterson et al. 1997, Aquatic Toxicology",
+      "url": "https://doi.org/10.1016/S0166-445X(97)00022-2"
+    },
+    "islam2018": {
+      "label": "Islam et al. 2018, IJERPH (endothall)",
+      "url": "https://doi.org/10.3390/ijerph15102255"
+    },
+    "epa2015endothall": {
+      "label": "US EPA 2015, Endothall Problem Formulation (EPA-HQ-OPP-2015-0591-0011)",
+      "url": "https://www.regulations.gov/document/EPA-HQ-OPP-2015-0591-0011"
+    },
+    "jmpr2015": {
+      "label": "FAO/WHO JMPR 2015, Flumioxazin evaluation",
+      "url": "https://fao.org/fileadmin/templates/agphome/documents/Pests_Pesticides/JMPR/Evaluation2015/FLUMIOXAZIN__284_.pdf"
+    },
+    "epa2003flum": {
+      "label": "US EPA EFED 2003, Flumioxazin risk assessment (PC 129034)",
+      "url": "https://www.epa.gov/pesticides"
+    },
+    "barrick2026": {
+      "label": "Barrick et al. 2026, Environ. Toxicol. Chem. 45(6):1681 (abstract)",
+      "url": "https://doi.org/10.1093/etojnl/vgag090"
+    },
+    "marpleph": {
+      "label": "Marple et al. 2001 (daily pH swing in ponds)",
+      "url": "https://seafwa.org/sites/default/files/journal-articles/Marple-235-242.pdf"
+    },
+    "sandrini2016": {
+      "label": "Sandrini et al. 2016, Frontiers in Microbiology",
+      "url": "https://doi.org/10.3389/fmicb.2016.00551"
+    },
+    "holgerson2022": {
+      "label": "Holgerson et al. 2022 (34-pond mixing study)",
+      "url": "https://par.nsf.gov/servlets/purl/10389640"
+    },
+    "seekell2021": {
+      "label": "Seekell et al. 2021, GRL (mean:max depth)",
+      "url": "https://nora.nerc.ac.uk/id/eprint/532159/"
+    },
+    "who2020": {
+      "label": "WHO 2020, Microcystins background document",
+      "url": "https://cdn.who.int/media/docs/default-source/wash-documents/wash-chemicals/microcystins-background-201223.pdf"
+    },
+    "epa2019rec": {
+      "label": "US EPA 2019 recreational criteria fact sheet",
+      "url": "https://19january2021snapshot.epa.gov/sites/static/files/2019-05/documents/hh-rec-criteria-habs-factsheet-2019.pdf"
+    },
+    "farrer2015": {
+      "label": "Farrer et al. 2015, Toxins (Oregon dog values)",
+      "url": "https://www.mdpi.com/2072-6651/7/2/457/html"
+    },
+    "christoffersen2002": {
+      "label": "Christoffersen et al. 2002, Aquatic Microbial Ecology",
+      "url": "https://int-res.com/abstracts/ame/v27/n2/p125-136"
+    },
+    "greenstein2020": {
+      "label": "Greenstein et al. 2020, Toxins",
+      "url": "https://www.mdpi.com/2072-6651/12/5/335"
+    },
+    "kinley2018": {
+      "label": "Kinley et al. 2018, Water Air Soil Pollution",
+      "url": "https://agris.fao.org/search/en/records/65e012867c7033e84bf0102e"
+    },
+    "iwinski2017": {
+      "label": "Iwinski et al. 2017 (copper and MC biodegradation)",
+      "url": "https://agris.fao.org/search/en/records/65e002ca4c5aef494fe78e93"
+    },
+    "welker2000": {
+      "label": "Welker & Steinberg 2000 (MC photolysis)",
+      "url": "https://hero.epa.gov/hero/index.cfm/reference/details/reference_id/7441480"
+    },
+    "welgamage2012": {
+      "label": "Welgamage Don 2012 thesis (lag phase review)",
+      "url": "https://rgu-repository.worktribe.com/OutputFile/295544"
+    },
+    "spoof2020": {
+      "label": "Spoof et al. 2020, Toxins",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7048868"
+    },
+    "geider1987": {
+      "label": "Geider 1987, New Phytologist (carbon:chlorophyll)",
+      "url": "https://2021-phyto-phys.readthedocs.io/en/latest/_static/geider1987.pdf"
+    },
+    "redfield": {
+      "label": "Redfield stoichiometry (SOEST OCN623 handout)",
+      "url": "https://www.soest.hawaii.edu/oceanography/courses/OCN623/Spring2017/09_AerobicProdConsumpt2017_Handout.pdf"
+    },
+    "colecaraco1998": {
+      "label": "Cole & Caraco 1998, as implemented in LakeMetabolizer k.cole",
+      "url": "https://rdrr.io/cran/LakeMetabolizer/man/k.read.base.html"
+    },
+    "hammermeister1982": {
+      "label": "Hammermeister 1982 (sediment oxygen demand)",
+      "url": "https://minds.wisc.edu/items/707e9b09-c796-4190-802f-5e8ebc2493a4"
+    },
+    "perner2025": {
+      "label": "Perner et al. 2025, USGS (sediment oxygen demand)",
+      "url": "https://pubs.usgs.gov/publication/70273247"
+    },
+    "weiss1970": {
+      "label": "Weiss 1970 O2 solubility, as written in the TUFLOW FV WQ manual (Eq. D.5)",
+      "url": "https://docs.tuflow.com/fv/wqm/manual/2025.2/AtmosphericAeration-3.html"
+    },
+    "wanninkhof2014": {
+      "label": "Wanninkhof 2014, L&O Methods, freshwater O2 Schmidt number fit (coefficients not re-checked against the paper in this build)",
+      "url": "https://doi.org/10.4319/lom.2014.12.351"
+    },
+    "cfr131_38": {
+      "label": "40 CFR 131.38(b)(2), Table 1: freshwater copper criterion rises with hardness as exp(0.9422 ln(hardness) - 1.700)",
+      "url": "https://www.customsmobile.com/regulations/title40_chapterI-i26_part131_subpartD_section131.38"
+    },
+    "francisfloyd": {
+      "label": "Francis-Floyd, Dissolved oxygen for fish production (FA27)",
+      "url": "https://fisheries.tamu.edu/files/2013/09/Dissolved-Oxygen-for-Fish-Production1.pdf"
+    },
+    "blueprint": {
+      "label": "CyanoSelect simulator blueprint (Oct 2026), derived from the sources it cites",
+      "url": ""
+    }
+  },
+  "products": {
+    "h2o2_liquid": {
+      "name": "Hydrogen peroxide (liquid)",
+      "chem": "h2o2",
+      "unit": "mg/L H₂O₂",
+      "inputUnit": "mg/L",
+      "toMgL": 1,
+      "example": 3,
+      "granular": false
+    },
+    "h2o2_granular": {
+      "name": "Hydrogen peroxide granules (sodium carbonate peroxyhydrate)",
+      "chem": "h2o2",
+      "unit": "mg/L H₂O₂",
+      "inputUnit": "mg/L as H₂O₂",
+      "toMgL": 1,
+      "example": 3,
+      "granular": true
+    },
+    "copper_sulfate": {
+      "name": "Copper sulfate",
+      "chem": "cu_sulfate",
+      "unit": "mg/L Cu",
+      "inputUnit": "mg/L as Cu",
+      "toMgL": 1,
+      "example": 0.5
+    },
+    "copper_chelated": {
+      "name": "Chelated copper (copper ethanolamine)",
+      "chem": "cu_chelated",
+      "unit": "mg/L Cu",
+      "inputUnit": "mg/L as Cu",
+      "toMgL": 1,
+      "example": 0.5
+    },
+    "diquat": {
+      "name": "Diquat",
+      "chem": "diquat",
+      "unit": "mg/L",
+      "inputUnit": "mg/L",
+      "toMgL": 1,
+      "example": 0.2
+    },
+    "endothall": {
+      "name": "Endothall (dipotassium salt)",
+      "chem": "endothall",
+      "unit": "mg ae/L",
+      "inputUnit": "mg/L acid equivalent",
+      "toMgL": 1,
+      "example": 1.5
+    },
+    "flumioxazin": {
+      "name": "Flumioxazin",
+      "chem": "flumioxazin",
+      "unit": "mg/L",
+      "inputUnit": "µg/L",
+      "toMgL": 0.001,
+      "example": 200
+    }
+  },
+  "targets": {
+    "microcystis": {
+      "name": "Microcystis"
+    },
+    "planktothrix": {
+      "name": "Planktothrix"
+    },
+    "anabaena": {
+      "name": "Anabaena / Dolichospermum"
+    }
+  },
+  "targetEC50": {
+    "h2o2": {
+      "microcystis": {
+        "v": 2.62,
+        "T": 24,
+        "pulse": true,
+        "endpoint": "photosynthetic yield (Fv/Fm), one dose left to fade",
+        "src": "weenink2022"
+      },
+      "planktothrix": {
+        "v": 1.39,
+        "T": 24,
+        "pulse": true,
+        "endpoint": "photosynthetic yield (Fv/Fm), one dose left to fade",
+        "src": "weenink2022"
+      },
+      "anabaena": {
+        "v": 3.49,
+        "T": 24,
+        "pulse": true,
+        "endpoint": "photosynthetic yield (Fv/Fm), one dose left to fade",
+        "src": "weenink2022"
+      }
+    },
+    "cu_sulfate": {
+      "microcystis": {
+        "v": 0.063,
+        "T": 96,
+        "endpoint": "growth inhibition, 5×10⁵ cells/mL",
+        "src": "tsai2016"
+      },
+      "planktothrix": {
+        "v": 0.18,
+        "T": 96,
+        "endpoint": "growth inhibition",
+        "src": "calomeni2014"
+      },
+      "anabaena": {
+        "none": true,
+        "reason": "Copper inhibits Dolichospermum (Barrick et al. 2026 abstract), but the number is behind a paywall."
+      }
+    },
+    "cu_chelated": {
+      "microcystis": {
+        "v": 0.101,
+        "T": 96,
+        "endpoint": "growth inhibition",
+        "src": "tsai2016"
+      },
+      "planktothrix": {
+        "v": 0.1,
+        "T": 96,
+        "endpoint": "growth inhibition",
+        "src": "calomeni2014"
+      },
+      "anabaena": {
+        "none": true,
+        "reason": "No published Anabaena/Dolichospermum value found for chelated copper."
+      }
+    },
+    "diquat": {
+      "microcystis": {
+        "v": 0.101,
+        "T": 22,
+        "endpoint": "carbon-14 uptake (photosynthesis)",
+        "src": "peterson1997"
+      },
+      "planktothrix": {
+        "none": true,
+        "reason": "No published Planktothrix value found for diquat."
+      },
+      "anabaena": {
+        "v": 0.005,
+        "T": 22,
+        "endpoint": "carbon-14 uptake (photosynthesis); Anabaena inaequalis, a different species in the genus",
+        "src": "peterson1997"
+      }
+    },
+    "endothall": {
+      "microcystis": {
+        "none": true,
+        "reason": "Endothall was not among the effective Microcystis inhibitors in Barrick et al. 2026 (abstract)."
+      },
+      "planktothrix": {
+        "none": true,
+        "reason": "No published Planktothrix value found for endothall."
+      },
+      "anabaena": {
+        "v": 1.56,
+        "T": 120,
+        "endpoint": "growth rate, Anabaena flos-aquae, dipotassium salt (mg ae/L)",
+        "src": "epa2015endothall"
+      }
+    },
+    "flumioxazin": {
+      "microcystis": {
+        "none": true,
+        "reason": "Flumioxazin was not among the effective Microcystis inhibitors in Barrick et al. 2026 (abstract)."
+      },
+      "planktothrix": {
+        "none": true,
+        "reason": "No published Planktothrix value found for flumioxazin."
+      },
+      "anabaena": {
+        "v": 0.00083,
+        "T": 96,
+        "Tassumed": true,
+        "endpoint": "growth; species label and test length not yet verified (96 h assumed)",
+        "src": "epa2003flum"
+      }
+    }
+  },
+  "nonTarget": {
+    "h2o2": [
+      {
+        "who": "Green alga (Kirchneriella contorta)",
+        "v": 27.7,
+        "T": 24,
+        "pulse": true,
+        "endpoint": "photosynthetic yield, one dose left to fade",
+        "src": "weenink2022"
+      },
+      {
+        "who": "Green alga (Raphidocelis subcapitata)",
+        "v": 6.22,
+        "T": 3,
+        "endpoint": "photosynthetic yield, 3-h test",
+        "src": "drabkova2007"
+      },
+      {
+        "who": "Water flea (Daphnia magna)",
+        "v": 6.51,
+        "T": 24,
+        "pulse": true,
+        "endpoint": "death (LC50), one dose left to fade",
+        "src": "weenink2022"
+      },
+      {
+        "who": "Water flea (Ceriodaphnia dubia)",
+        "v": 2.2,
+        "T": 24,
+        "pulse": true,
+        "endpoint": "death (LC50), one dose left to fade",
+        "src": "weenink2022"
+      },
+      {
+        "who": "Fish",
+        "none": true,
+        "reason": "No fish value in the CyanoSelect matrix yet."
+      }
+    ],
+    "cu_sulfate": [
+      {
+        "who": "Green alga (Raphidocelis subcapitata)",
+        "v": 1.873,
+        "T": 96,
+        "endpoint": "growth, at 5×10⁵ cells/mL, the same density as the copper target value",
+        "src": "tsai2016",
+        "byTarget": {
+          "planktothrix": {
+            "v": 3,
+            "src": "calomeni2014"
+          }
+        }
+      },
+      {
+        "who": "Water flea (Daphnia magna)",
+        "v": 0.216,
+        "T": 48,
+        "hard": true,
+        "endpoint": "immobilization",
+        "src": "ecotox"
+      },
+      {
+        "who": "Fish",
+        "v": 0.317,
+        "T": 96,
+        "hard": true,
+        "endpoint": "death (LC50)",
+        "src": "ecotox"
+      }
+    ],
+    "cu_chelated": [
+      {
+        "who": "Green alga (Raphidocelis subcapitata)",
+        "v": 2.579,
+        "T": 96,
+        "endpoint": "growth, tested only at a dense 10⁶ cells/mL; sparse green algae are likely far more sensitive (about 10× for copper sulfate)",
+        "src": "tsai2016",
+        "byTarget": {
+          "planktothrix": {
+            "v": 1.18,
+            "src": "calomeni2014"
+          }
+        }
+      },
+      {
+        "who": "Water flea (Daphnia magna)",
+        "none": true,
+        "reason": "No value in the CyanoSelect matrix yet."
+      },
+      {
+        "who": "Fish",
+        "none": true,
+        "reason": "No value in the CyanoSelect matrix yet."
+      }
+    ],
+    "diquat": [
+      {
+        "who": "Green alga (Raphidocelis subcapitata)",
+        "v": 0.492,
+        "T": 22,
+        "endpoint": "carbon-14 uptake",
+        "src": "peterson1997"
+      },
+      {
+        "who": "Water flea (Daphnia magna)",
+        "v": 1.86,
+        "T": 48,
+        "endpoint": "immobilization",
+        "src": "ecotox"
+      },
+      {
+        "who": "Fish",
+        "v": 50.2,
+        "T": 96,
+        "endpoint": "death (LC50)",
+        "src": "ecotox"
+      }
+    ],
+    "endothall": [
+      {
+        "who": "Green alga (Raphidocelis subcapitata)",
+        "v": 7,
+        "censored": true,
+        "T": 120,
+        "endpoint": "growth; true value is above 7.0",
+        "src": "epa2015endothall"
+      },
+      {
+        "who": "Water flea (Daphnia magna)",
+        "v": 70.7,
+        "T": null,
+        "endpoint": "test length not stated",
+        "src": "epa2015endothall"
+      },
+      {
+        "who": "Fish (rainbow trout)",
+        "v": 9.152,
+        "T": null,
+        "endpoint": "test length not stated",
+        "src": "epa2015endothall"
+      }
+    ],
+    "flumioxazin": [
+      {
+        "who": "Green alga",
+        "v": 0.00102,
+        "T": null,
+        "endpoint": "species and test length to verify",
+        "src": "epa2003flum"
+      },
+      {
+        "who": "Water flea (Daphnia magna)",
+        "none": true,
+        "reason": "No value in the CyanoSelect matrix yet."
+      },
+      {
+        "who": "Fish",
+        "none": true,
+        "reason": "No value in the CyanoSelect matrix yet."
+      }
+    ]
+  },
+  "thresholds": {
+    "mc": [
+      {
+        "v": 0.2,
+        "label": "Dog caution (Oregon)",
+        "src": "farrer2015"
+      },
+      {
+        "v": 1,
+        "label": "WHO lifetime drinking water",
+        "src": "who2020"
+      },
+      {
+        "v": 8,
+        "label": "EPA swimming advisory",
+        "src": "epa2019rec"
+      },
+      {
+        "v": 24,
+        "label": "WHO recreational",
+        "src": "who2020"
+      }
+    ],
+    "dO": [
+      {
+        "v": 2,
+        "label": "Fish deaths likely below",
+        "src": "francisfloyd"
+      },
+      {
+        "v": 4,
+        "label": "Fish stress below",
+        "src": "francisfloyd"
+      }
+    ]
+  }
+}

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rank algae bloom treatments | CyanoSelect</title>
+<meta name="description" content="Rank algae bloom treatments against Microcystis by their weakest predicted margin for green algae, water fleas and fish, from published lab data. Runs in your browser.">
+<link rel="canonical" href="https://cyanoselect.org/rank/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Rank algae bloom treatments | CyanoSelect">
+<meta property="og:description" content="Rank algae bloom treatments against Microcystis by their weakest predicted margin for green algae, water fleas and fish, from published lab data. Runs in your browser.">
+<meta property="og:url" content="https://cyanoselect.org/rank/">
+<meta property="og:site_name" content="CyanoSelect">
+<meta property="og:image" content="https://cyanoselect.org/images/og-preview.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="CyanoSelect: rank algae bloom treatments by their predicted risk to non-target organisms.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Rank algae bloom treatments | CyanoSelect">
+<meta name="twitter:description" content="Rank algae bloom treatments against Microcystis by their weakest predicted margin for green algae, water fleas and fish, from published lab data. Runs in your browser.">
+<meta name="twitter:image" content="https://cyanoselect.org/images/og-preview.png">
+<meta name="theme-color" content="#0A4F54">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A4F54'/%3E%3Cpath d='M6 21c3-6 5-9 10-9s7 3 10 9' stroke='%2302C39A' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='10' r='2.6' fill='%2300A896'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/chrome.css">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+
+<a class="cs-skip" href="#main">Skip to content</a>
+<nav class="cs-nav" aria-label="Main">
+  <div class="cs-wrap cs-nav-in">
+    <a class="cs-brand" href="/">
+      <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true">
+        <rect width="32" height="32" rx="7" fill="#02C39A" opacity=".16"/>
+        <path d="M6 21c3-6 5-9 10-9s7 3 10 9" stroke="#02C39A" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+        <circle cx="16" cy="10" r="2.6" fill="#00A896"/>
+      </svg>
+      CyanoSelect
+    </a>
+    <div class="cs-links" id="csMenu">
+        <a href="/rank/" aria-current="page">Rank</a>
+        <a href="/simulator/">Simulator</a>
+        <a href="/how-it-works/">How it works</a>
+        <a href="/data/">Data</a>
+        <a href="/about/">About</a>
+    </div>
+    <button type="button" class="cs-toggle" id="csToggle" aria-expanded="false" aria-controls="csMenu" aria-label="Open menu">
+      <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+  </div>
+</nav>
+
+<main id="main">
+<header class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow">Rank treatments</p>
+    <h1>Which treatment spares the rest of the lake?</h1>
+    <p class="lede">Every treatment and predicted pair, scored against <em>Microcystis aeruginosa</em> on its predicted risk to green algae, water fleas and fish.</p>
+    <ol class="read-this">
+      <li>Each score is a <strong>selectivity index (SI)</strong>: the dose that harms a bystander divided by the dose that controls the bloom. Above 1, the bloom is hit first.</li>
+      <li>Treatments are ranked by their <strong>weakest</strong> bystander score (min-SI), never an average.</li>
+      <li>Pairs are predictions from Bliss independence, not lab results. <a href="/how-it-works/#ranking">The math, step by step</a>.</li>
+    </ol>
+  </div>
+</header>
+
+<section id="try">
+  <div class="wrap">
+    <div class="narrow reveal">
+      <p class="eyebrow">Try it yourself</p>
+      <h2>Run the ranking in your browser.</h2>
+      <p class="lede">The same math as the archived Python tool, running locally on this page, with the corrected diquat values. A selectivity index (SI) is a bystander EC50 divided by the bloom EC50; an EC50 is the dose that causes a 50% effect in a lab test. Change the metric, drop an axis, remove a treatment, and watch the ranking reorder.</p>
+    </div>
+
+    <div class="narrow notice reveal" role="note">
+      <p><strong>Important:</strong> This tool is for education and research. It is not a treatment recommendation. Registered products have undergone U.S. Environmental Protection Agency risk assessment, and the product label governs how they may be used. Consult a licensed aquatic applicator or your state agency before treating any water body.</p>
+    </div>
+
+    <div class="tool reveal">
+      <div class="controls">
+        <div class="ctrl ctrl-metric">
+          <p class="ctrl-label" id="lbl-metric">Rank by</p>
+          <div class="seg" role="radiogroup" aria-labelledby="lbl-metric">
+            <button type="button" class="seg-btn is-on" data-metric="min" role="radio" aria-checked="true">Worst axis (min-SI)</button>
+            <button type="button" class="seg-btn" data-metric="geo" role="radio" aria-checked="false">Geometric mean</button>
+          </div>
+        </div>
+
+        <div class="ctrl">
+          <p class="ctrl-label" id="lbl-axes">Non-target axes</p>
+          <div class="pills" id="axisPills" role="group" aria-labelledby="lbl-axes">
+            <label class="pill"><input type="checkbox" value="alga" checked><span>Green alga</span></label>
+            <label class="pill"><input type="checkbox" value="Daphnia" checked><span>Daphnia</span></label>
+            <label class="pill"><input type="checkbox" value="fish"><span>Fish</span></label>
+          </div>
+          <p class="ctrl-hint">Fish is off by default because that axis cannot be lab validated here.</p>
+        </div>
+
+        <div class="ctrl">
+          <p class="ctrl-label" id="lbl-tx">Treatments</p>
+          <div class="pills" id="txPills" role="group" aria-labelledby="lbl-tx">
+            <label class="pill"><input type="checkbox" value="Copper sulfate" checked><span>Copper sulfate</span></label>
+            <label class="pill"><input type="checkbox" value="Hydrogen peroxide" checked><span>Hydrogen peroxide</span></label>
+            <label class="pill"><input type="checkbox" value="Diquat dibromide" checked><span>Diquat dibromide</span></label>
+          </div>
+          <p class="ctrl-hint">Removing a treatment also removes every combination containing it.</p>
+        </div>
+
+        <div class="ctrl ctrl-data">
+          <p class="ctrl-label" id="lbl-data">Which published green-alga value for diquat?</p>
+          <div class="pills" id="dataPills" role="radiogroup" aria-labelledby="lbl-data">
+            <label class="pill"><input type="radio" name="diquatAlga" value="4.87" checked><span>Matched study: 0.492 mg/L (Peterson et al. 1997)</span></label>
+            <label class="pill"><input type="radio" name="diquatAlga" value="1.29"><span>Product data sheet: 0.13 mg/L (Reward, 72 h)</span></label>
+            <label class="pill"><input type="radio" name="diquatAlga" value="0.32"><span>EPA ECOTOX growth tests: 0.032 mg/L</span></label>
+          </div>
+          <p class="data-why">Same treatment, different published study, very different ranking. This is why matched data matters.</p>
+        </div>
+      </div>
+
+      <div class="table-scroll">
+        <table class="tool-table" id="toolTable">
+          <thead>
+            <tr>
+              <th scope="col">Rank</th>
+              <th scope="col">Treatment or combination</th>
+              <th scope="col" class="num" id="th-min">min-SI</th>
+              <th scope="col" class="num" id="th-geo">geo mean</th>
+              <th scope="col" class="peraxis">Per-axis SI</th>
+            </tr>
+          </thead>
+          <tbody id="toolBody" aria-live="polite"></tbody>
+        </table>
+      </div>
+
+      <p class="tier-note" id="tierNote" hidden>Entries are grouped by how many axes they were scored on. A treatment scored on more axes has more chances to hit a low worst axis, so ranks are only comparable inside a group.</p>
+      <p class="tool-empty" id="emptyMsg" hidden>Select at least one treatment and one axis to see a ranking.</p>
+      <p class="scroll-hint">Scroll the table sideways to see every column.</p>
+    </div>
+
+    <div class="narrow tool-notes reveal">
+      <p class="note-live" id="metricNote">Ranked by the weakest non-target axis. A treatment is only as selective as its worst link.</p>
+      <p>Under Bliss independence, each of a combination's scores falls between its two ingredients' scores. When two treatments are weak on different organisms, the combination's weakest score can end up higher than either one alone. With the matched diquat values, copper plus diquat does exactly that. Lab testing would show whether the prediction holds, or whether the pair interacts.</p>
+      <p class="note-muted">These are predictions from published data, not measurements. The Python implementation archived at the DOI is the citable reference for the method. The diquat values on this page were corrected in September 2026 and differ from the archived release.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band-panel" id="simulate">
+  <div class="wrap">
+    <div class="narrow">
+      <p class="eyebrow">Next step</p>
+      <h2>Simulate this treatment in your pond</h2>
+      <p class="lede">The ranking comes from lab tests. The simulator predicts what one treatment does in your pond, with your weather: where it goes, how much bloom it knocks down, and what happens to toxin and oxygen.</p>
+    </div>
+    <ul class="simlinks">
+      <li><a class="btn btn-solid" href="/simulator/?product=copper_sulfate">Copper sulfate</a></li>
+      <li><a class="btn btn-solid" href="/simulator/?product=h2o2_liquid">Hydrogen peroxide</a></li>
+      <li><a class="btn btn-solid" href="/simulator/?product=diquat">Diquat dibromide</a></li>
+    </ul>
+    <p class="note-muted">Pairs can't be simulated yet; the simulator follows one product at a time.</p>
+  </div>
+</section>
+
+<section id="limits-sec">
+  <div class="wrap">
+    <div class="accs">
+      <details class="acc" id="limits">
+        <summary><span class="acc-head"><span class="acc-k">Limitations</span><span class="acc-t">What this tool does not tell you.</span></span><svg class="acc-chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="acc-body">
+          <div class="narrow">
+            <p class="lede">Read this before using the output. Every item here is a constraint we can state precisely, which is the point: each one is testable, and the planned lab work is designed to test them.</p>
+          </div>
+
+          <div class="limits">
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
+              <div>
+                <h3>Predictions are not measurements.</h3>
+                <p>Every combination value in the ranking is a hypothesis generated under stated assumptions. None of the combinations has been measured in a lab. Validation is planned, and both agreement and disagreement with the predictions are reportable results.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 20h18M6 20V10M12 20V5M18 20v-7"/></svg>
+              <div>
+                <h3>The input data is sparse.</h3>
+                <p>The published literature contains comparable target-kill values for only a fraction of treatment and organism pairs. The rankings rest on relatively few fully scored treatments, so a single new measurement can move them.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+              <div>
+                <h3>Exposure durations do not always match.</h3>
+                <p>Some published values compare target and non-target toxicity measured over different exposure times and endpoints. Because the target value sits in the denominator of the index, a mismatch inflates apparent selectivity. Affected entries are flagged in the code.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="12" r="6"/><circle cx="15" cy="12" r="6"/></svg>
+              <div>
+                <h3>Bliss independence can be violated.</h3>
+                <p>The combination model assumes the two agents act independently. Agents that share a mechanism (copper and hydrogen peroxide both act partly through oxidative stress) may not. Where the lab disagrees with the prediction, that disagreement is the finding.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h6"/></svg>
+              <div>
+                <h3>It ranks by selectivity, not efficacy.</h3>
+                <p>A treatment can kill the target extremely well and still rank poorly here. That is intended behavior, not a bug. This tool answers one question (what is the predicted risk to non-target organisms) and should sit alongside efficacy, cost, and permitting, not replace them.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
+              <div>
+                <h3>Water chemistry changes toxicity.</h3>
+                <p>Toxicity varies with water chemistry. Copper in particular is far more toxic in soft, low-alkalinity water than in hard water.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
+              <div>
+                <h3>Strains differ.</h3>
+                <p><em>Microcystis</em> strains respond differently to the same product.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
+              <div>
+                <h3>Microcystis is not the only bloom organism.</h3>
+                <p>Other bloom organisms occur in North Carolina (for example <em>Euglena</em> and <em>Prymnesium</em>), and some treatments target green algae blooms instead.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
+              <div>
+                <h3>Copper products are not all alike.</h3>
+                <p>Chelated copper products are generally lower risk than copper sulfate. Copper is also toxic to mollusks, which this tool does not score.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
+              <div>
+                <h3>Lab water is not lake water.</h3>
+                <p>Lab values measured in clean water can differ substantially from values in natural water.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="cs-footer">
+  <div class="cs-wrap">
+    <p class="cs-disclaimer"><strong>Model predictions, not a treatment recommendation.</strong> CyanoSelect ranks treatments from published lab data and simulates ponds; none of its predictions has been tested in a real pond yet. Registered products have undergone risk assessment by the U.S. Environmental Protection Agency, and the product label governs how they may be used. Follow the label and your state's rules, and consult a licensed aquatic applicator or your state agency before treating any water body.</p>
+    <div class="cs-foot-grid">
+      <div>
+        <h2>CyanoSelect</h2>
+        <a href="/rank/">Rank treatments</a>
+        <a href="/simulator/">Simulate your pond</a>
+        <a href="/how-it-works/">How it works</a>
+        <a href="/data/">Data</a>
+        <a href="/about/">About</a>
+      </div>
+      <div>
+        <h2>Open source</h2>
+        <p>MIT license: free to use, modify and share, with attribution.</p>
+        <a href="https://doi.org/10.5281/zenodo.22135606">Archived release: doi.org/10.5281/zenodo.22135606</a>
+        <a href="https://github.com/arjunpendharkar/selectivity-tool">Tool and data on GitHub</a>
+        <a href="https://github.com/siddharthsanthosh1/selectivity-tool-web">Website source on GitHub</a>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <a href="mailto:siddharthsann@gmail.com">siddharthsann@gmail.com</a>
+        <a href="mailto:apandaharkar@gmail.com">apandaharkar@gmail.com</a>
+        <p>Or open an issue on either GitHub repository.</p>
+      </div>
+    </div>
+    <p class="cs-colophon">Built by Arjun Pendharkar and Siddharth Santhosh, Green Level High School, under the supervision of Dr. Bharathi Pandi. This site describes research tools whose predictions have not yet been validated in a laboratory or a real pond, and it is not guidance for treating a waterbody.</p>
+  </div>
+</footer>
+
+<script src="/assets/site.js"></script>
+<script src="/assets/rank.js"></script>
+<script data-goatcounter="https://cyanoselect.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

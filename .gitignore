@@ -24,3 +24,9 @@ package-lock.json
 *.log
 tmp/
 .cache/
+
+# Python caches (simulator/reference tests)
+__pycache__/
+
+# Local QA screenshots (not part of the site)
+review-screenshots/
