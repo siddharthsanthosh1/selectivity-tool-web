@@ -1,0 +1,53 @@
+<header class="page-hero ph-waves">
+  <div class="wrap">
+    <p class="eyebrow">Selectivity Tool · How it works</p>
+    <h1>The ranking math.</h1>
+    <p class="lede">The three formulas behind every score, taken from the code that runs the ranking.</p>
+  </div>
+  <svg class="hero-waves" viewBox="0 0 1440 130" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 74c180-40 300 26 480 10s300-58 480-40 300 62 480 34v52H0z" fill="#02C39A" opacity=".10"/>
+    <path d="M0 96c200-34 320 18 520 6s320-46 520-30 260 48 400 30v28H0z" fill="#00A896" opacity=".14"/>
+    <path d="M0 116c220-24 360 12 560 2s340-30 560-16 200 26 320 18v10H0z" fill="#EEF4F4"/>
+  </svg>
+</header>
+
+<!--CHAPTERS-->
+
+<section class="chapter">
+  <div class="wrap chapter-main">
+<article class="mcard" id="r-si">
+          <h3>The selectivity index</h3>
+          <p class="plain">How many times more product it takes to hit a bystander than to hit the bloom.</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ \mathrm{SI} = \frac{\mathrm{EC50}_{\text{bystander}}}{\mathrm{EC50}_{\text{bloom}}} \]</div>
+          <details class="symbols"><summary>What the symbols mean</summary><div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars"><thead><tr><th scope="col">Symbol</th><th scope="col">Meaning</th><th scope="col">Units</th></tr></thead><tbody>
+            <tr><td>\(\mathrm{EC50}\)</td><td>The concentration that causes a 50% effect in a lab test of a set length</td><td>mg/L</td></tr>
+            <tr><td>\(\mathrm{SI}\)</td><td>Above 1: the bloom is hit first. Below 1: the bystander responded at a lower dose, and the axis is flagged</td><td>none</td></tr>
+          </tbody></table></div></details>
+          <p class="src">Values from the CyanoSelect dataset of published lab tests (<a href="/data/">Data</a>). Label: the EC50s are SOURCED; each SI is DERIVED.</p>
+        </article>
+
+<article class="mcard" id="r-min">
+          <h3>Rank by the weakest margin, never the average</h3>
+          <p class="plain">A treatment is only as selective as its worst axis, so the headline score is the smallest of its three.</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ \text{min-SI} = \min\left(\mathrm{SI}_{\text{green alga}},\ \mathrm{SI}_{\text{water flea}},\ \mathrm{SI}_{\text{fish}}\right) \]</div>
+          <p>Averaging hides the trade-off. Copper is the clearest case: its green-alga score is 29.7 but its water-flea score is 3.4. A geometric mean puts copper near the top; the weakest axis shows the water flea is exposed. The <a href="/selectivity/">ranking tool</a> lets you switch between the two and watch the order change.</p>
+        </article>
+
+<article class="mcard" id="r-bliss">
+          <h3>Predicting pairs: Hill curves and Bliss independence</h3>
+          <p class="plain">Each product's effect rises along an S-shaped curve; two products acting independently add their effects, minus the overlap you would otherwise count twice.</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ E(c) = \frac{(c/\mathrm{EC50})^{n}}{1 + (c/\mathrm{EC50})^{n}}, \qquad n = 1 \]</div>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ E_{A+B} = E_A + E_B - E_A\,E_B \]</div>
+          <p><strong>Equipotent mixing.</strong> Each product in a pair is dosed at the same multiple \(s\) of its own bloom EC50. On the bloom, each then has an effect \(E(s; 1)\); on a bystander axis, product \(A\) has \(E(s; \mathrm{SI}_A)\). The pair's score on that axis is the dose that gives a 50% bystander effect divided by the dose that gives a 50% effect on the bloom:</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ \mathrm{SI}_{A+B} = \frac{s_{50}\big[\,E(s;\mathrm{SI}_A) + E(s;\mathrm{SI}_B) - E(s;\mathrm{SI}_A)\,E(s;\mathrm{SI}_B)\,\big]}{s_{50}\big[\,2E(s;1) - E(s;1)^2\,\big]}, \qquad E(s;R) = \frac{s/R}{1 + s/R} \]</div>
+          <details class="symbols"><summary>What the symbols mean</summary><div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars"><thead><tr><th scope="col">Symbol</th><th scope="col">Meaning</th><th scope="col">Value</th></tr></thead><tbody>
+            <tr><td>\(n\)</td><td>Hill slope of every curve</td><td>1 (an assumption)</td></tr>
+            <tr><td>\(s\)</td><td>Dose as a multiple of each product's bloom EC50</td><td>none</td></tr>
+            <tr><td>\(s_{50}[\cdot]\)</td><td>The \(s\) at which that effect reaches 50%, found by bisection</td><td>none</td></tr>
+          </tbody></table></div></details>
+          <p class="src">Bliss independence assumes the two products act independently. Products that share a mechanism (copper and hydrogen peroxide both act partly through oxidative stress) may not. Pairs are predictions and have not been tested in a lab. Label: DERIVED from the SOURCED EC50s, under stated assumptions.</p>
+        </article>
+  </div>
+</section>
+
+<!--PAGER-->

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Worked example | Pond Simulator | CyanoSelect</title>
+<meta name="description" content="The simulator’s example pond: 1 acre, a heavy Microcystis bloom and hydrogen peroxide at 3 mg/L, with the predicted knock-down, toxin and oxygen.">
+<link rel="canonical" href="https://cyanoselect.org/simulator/how-it-works/example/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Worked example | Pond Simulator | CyanoSelect">
+<meta property="og:description" content="The simulator’s example pond: 1 acre, a heavy Microcystis bloom and hydrogen peroxide at 3 mg/L, with the predicted knock-down, toxin and oxygen.">
+<meta property="og:url" content="https://cyanoselect.org/simulator/how-it-works/example/">
+<meta property="og:site_name" content="CyanoSelect">
+<meta property="og:image" content="https://cyanoselect.org/images/og-preview.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="CyanoSelect: rank algae bloom treatments by their predicted risk to non-target organisms.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Worked example | Pond Simulator | CyanoSelect">
+<meta name="twitter:description" content="The simulator’s example pond: 1 acre, a heavy Microcystis bloom and hydrogen peroxide at 3 mg/L, with the predicted knock-down, toxin and oxygen.">
+<meta name="twitter:image" content="https://cyanoselect.org/images/og-preview.png">
+<meta name="theme-color" content="#0A4F54">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A4F54'/%3E%3Cpath d='M6 21c3-6 5-9 10-9s7 3 10 9' stroke='%2302C39A' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='10' r='2.6' fill='%2300A896'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/chrome.css">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body class="pg-simulator">
+
+<a class="cs-skip" href="#main">Skip to content</a>
+<nav class="cs-nav" aria-label="Main">
+  <div class="cs-wrap cs-nav-in">
+    <a class="cs-brand" href="/"><svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#02C39A" opacity=".16"/><path d="M6 21c3-6 5-9 10-9s7 3 10 9" stroke="#02C39A" stroke-width="2.6" fill="none" stroke-linecap="round"/><circle cx="16" cy="10" r="2.6" fill="#00A896"/></svg>CyanoSelect</a>
+    <div class="cs-links" id="csMenu">
+      <a href="/selectivity/">Selectivity Tool</a>
+      <a href="/simulator/" aria-current="true">Pond Simulator</a>
+      <a href="/outreach/">Outreach</a>
+      <a href="/data/">Data</a>
+      <a href="/about/">About</a>
+    </div>
+    <button type="button" class="cs-toggle" id="csToggle" aria-expanded="false" aria-controls="csMenu" aria-label="Open menu"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
+  </div>
+</nav>
+<nav class="cs-sub" aria-label="Pond Simulator">
+  <div class="cs-wrap cs-sub-in">
+    <a class="cs-sub-name" href="/simulator/">Pond Simulator</a>
+    <div class="cs-sub-links"><a href="/simulator/">Simulator</a><a href="/simulator/how-it-works/" aria-current="true">How it works</a></div>
+  </div>
+</nav>
+
+<main id="main">
+<header class="page-hero ph-waves">
+  <div class="wrap">
+    <p class="eyebrow">Pond Simulator · How it works</p>
+    <h1>Worked example: one acre, one heavy bloom, one spray of peroxide.</h1>
+    <p class="lede">The simulator's built-in example pond, and what the model predicts for it. These are model predictions, not measurements: nothing here has been tested in a real pond yet.</p>
+  </div>
+  <svg class="hero-waves" viewBox="0 0 1440 130" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 74c180-40 300 26 480 10s300-58 480-40 300 62 480 34v52H0z" fill="#02C39A" opacity=".10"/>
+    <path d="M0 96c200-34 320 18 520 6s320-46 520-30 260 48 400 30v28H0z" fill="#00A896" opacity=".14"/>
+    <path d="M0 116c220-24 360 12 560 2s340-30 560-16 200 26 320 18v10H0z" fill="#EEF4F4"/>
+  </svg>
+</header>
+
+<nav class="chapters" aria-label="How it works chapters">
+  <div class="wrap">
+    <ol class="chapters-list">
+      <li><a href="/simulator/how-it-works/"><span class="ch-n">•</span>Overview</a></li>
+      <li><a href="/simulator/how-it-works/example/" aria-current="page"><span class="ch-n">1</span>Worked example</a></li>
+      <li><a href="/simulator/how-it-works/water/"><span class="ch-n">2</span>Water</a></li>
+      <li><a href="/simulator/how-it-works/currents/"><span class="ch-n">3</span>Currents</a></li>
+      <li><a href="/simulator/how-it-works/treatment/"><span class="ch-n">4</span>Treatment</a></li>
+      <li><a href="/simulator/how-it-works/bloom/"><span class="ch-n">5</span>Bloom</a></li>
+      <li><a href="/simulator/how-it-works/checks/"><span class="ch-n">6</span>Checks</a></li>
+    </ol>
+  </div>
+</nav>
+
+<section class="tight" id="example">
+  <div class="wrap chapter-main">
+    <p>The pond:</p><ul>
+            <li>1 acre, 8 ft at the deepest point, round, 82 °F water.</li>
+            <li>Open banks, with a 4.5 mph wind from the southwest on a sunny mid-July day.</li>
+            <li>A heavy <em>Microcystis</em> bloom (100 µg/L chlorophyll).</li>
+            <li>Liquid hydrogen peroxide sprayed on the whole pond at 3 mg/L at 8 AM.</li>
+          </ul>
+        <figure class="example-fig">
+          <img src="/images/how-it-works/example-map.jpg" width="764" height="505" loading="lazy" alt="Map of the round 1-acre example pond seen from above, right after spraying. The water is dark blue where the peroxide is strongest in the top water. Hundreds of small dots, the tracked colonies, are spread across the pond, and arrows along the edges show the top-water current running northeast, with the wind from the southwest.">
+          <figcaption>The example pond on the simulator's map right after spraying. Colour is peroxide in the top water, dots are tracked colonies, and arrows are the top-water current. One run with central settings, from the simulator on this site.</figcaption>
+        </figure>
+
+        <div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars ex-table"><thead><tr><th scope="col">What the model predicts</th><th scope="col">Value</th><th scope="col">How firm it is</th></tr></thead><tbody>
+          <tr><td>Top-water peak right after spraying</td><td>about 26 mg/L</td><td>The map's highest top-water square in the first hour. The layers model's top 6 inches peak at about 20 mg/L.</td></tr>
+          <tr><td>Bloom knocked down by day 2 (median of 200 runs)</td><td>about 61–67%</td><td>The page shows 67%. The median moves between about 61% and 67% with the random seed; 1,000 runs give 61%.</td></tr>
+          <tr><td>Knock-down, 5th–95th percentile</td><td>about 4% to 98%</td><td>Knock-down is the most uncertain prediction, because no one has measured how fast these chemicals damage cells over time.</td></tr>
+          <tr><td>Knock-down on the map (one central run)</td><td>63%</td><td></td></tr>
+          <tr><td>Total toxin vs the swimming advisory level (8 µg/L)</td><td>above it all 14 days</td><td>Starts at about 54 µg/L in the top water, nearly 7 times the level, and never falls below about 16. The cells still alive hold their toxin, and released toxin breaks down slowly.</td></tr>
+          <tr><td>Lowest-hour oxygen (median of runs)</td><td>3.7 mg/L</td><td>Below the 4 mg/L fish-stress level. The 5th–95th percentile is 1.6–5.2 mg/L; in the worst 5% of runs it falls to about 1 mg/L, low enough to kill fish.</td></tr>
+          <tr><td>Lowest-hour oxygen, map and layers model</td><td>4.5 and 4.1 mg/L</td><td>One central run each.</td></tr>
+        </tbody></table></div>
+        <div class="src"><p>These are the numbers after the November 2026 checks, which found:</p><ul>
+            <li>the earlier median of 64% (8–98% across 40 runs) depended on the random seed;</li>
+            <li>the 10-minute time step cost the layers model about 2.7 points.</li>
+          </ul></div>
+  </div>
+</section>
+
+<nav class="pager" aria-label="Chapter navigation">
+  <div class="wrap">
+    <div class="pager-row"><a class="pager-prev" href="/simulator/how-it-works/"><span class="pager-k">‹ Previous</span><span class="pager-t">How the simulator works</span></a><a class="pager-next" href="/simulator/how-it-works/water/"><span class="pager-k">Next ›</span><span class="pager-t">The water: shape, light, heat and mixing</span></a></div>
+    <p class="pager-tool"><a class="chev" href="/simulator/">Open the simulator</a></p>
+  </div>
+</nav>
+</main>
+
+<footer class="cs-footer">
+  <div class="cs-wrap">
+    <div class="cs-foot-grid">
+      <div>
+        <h2>Selectivity Tool</h2>
+        <a href="/selectivity/">Open the tool</a>
+        <a href="/selectivity/how-it-works/">How it works</a>
+        <a href="/selectivity/how-it-works/example/">Worked example</a>
+        <a href="/selectivity/how-it-works/why/">Why these three</a>
+        <a href="/selectivity/how-it-works/math/">The math</a>
+        <a href="/selectivity/how-it-works/limits/">Limits and next steps</a>
+      </div>
+      <div>
+        <h2>Pond Simulator</h2>
+        <a href="/simulator/">Open the simulator</a>
+        <a href="/simulator/how-it-works/">How it works</a>
+        <a href="/simulator/how-it-works/example/">Worked example</a>
+        <a href="/simulator/how-it-works/water/">Water</a>
+        <a href="/simulator/how-it-works/currents/">Currents</a>
+        <a href="/simulator/how-it-works/treatment/">Treatment</a>
+        <a href="/simulator/how-it-works/bloom/">Bloom</a>
+        <a href="/simulator/how-it-works/checks/">Checks</a>
+      </div>
+      <div>
+        <h2>Project</h2>
+        <a href="/outreach/">Outreach</a>
+        <a href="/outreach/plant-visit/">Plant visit</a>
+        <a href="/outreach/conference/">Conference talk</a>
+        <a href="/data/">Data</a>
+        <a href="/data/sources/">Sources</a>
+        <a href="/about/">About</a>
+        <a href="/about/contact/">Contact</a>
+        <a href="/about/contact/#cite">How to cite</a>
+      </div>
+      <div>
+        <h2>Open source</h2>
+        <p>MIT license: free to use, modify and share, with attribution.</p>
+        <a href="https://doi.org/10.5281/zenodo.22135606">Archived release (DOI):<br>doi.org/10.5281/zenodo.22135606</a>
+        <a href="https://github.com/arjunpendharkar/selectivity-tool">Tool and data on GitHub</a>
+        <a href="https://github.com/siddharthsanthosh1/selectivity-tool-web">Website source on GitHub</a>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <a href="mailto:siddharthsann@gmail.com">siddharthsann@gmail.com</a>
+        <a href="mailto:apandaharkar@gmail.com">apandaharkar@gmail.com</a>
+        <p>Or open an issue on either GitHub repository.</p>
+        <p class="cs-status"><span class="cs-dot"></span>Framework complete. Laboratory validation planned.</p>
+      </div>
+    </div>
+    <p class="cs-disclaimer"><strong>Model predictions, not a treatment recommendation.</strong> CyanoSelect ranks treatments from published lab data and simulates ponds; none of its predictions has been tested in a real pond yet. Registered products have undergone risk assessment by the U.S. Environmental Protection Agency, and the product label governs how they may be used. Follow the label and your state’s rules, and consult a licensed aquatic applicator or your state agency before treating any water body.</p>
+    <p class="cs-colophon">Built by Arjun Pendharkar and Siddharth Santhosh, Green Level High School, under the supervision of Dr. Bharathi Pandi. This site describes research tools whose predictions have not yet been validated in a laboratory or a real pond, and it is not guidance for treating a waterbody.</p>
+  </div>
+</footer>
+
+<script src="/assets/site.js"></script>
+<script data-goatcounter="https://cyanoselect.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

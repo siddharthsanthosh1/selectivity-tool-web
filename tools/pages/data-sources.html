@@ -1,0 +1,146 @@
+<header class="page-hero ph-waves">
+  <div class="wrap">
+    <p class="eyebrow">Data · Sources</p>
+    <h1>Where the numbers come from</h1>
+    <p class="lede">The published values behind each score.</p>
+    <div class="btns">
+      <a class="btn btn-primary" href="/data/cyanoselect-dataset-2026-11-01.xlsx" download>Download the dataset (Excel, Nov 1, 2026)</a>
+      <a class="btn btn-ghost" href="/data/">The data gap and findings</a>
+    </div>
+  </div>
+  <svg class="hero-waves" viewBox="0 0 1440 130" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 74c180-40 300 26 480 10s300-58 480-40 300 62 480 34v52H0z" fill="#02C39A" opacity=".10"/>
+    <path d="M0 96c200-34 320 18 520 6s320-46 520-30 260 48 400 30v28H0z" fill="#00A896" opacity=".14"/>
+    <path d="M0 116c220-24 360 12 560 2s340-30 560-16 200 26 320 18v10H0z" fill="#FFFFFF"/>
+  </svg>
+</header>
+
+<section class="tight" id="sources">
+  <div class="wrap">
+    <p class="narrow note-muted">Below, "EPA ECOTOX" is the U.S. Environmental Protection Agency's ECOTOX knowledgebase of toxicity tests.</p>
+
+          <div class="narrow">
+            <p class="lede">Each selectivity index is a non-target EC50 divided by the <em>Microcystis</em> EC50. A lower EC50 means the organism responds at a lower dose.</p>
+          </div>
+
+          <div class="grid-3 src-grid">
+            <article class="card src-card">
+              <h3>Diquat dibromide</h3>
+                <div class="table-scroll">
+                  <table class="src-table">
+                    <thead><tr><th scope="col">Organism</th><th scope="col" class="num">EC50</th><th scope="col">Source</th></tr></thead>
+                    <tbody>
+                      <tr><td><em>Microcystis</em></td><td class="num">0.098, 0.105 mg/L</td><td>Peterson et al. 1997<span class="how">Carbon-uptake test, about 22 h</span></td></tr>
+                      <tr><td>Green alga</td><td class="num">0.492 mg/L</td><td>Peterson et al. 1997<span class="how">Same study and test (value used)</span></td></tr>
+                      <tr><td>Green alga</td><td class="num">0.032 mg/L</td><td>EPA ECOTOX<span class="how">72 to 96 h growth (not used)</span></td></tr>
+                      <tr><td>Green alga</td><td class="num">0.13 mg/L</td><td>Reward product safety data sheet<span class="how">72 h, as formulated product (not used)</span></td></tr>
+                      <tr><td><em>Daphnia</em></td><td class="num">1.86 mg/L</td><td>EPA ECOTOX<span class="how"></span></td></tr>
+                      <tr><td>Fish</td><td class="num">50.2 mg/L</td><td>EPA ECOTOX<span class="how"></span></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+            </article>
+            <article class="card src-card">
+              <h3>Copper sulfate</h3>
+                <div class="table-scroll">
+                  <table class="src-table">
+                    <thead><tr><th scope="col">Organism</th><th scope="col" class="num">EC50</th><th scope="col">Source</th></tr></thead>
+                    <tbody>
+                      <tr><td><em>Microcystis</em></td><td class="num">0.063 mg Cu/L</td><td>Tsai 2016<span class="how">Matched 96 h growth</span></td></tr>
+                      <tr><td>Green alga</td><td class="num">1.873 mg Cu/L</td><td>Tsai 2016<span class="how">Matched 96 h growth</span></td></tr>
+                      <tr><td><em>Daphnia</em></td><td class="num">0.216 mg Cu/L</td><td>EPA ECOTOX Knowledgebase<span class="how"></span></td></tr>
+                      <tr><td>Fish</td><td class="num">0.317 mg Cu/L</td><td>EPA ECOTOX Knowledgebase<span class="how"></span></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+            </article>
+            <article class="card src-card">
+              <h3>Hydrogen peroxide</h3>
+                <div class="table-scroll">
+                  <table class="src-table">
+                    <thead><tr><th scope="col">Organism</th><th scope="col" class="num">EC50</th><th scope="col">Source</th></tr></thead>
+                    <tbody>
+                      <tr><td><em>Microcystis</em></td><td class="num">2.62 mg/L</td><td>Weenink et al. 2022<span class="how"></span></td></tr>
+                      <tr><td>Green alga</td><td class="num">27.7 mg/L</td><td>Weenink et al. 2022<span class="how"></span></td></tr>
+                      <tr><td><em>Daphnia</em></td><td class="num">6.51 mg/L</td><td>Weenink et al. 2022<span class="how"></span></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+            </article>
+          </div>
+
+          <div class="narrow src-group">
+            <h3>Added October 2026</h3>
+            <p class="lede">These values filled new cells in the dataset. Each selectivity index here divides the bystander's EC50 by that row's cyanobacterium EC50.</p>
+          </div>
+
+          <div class="grid-3 src-grid">
+            <article class="card src-card">
+              <h3>Diquat dibromide, <em>Anabaena</em></h3>
+                <div class="table-scroll">
+                  <table class="src-table">
+                    <thead><tr><th scope="col">Organism</th><th scope="col" class="num">EC50</th><th scope="col">Source</th></tr></thead>
+                    <tbody>
+                      <tr><td><em>Anabaena inaequalis</em></td><td class="num">0.005 mg/L</td><td>Peterson et al. 1997, Table 5<span class="how">Carbon-uptake test, about 22 h</span></td></tr>
+                      <tr><td>Green alga</td><td class="num">0.492 mg/L</td><td>Peterson et al. 1997<span class="how">Same study and test (value used)</span></td></tr>
+                      <tr><td><em>Daphnia</em></td><td class="num">1.86 mg/L</td><td>EPA ECOTOX<span class="how">Not matched to the target's test length</span></td></tr>
+                      <tr><td>Fish</td><td class="num">50.2 mg/L</td><td>EPA ECOTOX<span class="how">Not matched to the target's test length</span></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p class="src-note">Selectivity vs. green alga: about 98.</p>
+            </article>
+            <article class="card src-card">
+              <h3>Endothall, <em>Anabaena flos-aquae</em></h3>
+                <p class="src-note">Two salts. Values are in mg/L acid equivalent.</p>
+                <div class="table-scroll">
+                  <table class="src-table">
+                    <thead><tr><th scope="col">Organism</th><th scope="col" class="num">EC50</th><th scope="col">Source</th></tr></thead>
+                    <tbody>
+                      <tr><td>Dipotassium salt, <em>A. flos-aquae</em></td><td class="num">1.56</td><td>US EPA 2015 registration review<span class="how">120 h growth rate</span></td></tr>
+                      <tr><td>Dipotassium salt, green alga</td><td class="num">&gt;7.0</td><td>US EPA 2015<span class="how">120 h; only 2% effect at the top dose, so the true value is higher</span></td></tr>
+                      <tr><td>Dipotassium salt, <em>Daphnia</em></td><td class="num">70.7</td><td>US EPA 2015<span class="how"></span></td></tr>
+                      <tr><td>Dipotassium salt, fish (rainbow trout)</td><td class="num">9.152</td><td>US EPA 2015<span class="how"></span></td></tr>
+                      <tr><td>Amine salt (Hydrothol-type), <em>A. flos-aquae</em></td><td class="num">0.040</td><td>US EPA 2015<span class="how">96 h</span></td></tr>
+                      <tr><td>Amine salt, green alga</td><td class="num">0.0023</td><td>US EPA 2015<span class="how">96 h</span></td></tr>
+                      <tr><td>Amine salt, <em>Daphnia</em></td><td class="num">0.084</td><td>US EPA 2015<span class="how"></span></td></tr>
+                      <tr><td>Amine salt, fish (rainbow trout)</td><td class="num">0.131</td><td>US EPA 2015<span class="how"></span></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p class="src-note">The amine salt reaches the green alga at a lower dose than the cyanobacterium (selectivity about 0.06). The dipotassium salt does not (above 4.5).</p>
+            </article>
+            <article class="card src-card">
+              <h3>Flumioxazin, <em>Anabaena flos-aquae</em></h3>
+                <div class="table-scroll">
+                  <table class="src-table">
+                    <thead><tr><th scope="col">Organism</th><th scope="col" class="num">EC50</th><th scope="col">Source</th></tr></thead>
+                    <tbody>
+                      <tr><td><em>Anabaena flos-aquae</em></td><td class="num num-wrap">0.00083 mg/L (0.83 µg/L)</td><td>US EPA 2003 review<span class="how">5-day test</span></td></tr>
+                      <tr><td>Green alga (<em>Selenastrum capricornutum</em>)</td><td class="num num-wrap">0.00102 mg/L (1.02 µg/L)</td><td>US EPA 2003 review<span class="how">Same review</span></td></tr>
+                      <tr><td><em>Daphnia</em>, fish</td><td class="num num-wrap">not yet compiled</td><td><span class="how"></span></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p class="src-note">Selectivity vs. green alga: about 1.2, a very thin margin.</p>
+            </article>
+            <article class="card src-card">
+              <h3>Thiazole amide (compound 10), <em>Microcystis</em>: corrected</h3>
+                <div class="table-scroll">
+                  <table class="src-table">
+                    <thead><tr><th scope="col">Organism</th><th scope="col" class="num">EC50</th><th scope="col">Source</th></tr></thead>
+                    <tbody>
+                      <tr><td><em>Microcystis aeruginosa</em></td><td class="num">1.51 mg/L</td><td>Wang et al. 2018, <em>Scientific Reports</em><span class="how">96 h</span></td></tr>
+                      <tr><td>Green alga (<em>Chlorella pyrenoidosa</em>)</td><td class="num">1.52 mg/L</td><td>Wang et al. 2018<span class="how">Same study and test</span></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p class="src-note">Corrected from 0.08 mg/L, which belonged to a different organism in the same table. Selectivity vs. green alga: about 1.0.</p>
+            </article>
+          </div>
+
+          <p class="narrow src-foot">A 2026 screen of 15 herbicides (Barrick et al., <em>Environmental Toxicology and Chemistry</em>) did not list endothall or flumioxazin among the treatments that slowed <em>Dolichospermum</em> growth. We keep the EPA values and flag them until we can read that study's full data.</p>
+
+          <p class="narrow src-foot">EC50 values differ between studies because of test length, endpoint, strain, and water chemistry. Rankings should be read as comparisons, not predictions for a specific pond.</p>
+  </div>
+</section>

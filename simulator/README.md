@@ -53,7 +53,7 @@ Fixed Oct 21, 2026 (from a hostile review of the whole model):
 - peroxide EC50s are calibrated on the lab's own test (one dose left to fade, at an estimated 0.46 per hour), not as if held steady; the example's median knock-down went from 4% to about 45%
 - oxygen is hour by hour: the living bloom photosynthesizes (light-limited, self-shaded) and breathes, the rest of the pond's breathing balances the untreated pond, and a knock-down cuts the bloom's oxygen; the page reports the lowest hour instead of adding a flat pre-dawn drop
 
-Fixed Nov 8, 2026 (AI-assisted code review, SIMULATOR_REVIEW.md; not peer review):
+Fixed Nov 8, 2026 (an internal code review against the physics and the cited sources; not peer review):
 - map and side slice: colonies that should follow the water no longer pile up in the top and bottom few percent of the stirred layer (new up-and-down step, exact for the mixing profile) or on the downwind shore (within-layer current fades to zero at land; the slice moves colonies with its own face flows, in short enough steps)
 - well-mixed model: a layered pond's warm top is the top of the bowl, with its share of the bed's oxygen demand
 - layers model: 5-minute steps (was 10); 200 uncertainty runs (was 40), shown as the 5th-95th percentile
@@ -82,7 +82,7 @@ What the models do not do yet:
 
 The pond views show a single run with the central settings. The tiles and charts show the median and spread of all runs, so the two can differ.
 
-See the simulator blueprint (`claude/pond-treatment-simulator-blueprint.md` in the project) for the full plan.
+The full plan is in the simulator blueprint, which is kept outside this repository.
 
 ## Files
 

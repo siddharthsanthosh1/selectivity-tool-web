@@ -71,7 +71,7 @@ Done before any site edits. The repo had your Nov 1 edits to `index.html` and `a
 | Home | `/` | Hero ("Treat the bloom. Spare the lake."), two buttons, three steps, credibility strip, one-line disclaimer | New, short |
 | Rank treatments | `/rank/` | "How to read this" (3 lines), the interactive ranking, the static results table, "Simulate this treatment" links | Old Results + Try it |
 | Simulate your pond | `/simulator/` | Short intro and disclaimer, then the reviewed simulator inside the site's header and footer | `simulator/` (reviewed build) |
-| How it works | `/how-it-works/` | Why we built this, ranking math, simulator math (one card per piece, KaTeX), worked example, what it doesn't do yet, how we checked it | Old The problem + How it works; the simulator's HOW-IT-WORKS.md; SIMULATOR_REVIEW.md |
+| How it works | `/how-it-works/` | Why we built this, ranking math, simulator math (one card per piece, KaTeX), worked example, what it doesn't do yet, how we checked it | Old The problem + How it works; the simulator's HOW-IT-WORKS.md and its review notes |
 | Data | `/data/` | Download, the data gap (15 of 52), the three findings, where the numbers come from (incl. your Nov 1 cards), labels (SOURCED, DERIVED, ESTIMATE), corrections | Old Findings + Sources + Corrections |
 | About | `/about/` | Team, why we started, who it's for, timeline, talks and articles, outreach photos, thanks, what's next, contact | Old about.html + Outreach + Contact |
 

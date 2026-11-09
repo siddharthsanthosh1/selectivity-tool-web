@@ -705,7 +705,7 @@ footer .wrap { padding-block: 0 40px; font-size: 13px; color: var(--muted); disp
 <p><strong>A fix made on Oct 21, 2026.</strong> Until then the peroxide EC50 was treated as if held steady for 24 hours. That made the cells look about 2.7 times tougher than the lab test shows. The example knocked down about 17% (median of runs 4%). After that fix the median was about 45%. After the Oct 22 heat fixes it was about 64% (40 runs). With the Nov 8 fixes and 200 runs the page shows 67%. That number moves between about 61% and 67% with the random seed, and 1,000 runs give 61%, so &quot;about 61–67%&quot; is the honest figure. The sunnier, more strongly layered top water keeps the spray with the floating colonies longer. The one field check is a Dutch lake treated with peroxide, where 35.9% of the bloom was knocked down. That lake&#39;s treatment and conditions differ from the example pond&#39;s, so the two numbers aren&#39;t directly comparable.</p>
 <p>Nobody has published the time-course data needed to know which rule fits these chemicals. The runs all use the tolerance rule, because it comes closer to the field check. The other rule is shown as its own scenario on the knock-down tile (62% in the example), not mixed into the band. Until Oct 21 half the runs used each rule, which made the band a blend of two different models.</p>
 <p><strong>Layers model:</strong> damage is driven by the concentration the bloom actually sits in, weighted by where the cells are.</p>
-<p><strong>Map and slice:</strong> every tracked colony gets <strong>its own toughness</strong>, drawn so that the whole set matches the tolerance curve. Each colony carries its own damage as it drifts. It turns gray the moment its damage passes its toughness. A colony that stays in a strong patch dies; one that drifts out early may survive. In a whole-pond treatment, the map and the layers model agree within a few points (64% on the map vs 67% in the layers model in the example). For a spot or strip treatment, they can differ a lot, and the map is the one to trust for that question.</p>
+<p><strong>Map and slice:</strong> every tracked colony gets <strong>its own toughness</strong>, drawn so that the whole set matches the tolerance curve. Each colony carries its own damage as it drifts. It turns gray the moment its damage passes its toughness. A colony that stays in a strong patch dies; one that drifts out early may survive. In a whole-pond treatment, the map and the layers model agree within a few points (63% on the map vs 67% in the layers model in the example). For a spot or strip treatment, they can differ a lot, and the map is the one to trust for that question.</p>
 <p>&quot;Knocked down&quot; means photosynthesis or growth stopped, which is what the lab EC50s measured. It is not the same as dead. Cells can recover, and the page says so.</p>
 <hr>
 <h2>Step 9: toxin and oxygen</h2>
@@ -995,7 +995,7 @@ We know the math does what the published equations say, because 284 tests check 
 <p><strong>Where do the numbers come from?</strong>
 Every number is listed on the page with its source and a label (SOURCED, DERIVED or ESTIMATE). The effect levels come from the CyanoSelect dataset of published lab tests.</p>
 <p><strong>Why can the map&#39;s knock-down differ from the tile&#39;s?</strong>
-The tile is the median of 200 runs with different assumptions. The map is one run with the central assumptions, which can land above or below the median (the caption says where; in the example it is about the 49th percentile, so they nearly match: 64% on the map, 67% on the tile). The spread is the honest answer: knock-down is the most uncertain prediction, because no one has measured how fast these chemicals damage cells over time.</p>
+The tile is the median of 200 runs with different assumptions. The map is one run with the central assumptions, which can land above or below the median (the caption says where; in the example it is about the 49th percentile, so they nearly match: 63% on the map, 67% on the tile). The spread is the honest answer: knock-down is the most uncertain prediction, because no one has measured how fast these chemicals damage cells over time.</p>
 <p><strong>Why do colonies pile up on one shore?</strong>
 <em>Microcystis</em> floats. The top water moves downwind at about half a percent of the wind speed and returns underneath. Floating colonies stay in the top water, so they ride downwind and collect against the shore, the way real scums form.</p>
 <p><strong>Why does the middle of the pond flow upwind?</strong>
@@ -3483,7 +3483,7 @@ Real pond data, mainly: product concentrations at a few spots and depths after a
   //    a turn of the sphere by a random angle in a random direction, so colonies spread evenly stay
   //    exactly even at any step length. The mean and spread of each step match the Visser (1997) walk
   //    used until Nov 8, 2026, which with these 30-180 s steps left the top and bottom 5% of the layer
-  //    20-33% too full of colonies that should simply follow the water (bug H2 in SIMULATOR_REVIEW.md).
+  //    20-33% too full of colonies that should simply follow the water (bug H2 in the Nov 8, 2026 code review).
   //    The calm-water floor Kmin is added as an even walk on top (within 1e-5 m²/s of the
   //    max(Kmin, profile) the concentrations use).
   //  * Under the thermocline the weak mixing is even (Kbelow), and the thermocline is a wall for the
@@ -4223,7 +4223,7 @@ Real pond data, mainly: product concentrations at a few spots and depths after a
           // sublayer's top and bottom, because the part averages to zero over the sublayer) is added
           // to the vertical speed, so the colonies' flow keeps the water's volume. Until Nov 8, 2026
           // it was added in full right up to the shore and a step onto land was refused, so colonies
-          // that should follow the water collected on the downwind shore (bug H1 in SIMULATOR_REVIEW.md).
+          // that should follow the water collected on the downwind shore (bug H1 in the Nov 8, 2026 code review).
           const oW = iw >= 0 ? 1 : 0, oE = ie >= 0 ? 1 : 0, oS = is >= 0 ? 1 : 0, oN = in_ >= 0 ? 1 : 0;
           const fX = (1 - xi) * oW + xi * oE, fY = (1 - yi) * oS + yi * oN;
           ux += (UgX[k] * gd + ss * wv[0]) * fX; uy += (UgY[k] * gd + ss * wv[1]) * fY;
@@ -4760,7 +4760,7 @@ Real pond data, mainly: product concentrations at a few spots and depths after a
         // 2026 the sideways speed came from each column's own stirred depth while the up-and-down
         // speed came from the corner streamfunction; the two did not keep the water's volume, and
         // colonies that should follow the water piled up 3-4 times too dense at the downwind end (bug
-        // H1 in SIMULATOR_REVIEW.md).
+        // H1 in the Nov 8, 2026 code review).
         let i = Math.min(nxs - 1, Math.max(0, Math.floor(ppx[p] / dxs)));
         let x = ppx[p], z = ppz[p], left = dt, guard = 0;
         while (left > 1e-9 && guard++ < 48) {

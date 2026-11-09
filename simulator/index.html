@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Simulate your pond | CyanoSelect</title>
+<title>Pond Simulator | CyanoSelect</title>
 <meta name="description" content="Predicts what one algaecide treatment does in a pond, layer by layer: where the product goes, how much of the bloom is knocked down, toxin release, oxygen and non-target exposure, with a playable pond view and predicted timeline.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -226,7 +226,7 @@ footer .wrap { padding-block: 0 40px; font-size: 13px; color: var(--muted); disp
 <!-- cyanoselect site wrapper -->
 <link rel="canonical" href="https://cyanoselect.org/simulator/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Simulate your pond | CyanoSelect">
+<meta property="og:title" content="Pond Simulator | CyanoSelect">
 <meta property="og:description" content="Predicts what one algaecide treatment does in your pond over 14 days: where the product goes, how much bloom is knocked down, toxin and oxygen. Model predictions, not a treatment recommendation.">
 <meta property="og:url" content="https://cyanoselect.org/simulator/">
 <meta property="og:site_name" content="CyanoSelect">
@@ -239,28 +239,23 @@ footer .wrap { padding-block: 0 40px; font-size: 13px; color: var(--muted); disp
 <a class="cs-skip" href="#sim-form">Skip to the simulator</a>
 <nav class="cs-nav" aria-label="Main">
   <div class="cs-wrap cs-nav-in">
-    <a class="cs-brand" href="/"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#02C39A" opacity=".16"/><path d="M6 21c3-6 5-9 10-9s7 3 10 9" stroke="#02C39A" stroke-width="2.6" fill="none" stroke-linecap="round"/><circle cx="16" cy="10" r="2.6" fill="#00A896"/></svg>CyanoSelect</a>
+    <a class="cs-brand" href="/"><svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#02C39A" opacity=".16"/><path d="M6 21c3-6 5-9 10-9s7 3 10 9" stroke="#02C39A" stroke-width="2.6" fill="none" stroke-linecap="round"/><circle cx="16" cy="10" r="2.6" fill="#00A896"/></svg>CyanoSelect</a>
     <div class="cs-links" id="csMenu">
-      <a href="/rank/">Rank</a>
-      <a href="/simulator/" aria-current="page">Simulator</a>
-      <a href="/how-it-works/">How it works</a>
+      <a href="/selectivity/">Selectivity Tool</a>
+      <a href="/simulator/" aria-current="true">Pond Simulator</a>
+      <a href="/outreach/">Outreach</a>
       <a href="/data/">Data</a>
       <a href="/about/">About</a>
     </div>
     <button type="button" class="cs-toggle" id="csToggle" aria-expanded="false" aria-controls="csMenu" aria-label="Open menu"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
   </div>
 </nav>
-<section class="cs-intro" aria-labelledby="cs-intro-h">
-  <div class="cs-wrap">
-    <h2 id="cs-intro-h">Simulate your pond</h2>
-    <p>Enter your pond, the weather and one treatment. The simulator predicts the next 14 days, hour by hour.</p>
-    <div class="cs-intro-grid">
-      <div><h3>What it predicts</h3><p>Where the product goes, how much of the bloom is knocked down, toxin released into the water, oxygen through day and night, and how close green algae, water fleas and fish come to their lab effect levels.</p></div>
-      <div><h3>What you need</h3><p>Your pond's area and deepest point, water temperature, pH, alkalinity and cloudiness, the bloom's chlorophyll, and the product, dose, method and time. For weather, give a place and date, or describe one typical day. Every other field is optional.</p></div>
-    </div>
-    <p class="cs-warn"><strong>Model predictions, not a treatment recommendation.</strong> Nothing here has been tested in a real pond yet. Follow the product label and your state's rules. <a href="/how-it-works/#simulator">How it works</a></p>
+<nav class="cs-sub" aria-label="Pond Simulator">
+  <div class="cs-wrap cs-sub-in">
+    <a class="cs-sub-name" href="/simulator/">Pond Simulator</a>
+    <div class="cs-sub-links"><a href="/simulator/" aria-current="page">Simulator</a><a href="/simulator/how-it-works/">How it works</a></div>
   </div>
-</section>
+</nav>
 
 <header class="top">
   <div class="wrap">
@@ -270,7 +265,7 @@ footer .wrap { padding-block: 0 40px; font-size: 13px; color: var(--muted); disp
     <div class="stamp"><b>Model prediction</b> · not a measurement and not a treatment recommendation · follow the product label and state rules</div>
     <nav class="apptabs" aria-label="Sections">
       <button type="button" id="tab-sim" aria-pressed="true">Simulator</button>
-      <button type="button" id="tab-guide" aria-pressed="false">How it works</button>
+      <button type="button" id="tab-guide" aria-pressed="false">Full guide</button>
     </nav>
   </div>
 </header>
@@ -742,7 +737,7 @@ footer .wrap { padding-block: 0 40px; font-size: 13px; color: var(--muted); disp
 <p><strong>A fix made on Oct 21, 2026.</strong> Until then the peroxide EC50 was treated as if held steady for 24 hours. That made the cells look about 2.7 times tougher than the lab test shows. The example knocked down about 17% (median of runs 4%). After that fix the median was about 45%. After the Oct 22 heat fixes it was about 64% (40 runs). With the Nov 8 fixes and 200 runs the page shows 67%. That number moves between about 61% and 67% with the random seed, and 1,000 runs give 61%, so &quot;about 61–67%&quot; is the honest figure. The sunnier, more strongly layered top water keeps the spray with the floating colonies longer. The one field check is a Dutch lake treated with peroxide, where 35.9% of the bloom was knocked down. That lake&#39;s treatment and conditions differ from the example pond&#39;s, so the two numbers aren&#39;t directly comparable.</p>
 <p>Nobody has published the time-course data needed to know which rule fits these chemicals. The runs all use the tolerance rule, because it comes closer to the field check. The other rule is shown as its own scenario on the knock-down tile (62% in the example), not mixed into the band. Until Oct 21 half the runs used each rule, which made the band a blend of two different models.</p>
 <p><strong>Layers model:</strong> damage is driven by the concentration the bloom actually sits in, weighted by where the cells are.</p>
-<p><strong>Map and slice:</strong> every tracked colony gets <strong>its own toughness</strong>, drawn so that the whole set matches the tolerance curve. Each colony carries its own damage as it drifts. It turns gray the moment its damage passes its toughness. A colony that stays in a strong patch dies; one that drifts out early may survive. In a whole-pond treatment, the map and the layers model agree within a few points (64% on the map vs 67% in the layers model in the example). For a spot or strip treatment, they can differ a lot, and the map is the one to trust for that question.</p>
+<p><strong>Map and slice:</strong> every tracked colony gets <strong>its own toughness</strong>, drawn so that the whole set matches the tolerance curve. Each colony carries its own damage as it drifts. It turns gray the moment its damage passes its toughness. A colony that stays in a strong patch dies; one that drifts out early may survive. In a whole-pond treatment, the map and the layers model agree within a few points (63% on the map vs 67% in the layers model in the example). For a spot or strip treatment, they can differ a lot, and the map is the one to trust for that question.</p>
 <p>&quot;Knocked down&quot; means photosynthesis or growth stopped, which is what the lab EC50s measured. It is not the same as dead. Cells can recover, and the page says so.</p>
 <hr>
 <h2>Step 9: toxin and oxygen</h2>
@@ -1032,7 +1027,7 @@ We know the math does what the published equations say, because 284 tests check 
 <p><strong>Where do the numbers come from?</strong>
 Every number is listed on the page with its source and a label (SOURCED, DERIVED or ESTIMATE). The effect levels come from the CyanoSelect dataset of published lab tests.</p>
 <p><strong>Why can the map&#39;s knock-down differ from the tile&#39;s?</strong>
-The tile is the median of 200 runs with different assumptions. The map is one run with the central assumptions, which can land above or below the median (the caption says where; in the example it is about the 49th percentile, so they nearly match: 64% on the map, 67% on the tile). The spread is the honest answer: knock-down is the most uncertain prediction, because no one has measured how fast these chemicals damage cells over time.</p>
+The tile is the median of 200 runs with different assumptions. The map is one run with the central assumptions, which can land above or below the median (the caption says where; in the example it is about the 49th percentile, so they nearly match: 63% on the map, 67% on the tile). The spread is the honest answer: knock-down is the most uncertain prediction, because no one has measured how fast these chemicals damage cells over time.</p>
 <p><strong>Why do colonies pile up on one shore?</strong>
 <em>Microcystis</em> floats. The top water moves downwind at about half a percent of the wind speed and returns underneath. Floating colonies stay in the top water, so they ride downwind and collect against the shore, the way real scums form.</p>
 <p><strong>Why does the middle of the pond flow upwind?</strong>
@@ -2588,12 +2583,54 @@ Real pond data, mainly: product concentrations at a few spots and depths after a
 </script>
 <footer class="cs-footer">
   <div class="cs-wrap">
-    <p class="cs-disclaimer"><strong>Model predictions, not a treatment recommendation.</strong> CyanoSelect ranks treatments from published lab data and simulates ponds; none of its predictions has been tested in a real pond yet. Registered products have undergone risk assessment by the U.S. Environmental Protection Agency, and the product label governs how they may be used. Follow the label and your state's rules, and consult a licensed aquatic applicator or your state agency before treating any water body.</p>
     <div class="cs-foot-grid">
-      <div><h2>CyanoSelect</h2><a href="/rank/">Rank treatments</a><a href="/simulator/">Simulate your pond</a><a href="/how-it-works/">How it works</a><a href="/data/">Data</a><a href="/about/">About</a></div>
-      <div><h2>Open source</h2><p>MIT license: free to use, modify and share, with attribution.</p><a href="https://doi.org/10.5281/zenodo.22135606">Archived release: doi.org/10.5281/zenodo.22135606</a><a href="https://github.com/arjunpendharkar/selectivity-tool">Tool and data on GitHub</a><a href="https://github.com/siddharthsanthosh1/selectivity-tool-web">Website source on GitHub</a></div>
-      <div><h2>Contact</h2><a href="mailto:siddharthsann@gmail.com">siddharthsann@gmail.com</a><a href="mailto:apandaharkar@gmail.com">apandaharkar@gmail.com</a><p>Or open an issue on either GitHub repository.</p></div>
+      <div>
+        <h2>Selectivity Tool</h2>
+        <a href="/selectivity/">Open the tool</a>
+        <a href="/selectivity/how-it-works/">How it works</a>
+        <a href="/selectivity/how-it-works/example/">Worked example</a>
+        <a href="/selectivity/how-it-works/why/">Why these three</a>
+        <a href="/selectivity/how-it-works/math/">The math</a>
+        <a href="/selectivity/how-it-works/limits/">Limits and next steps</a>
+      </div>
+      <div>
+        <h2>Pond Simulator</h2>
+        <a href="/simulator/">Open the simulator</a>
+        <a href="/simulator/how-it-works/">How it works</a>
+        <a href="/simulator/how-it-works/example/">Worked example</a>
+        <a href="/simulator/how-it-works/water/">Water</a>
+        <a href="/simulator/how-it-works/currents/">Currents</a>
+        <a href="/simulator/how-it-works/treatment/">Treatment</a>
+        <a href="/simulator/how-it-works/bloom/">Bloom</a>
+        <a href="/simulator/how-it-works/checks/">Checks</a>
+      </div>
+      <div>
+        <h2>Project</h2>
+        <a href="/outreach/">Outreach</a>
+        <a href="/outreach/plant-visit/">Plant visit</a>
+        <a href="/outreach/conference/">Conference talk</a>
+        <a href="/data/">Data</a>
+        <a href="/data/sources/">Sources</a>
+        <a href="/about/">About</a>
+        <a href="/about/contact/">Contact</a>
+        <a href="/about/contact/#cite">How to cite</a>
+      </div>
+      <div>
+        <h2>Open source</h2>
+        <p>MIT license: free to use, modify and share, with attribution.</p>
+        <a href="https://doi.org/10.5281/zenodo.22135606">Archived release (DOI):<br>doi.org/10.5281/zenodo.22135606</a>
+        <a href="https://github.com/arjunpendharkar/selectivity-tool">Tool and data on GitHub</a>
+        <a href="https://github.com/siddharthsanthosh1/selectivity-tool-web">Website source on GitHub</a>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <a href="mailto:siddharthsann@gmail.com">siddharthsann@gmail.com</a>
+        <a href="mailto:apandaharkar@gmail.com">apandaharkar@gmail.com</a>
+        <p>Or open an issue on either GitHub repository.</p>
+        <p class="cs-status"><span class="cs-dot"></span>Framework complete. Laboratory validation planned.</p>
+      </div>
     </div>
+    <p class="cs-disclaimer"><strong>Model predictions, not a treatment recommendation.</strong> CyanoSelect ranks treatments from published lab data and simulates ponds; none of its predictions has been tested in a real pond yet. Registered products have undergone risk assessment by the U.S. Environmental Protection Agency, and the product label governs how they may be used. Follow the label and your state’s rules, and consult a licensed aquatic applicator or your state agency before treating any water body.</p>
     <p class="cs-colophon">Built by Arjun Pendharkar and Siddharth Santhosh, Green Level High School, under the supervision of Dr. Bharathi Pandi. This site describes research tools whose predictions have not yet been validated in a laboratory or a real pond, and it is not guidance for treating a waterbody.</p>
   </div>
 </footer>

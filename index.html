@@ -28,39 +28,28 @@
 <link rel="stylesheet" href="/assets/chrome.css">
 <link rel="stylesheet" href="/assets/site.css">
 <script>
-/* Old links to sections of the single-page site (before Nov 2026) go to their new pages. */
+/* Old links to sections that moved to another page go there. */
 (function(){
-  var map = {overview:"/how-it-works/#why", problem:"/how-it-works/#why", how:"/how-it-works/#ranking", who:"/about/#who",
-    results:"/rank/#try", try:"/rank/#try", sources:"/data/#sources", limits:"/rank/#limits",
-    visit:"/about/#visit", nclms:"/about/#nclms", contact:"/about/#contact", next:"/about/#next", reach:"/about/#contact", cite:"/about/#contact"};
+  var map = {"overview":"/selectivity/how-it-works/why/","problem":"/selectivity/how-it-works/why/#problem","how":"/selectivity/how-it-works/","who":"/selectivity/how-it-works/why/#who","results":"/selectivity/","try":"/selectivity/","sources":"/data/sources/","limits":"/selectivity/how-it-works/limits/","visit":"/outreach/plant-visit/","nclms":"/outreach/conference/","contact":"/about/contact/","next":"/selectivity/how-it-works/limits/#next","reach":"/about/contact/","cite":"/about/contact/#cite"};
   var h = location.hash.slice(1);
   if (h && map[h]) location.replace(map[h]);
 })();
 </script>
 </head>
-<body>
+<body class="pg-home">
 
 <a class="cs-skip" href="#main">Skip to content</a>
 <nav class="cs-nav" aria-label="Main">
   <div class="cs-wrap cs-nav-in">
-    <a class="cs-brand" href="/">
-      <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true">
-        <rect width="32" height="32" rx="7" fill="#02C39A" opacity=".16"/>
-        <path d="M6 21c3-6 5-9 10-9s7 3 10 9" stroke="#02C39A" stroke-width="2.6" fill="none" stroke-linecap="round"/>
-        <circle cx="16" cy="10" r="2.6" fill="#00A896"/>
-      </svg>
-      CyanoSelect
-    </a>
+    <a class="cs-brand" href="/"><svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#02C39A" opacity=".16"/><path d="M6 21c3-6 5-9 10-9s7 3 10 9" stroke="#02C39A" stroke-width="2.6" fill="none" stroke-linecap="round"/><circle cx="16" cy="10" r="2.6" fill="#00A896"/></svg>CyanoSelect</a>
     <div class="cs-links" id="csMenu">
-        <a href="/rank/">Rank</a>
-        <a href="/simulator/">Simulator</a>
-        <a href="/how-it-works/">How it works</a>
-        <a href="/data/">Data</a>
-        <a href="/about/">About</a>
+      <a href="/selectivity/">Selectivity Tool</a>
+      <a href="/simulator/">Pond Simulator</a>
+      <a href="/outreach/">Outreach</a>
+      <a href="/data/">Data</a>
+      <a href="/about/">About</a>
     </div>
-    <button type="button" class="cs-toggle" id="csToggle" aria-expanded="false" aria-controls="csMenu" aria-label="Open menu">
-      <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
-    </button>
+    <button type="button" class="cs-toggle" id="csToggle" aria-expanded="false" aria-controls="csMenu" aria-label="Open menu"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
   </div>
 </nav>
 
@@ -70,11 +59,11 @@
     <h1>Treat the bloom. Spare the lake.</h1>
     <p class="lede">CyanoSelect is a free, open-source tool for pond and lake managers: compare algae bloom treatments by their risk to the rest of the lake, then see what one treatment is predicted to do in your own pond.</p>
     <div class="btns">
-      <a class="btn btn-primary" href="/rank/">
+      <a class="btn btn-primary" href="/selectivity/">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h6"/></svg>
-        Rank treatments
+        Selectivity Tool
       </a>
-      <a class="btn btn-ghost" href="/simulator/">Simulate your pond</a>
+      <a class="btn btn-ghost" href="/simulator/">Pond Simulator</a>
     </div>
     <div class="hero-meta">
       <a class="doi-badge" href="https://doi.org/10.5281/zenodo.22135606">
@@ -83,40 +72,51 @@
       </a>
       <span class="hero-status"><span class="dot"></span>Model predictions · lab and field validation planned</span>
     </div>
+    <p class="byline">Arjun Pendharkar and Siddharth Santhosh</p>
   </div>
-    <svg class="hero-waves" viewBox="0 0 1440 130" preserveAspectRatio="none" aria-hidden="true">
+  <svg class="hero-waves" viewBox="0 0 1440 130" preserveAspectRatio="none" aria-hidden="true">
     <path d="M0 74c180-40 300 26 480 10s300-58 480-40 300 62 480 34v52H0z" fill="#02C39A" opacity=".10"/>
     <path d="M0 96c200-34 320 18 520 6s320-46 520-30 260 48 400 30v28H0z" fill="#00A896" opacity=".14"/>
     <path d="M0 116c220-24 360 12 560 2s340-30 560-16 200 26 320 18v10H0z" fill="#EEF4F4"/>
   </svg>
 </header>
 
-<section class="band-panel">
+<section class="tile tile-panel" aria-labelledby="tile-sel">
   <div class="wrap">
-    <div class="narrow">
-      <p class="eyebrow">How to use it</p>
-      <h2>Three steps, from the lab data to your pond.</h2>
+    <p class="tile-eyebrow">Selectivity Tool</p>
+    <h2 class="tile-h" id="tile-sel">Rank every treatment by what it spares.</h2>
+    <p class="tile-sub">A free, open-source tool that compares bloom treatments by their predicted risk to non-target organisms, using published toxicity data.</p>
+    <p class="tile-links"><a class="chev" href="/selectivity/">Open the tool</a><a class="chev" href="/selectivity/how-it-works/">How it works</a></p>
+    <figure class="tile-shot">
+      <a href="/selectivity/"><img src="/images/home/selectivity-tool.jpg" width="1088" height="680" alt="The Selectivity Tool ranking: copper sulfate plus diquat dibromide (a predicted pair) first at 6.24, diquat dibromide second at 4.87, then the other treatments and pairs with their weakest selectivity scores."></a>
+    </figure>
+  </div>
+</section>
+
+<section class="tile tile-deep" aria-labelledby="tile-sim">
+  <div class="wrap">
+    <p class="tile-eyebrow">Pond Simulator</p>
+    <h2 class="tile-h" id="tile-sim">See what happens in your pond before you treat.</h2>
+    <p class="tile-sub">Your pond, your weather and one treatment: where the product goes, how much of the bloom is knocked down, toxin and oxygen over 14 days.</p>
+    <p class="tile-links"><a class="chev" href="/simulator/">Open the simulator</a><a class="chev" href="/simulator/how-it-works/">How it works</a></p>
+    <figure class="tile-shot">
+      <a href="/simulator/"><img src="/images/home/pond-simulator.jpg" width="1280" height="800" loading="lazy" alt="The Pond Simulator: a form for your pond beside a map of a round example pond seen from above right after treatment, with the product spread across the water and hundreds of tracked bloom colonies."></a>
+    </figure>
+    <p class="tile-fine">Model predictions. Nothing here has been tested in a real pond yet.</p>
+  </div>
+</section>
+
+<section class="tile tile-white" aria-labelledby="tile-out">
+  <div class="wrap tile-split">
+    <div>
+      <p class="tile-eyebrow">Outreach</p>
+      <h2 class="tile-h" id="tile-out">Out of the lab and in front of lake managers.</h2>
+      <p class="tile-sub">We toured the Cary/Apex Water Treatment Facility, presented to the North Carolina Lake Management Society, and had our data checked by experts in the field.</p>
+      <p class="tile-links"><a class="chev" href="/outreach/">See our outreach</a></p>
     </div>
-    <ol class="steps3">
-      <li>
-        <span class="step-n">1</span>
-        <h3>Compare treatments</h3>
-        <p>See which treatment leaves the widest margin for green algae, water fleas and fish, from published lab tests.</p>
-        <a href="/rank/">Rank treatments →</a>
-      </li>
-      <li>
-        <span class="step-n">2</span>
-        <h3>Simulate your pond</h3>
-        <p>Enter your pond, the weather and one treatment. See where the product goes and the predicted knock-down, toxin and oxygen over 14 days.</p>
-        <a href="/simulator/">Simulate your pond →</a>
-      </li>
-      <li>
-        <span class="step-n">3</span>
-        <h3>Plan the treatment</h3>
-        <p>Where the project is heading: helping you choose a dose and an application method within the label. Today, try one plan at a time in the simulator and compare the results yourself.</p>
-        <a href="/how-it-works/">How it works →</a>
-      </li>
-    </ol>
+    <figure class="tile-photo">
+      <a href="/outreach/conference/"><img src="/images/nclms/nclms-03-title-slide-wide.jpg" width="1600" height="1200" loading="lazy" alt="Arjun and Siddharth presenting at the North Carolina Lake Management Society Fall Workshop in Greensboro."></a>
+    </figure>
   </div>
 </section>
 
@@ -134,20 +134,42 @@
 
 <footer class="cs-footer">
   <div class="cs-wrap">
-    <p class="cs-disclaimer"><strong>Model predictions, not a treatment recommendation.</strong> CyanoSelect ranks treatments from published lab data and simulates ponds; none of its predictions has been tested in a real pond yet. Registered products have undergone risk assessment by the U.S. Environmental Protection Agency, and the product label governs how they may be used. Follow the label and your state's rules, and consult a licensed aquatic applicator or your state agency before treating any water body.</p>
     <div class="cs-foot-grid">
       <div>
-        <h2>CyanoSelect</h2>
-        <a href="/rank/">Rank treatments</a>
-        <a href="/simulator/">Simulate your pond</a>
-        <a href="/how-it-works/">How it works</a>
+        <h2>Selectivity Tool</h2>
+        <a href="/selectivity/">Open the tool</a>
+        <a href="/selectivity/how-it-works/">How it works</a>
+        <a href="/selectivity/how-it-works/example/">Worked example</a>
+        <a href="/selectivity/how-it-works/why/">Why these three</a>
+        <a href="/selectivity/how-it-works/math/">The math</a>
+        <a href="/selectivity/how-it-works/limits/">Limits and next steps</a>
+      </div>
+      <div>
+        <h2>Pond Simulator</h2>
+        <a href="/simulator/">Open the simulator</a>
+        <a href="/simulator/how-it-works/">How it works</a>
+        <a href="/simulator/how-it-works/example/">Worked example</a>
+        <a href="/simulator/how-it-works/water/">Water</a>
+        <a href="/simulator/how-it-works/currents/">Currents</a>
+        <a href="/simulator/how-it-works/treatment/">Treatment</a>
+        <a href="/simulator/how-it-works/bloom/">Bloom</a>
+        <a href="/simulator/how-it-works/checks/">Checks</a>
+      </div>
+      <div>
+        <h2>Project</h2>
+        <a href="/outreach/">Outreach</a>
+        <a href="/outreach/plant-visit/">Plant visit</a>
+        <a href="/outreach/conference/">Conference talk</a>
         <a href="/data/">Data</a>
+        <a href="/data/sources/">Sources</a>
         <a href="/about/">About</a>
+        <a href="/about/contact/">Contact</a>
+        <a href="/about/contact/#cite">How to cite</a>
       </div>
       <div>
         <h2>Open source</h2>
         <p>MIT license: free to use, modify and share, with attribution.</p>
-        <a href="https://doi.org/10.5281/zenodo.22135606">Archived release: doi.org/10.5281/zenodo.22135606</a>
+        <a href="https://doi.org/10.5281/zenodo.22135606">Archived release (DOI):<br>doi.org/10.5281/zenodo.22135606</a>
         <a href="https://github.com/arjunpendharkar/selectivity-tool">Tool and data on GitHub</a>
         <a href="https://github.com/siddharthsanthosh1/selectivity-tool-web">Website source on GitHub</a>
       </div>
@@ -156,8 +178,10 @@
         <a href="mailto:siddharthsann@gmail.com">siddharthsann@gmail.com</a>
         <a href="mailto:apandaharkar@gmail.com">apandaharkar@gmail.com</a>
         <p>Or open an issue on either GitHub repository.</p>
+        <p class="cs-status"><span class="cs-dot"></span>Framework complete. Laboratory validation planned.</p>
       </div>
     </div>
+    <p class="cs-disclaimer"><strong>Model predictions, not a treatment recommendation.</strong> CyanoSelect ranks treatments from published lab data and simulates ponds; none of its predictions has been tested in a real pond yet. Registered products have undergone risk assessment by the U.S. Environmental Protection Agency, and the product label governs how they may be used. Follow the label and your state’s rules, and consult a licensed aquatic applicator or your state agency before treating any water body.</p>
     <p class="cs-colophon">Built by Arjun Pendharkar and Siddharth Santhosh, Green Level High School, under the supervision of Dr. Bharathi Pandi. This site describes research tools whose predictions have not yet been validated in a laboratory or a real pond, and it is not guidance for treating a waterbody.</p>
   </div>
 </footer>

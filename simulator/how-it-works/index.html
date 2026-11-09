@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How the Pond Simulator works | CyanoSelect</title>
+<meta name="description" content="Why we built the pond simulator, what it predicts, what you need, its three views of a pond and a worked example.">
+<link rel="canonical" href="https://cyanoselect.org/simulator/how-it-works/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="How the Pond Simulator works | CyanoSelect">
+<meta property="og:description" content="Why we built the pond simulator, what it predicts, what you need, its three views of a pond and a worked example.">
+<meta property="og:url" content="https://cyanoselect.org/simulator/how-it-works/">
+<meta property="og:site_name" content="CyanoSelect">
+<meta property="og:image" content="https://cyanoselect.org/images/og-preview.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="CyanoSelect: rank algae bloom treatments by their predicted risk to non-target organisms.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How the Pond Simulator works | CyanoSelect">
+<meta name="twitter:description" content="Why we built the pond simulator, what it predicts, what you need, its three views of a pond and a worked example.">
+<meta name="twitter:image" content="https://cyanoselect.org/images/og-preview.png">
+<meta name="theme-color" content="#0A4F54">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A4F54'/%3E%3Cpath d='M6 21c3-6 5-9 10-9s7 3 10 9' stroke='%2302C39A' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='10' r='2.6' fill='%2300A896'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/chrome.css">
+<link rel="stylesheet" href="/assets/site.css">
+<script>
+/* Old links to sections that moved to another page go there. */
+(function(){
+  var map = {"problem":"/selectivity/how-it-works/why/#problem","ranking":"/selectivity/how-it-works/","how":"/selectivity/how-it-works/","r-si":"/selectivity/how-it-works/math/#r-si","r-min":"/selectivity/how-it-works/math/#r-min","r-bliss":"/selectivity/how-it-works/math/#r-bliss","r-example":"/selectivity/how-it-works/example/#r-example","example":"/simulator/how-it-works/example/","m-bowl":"/simulator/how-it-works/water/#m-bowl","m-light":"/simulator/how-it-works/water/#m-light","m-heat":"/simulator/how-it-works/water/#m-heat","m-mixed":"/simulator/how-it-works/water/#m-mixed","m-k":"/simulator/how-it-works/water/#m-k","m-counter":"/simulator/how-it-works/currents/#m-counter","m-tilt":"/simulator/how-it-works/currents/#m-tilt","m-swirl":"/simulator/how-it-works/currents/#m-swirl","m-h2o2":"/simulator/how-it-works/treatment/#m-h2o2","m-flum":"/simulator/how-it-works/treatment/#m-flum","m-diquat":"/simulator/how-it-works/treatment/#m-diquat","m-copper":"/simulator/how-it-works/treatment/#m-copper","m-rise":"/simulator/how-it-works/bloom/#m-rise","m-walk":"/simulator/how-it-works/bloom/#m-walk","m-guts":"/simulator/how-it-works/bloom/#m-guts","m-toxin":"/simulator/how-it-works/bloom/#m-toxin","m-oxygen":"/simulator/how-it-works/bloom/#m-oxygen","m-runs":"/simulator/how-it-works/checks/#m-runs","limits":"/simulator/how-it-works/checks/#limits","checked":"/simulator/how-it-works/checks/#checked"};
+  var h = location.hash.slice(1);
+  if (h && map[h]) location.replace(map[h]);
+})();
+</script>
+</head>
+<body class="pg-simulator">
+
+<a class="cs-skip" href="#main">Skip to content</a>
+<nav class="cs-nav" aria-label="Main">
+  <div class="cs-wrap cs-nav-in">
+    <a class="cs-brand" href="/"><svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#02C39A" opacity=".16"/><path d="M6 21c3-6 5-9 10-9s7 3 10 9" stroke="#02C39A" stroke-width="2.6" fill="none" stroke-linecap="round"/><circle cx="16" cy="10" r="2.6" fill="#00A896"/></svg>CyanoSelect</a>
+    <div class="cs-links" id="csMenu">
+      <a href="/selectivity/">Selectivity Tool</a>
+      <a href="/simulator/" aria-current="true">Pond Simulator</a>
+      <a href="/outreach/">Outreach</a>
+      <a href="/data/">Data</a>
+      <a href="/about/">About</a>
+    </div>
+    <button type="button" class="cs-toggle" id="csToggle" aria-expanded="false" aria-controls="csMenu" aria-label="Open menu"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
+  </div>
+</nav>
+<nav class="cs-sub" aria-label="Pond Simulator">
+  <div class="cs-wrap cs-sub-in">
+    <a class="cs-sub-name" href="/simulator/">Pond Simulator</a>
+    <div class="cs-sub-links"><a href="/simulator/">Simulator</a><a href="/simulator/how-it-works/" aria-current="page">How it works</a></div>
+  </div>
+</nav>
+
+<main id="main">
+<header class="page-hero ph-waves">
+  <div class="wrap">
+    <p class="eyebrow">Pond Simulator · How it works</p>
+    <h1>A lab ranking can't tell you what happens in your pond.</h1>
+    <p class="lede">So we built a simulator that follows one treatment through one pond, with real weather, for 14 days. Here is why and what it predicts. The worked example and every equation are in the chapters that follow.</p>
+  </div>
+  <svg class="hero-waves" viewBox="0 0 1440 130" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 74c180-40 300 26 480 10s300-58 480-40 300 62 480 34v52H0z" fill="#02C39A" opacity=".10"/>
+    <path d="M0 96c200-34 320 18 520 6s320-46 520-30 260 48 400 30v28H0z" fill="#00A896" opacity=".14"/>
+    <path d="M0 116c220-24 360 12 560 2s340-30 560-16 200 26 320 18v10H0z" fill="#EEF4F4"/>
+  </svg>
+</header>
+
+<nav class="chapters" aria-label="How it works chapters">
+  <div class="wrap">
+    <ol class="chapters-list">
+      <li><a href="/simulator/how-it-works/" aria-current="page"><span class="ch-n">•</span>Overview</a></li>
+      <li><a href="/simulator/how-it-works/example/"><span class="ch-n">1</span>Worked example</a></li>
+      <li><a href="/simulator/how-it-works/water/"><span class="ch-n">2</span>Water</a></li>
+      <li><a href="/simulator/how-it-works/currents/"><span class="ch-n">3</span>Currents</a></li>
+      <li><a href="/simulator/how-it-works/treatment/"><span class="ch-n">4</span>Treatment</a></li>
+      <li><a href="/simulator/how-it-works/bloom/"><span class="ch-n">5</span>Bloom</a></li>
+      <li><a href="/simulator/how-it-works/checks/"><span class="ch-n">6</span>Checks</a></li>
+    </ol>
+  </div>
+</nav>
+
+<section class="chapter" id="why">
+  <div class="wrap chapter-main">
+    <p class="eyebrow">Why we built it</p>
+    <h2 class="sub-title">The ranking came first. It wasn't enough.</h2>
+        <p>We started with the selectivity ranking: which treatment has the widest safety margin for the three groups a lake manager wants to keep, the green alga, the water flea and the fish. Then we realized a ranking from lab tests can't tell a manager what happens in their own pond, with their own weather, after they spray. Where does the product go? Does it reach the bloom? How much toxin comes out, and does the oxygen crash?</p>
+        <p>So we added the simulator. Our goal is one free place where a manager can compare treatments, test a dose and an application method on their own pond, and see the trade-offs before treating. Today the ranking compares treatments and the simulator follows one treatment plan at a time. Comparing doses and methods side by side is where the project is heading.</p>
+        <div class="callout"><strong>Not a treatment recommendation.</strong> Every number here is a model prediction from published lab data. Always follow the product label and your state's rules.</div>
+  </div>
+</section>
+
+<section class="band-panel tight" id="steps">
+  <div class="wrap">
+    <div class="narrow">
+      <p class="eyebrow">How the two tools fit</p>
+      <h2 class="sub-title">Three steps, from the lab data to your pond.</h2>
+    </div>
+    <ol class="steps3">
+      <li>
+        <span class="step-n">1</span>
+        <h3>Compare treatments</h3>
+        <p>See which treatment leaves the widest margin for green algae, water fleas and fish, from published lab tests.</p>
+        <a href="/selectivity/">Rank treatments →</a>
+      </li>
+      <li>
+        <span class="step-n">2</span>
+        <h3>Simulate your pond</h3>
+        <p>Enter your pond, the weather and one treatment. See where the product goes and the predicted knock-down, toxin and oxygen over 14 days.</p>
+        <a href="/simulator/">Simulate your pond →</a>
+      </li>
+      <li>
+        <span class="step-n">3</span>
+        <h3>Plan the treatment</h3>
+        <p>Where the project is heading: helping you choose a dose and an application method within the label. Today, try one plan at a time in the simulator and compare the results yourself.</p>
+        <a href="/simulator/how-it-works/example/">See a worked example →</a>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="tight" id="what">
+  <div class="wrap chapter-main">
+    <p class="eyebrow">What it predicts</p>
+    <h2 class="sub-title">Enter your pond, the weather and one treatment.</h2>
+    <p>The simulator predicts the next 14 days, hour by hour.</p>
+    <div class="two-cards">
+      <div class="card"><h3>What it predicts</h3><p>Where the product goes, how much of the bloom is knocked down, toxin released into the water, oxygen through day and night, and how close green algae, water fleas and fish come to their lab effect levels.</p></div>
+      <div class="card"><h3>What you need</h3><p>Your pond's area and deepest point, water temperature, pH, alkalinity and cloudiness, the bloom's chlorophyll, and the product, dose, method and time. For weather, give a place and date, or describe one typical day. Every other field is optional.</p></div>
+    </div>
+    <div id="simulator">
+      <p>The simulator takes one pond, the weather and one treatment, and predicts the next 14 days hour by hour. It has three views of the same pond:</p>
+        <ul class="plainlist">
+          <li><strong>Well-mixed:</strong> one stirred tub, or just the warm top layer if the pond is layered.</li>
+          <li><strong>Layers:</strong> a stack of thin slices, 12 to 40 of them, about 6 inches each.</li>
+          <li><strong>Map and side slice:</strong> about 450 squares seen from above, with sideways currents, and a vertical cut along the wind. They track 1,000 colonies one by one.</li>
+        </ul>
+        <p>The physics comes from published equations. Each card says whether its numbers are <strong>SOURCED</strong> (read in the cited paper), <strong>DERIVED</strong> (worked out from sourced numbers or standard physics) or an <strong>ESTIMATE</strong> (a reasonable value with a range, where no measurement was found).</p>
+    </div>
+  </div>
+</section>
+
+<section class="tight" id="chapters">
+  <div class="wrap">
+    <p class="eyebrow">Chapter by chapter</p>
+    <h2 class="sub-title">A worked example, then every equation in five short chapters.</h2>
+    <div class="ch-cards">
+      <a class="ch-card" href="/simulator/how-it-works/example/"><span class="ch-k">Chapter 1</span><strong>Worked example</strong><span>One acre, a heavy bloom, peroxide at 3 mg/L: what the model predicts.</span></a>
+      <a class="ch-card" href="/simulator/how-it-works/water/"><span class="ch-k">Chapter 2</span><strong>The water</strong><span>Pond shape, light with depth, the heat budget and mixing.</span></a>
+      <a class="ch-card" href="/simulator/how-it-works/currents/"><span class="ch-k">Chapter 3</span><strong>Currents</strong><span>The wind counterflow, the tilted thermocline and the swirl.</span></a>
+      <a class="ch-card" href="/simulator/how-it-works/treatment/"><span class="ch-k">Chapter 4</span><strong>The treatment</strong><span>Peroxide, flumioxazin, diquat and clay, copper and hardness.</span></a>
+      <a class="ch-card" href="/simulator/how-it-works/bloom/"><span class="ch-k">Chapter 5</span><strong>The bloom</strong><span>Colony rise and random walk, damage and knock-down, toxin, oxygen.</span></a>
+      <a class="ch-card" href="/simulator/how-it-works/checks/"><span class="ch-k">Chapter 6</span><strong>Checks and limits</strong><span>The 200 uncertainty runs, how we checked it, what it doesn't do yet.</span></a>
+    </div>
+  </div>
+</section>
+
+<nav class="pager" aria-label="Chapter navigation">
+  <div class="wrap">
+    <div class="pager-row"><span></span><a class="pager-next" href="/simulator/how-it-works/example/"><span class="pager-k">Next ›</span><span class="pager-t">Worked example: one acre, one spray of peroxide</span></a></div>
+    <p class="pager-tool"><a class="chev" href="/simulator/">Open the simulator</a></p>
+  </div>
+</nav>
+</main>
+
+<footer class="cs-footer">
+  <div class="cs-wrap">
+    <div class="cs-foot-grid">
+      <div>
+        <h2>Selectivity Tool</h2>
+        <a href="/selectivity/">Open the tool</a>
+        <a href="/selectivity/how-it-works/">How it works</a>
+        <a href="/selectivity/how-it-works/example/">Worked example</a>
+        <a href="/selectivity/how-it-works/why/">Why these three</a>
+        <a href="/selectivity/how-it-works/math/">The math</a>
+        <a href="/selectivity/how-it-works/limits/">Limits and next steps</a>
+      </div>
+      <div>
+        <h2>Pond Simulator</h2>
+        <a href="/simulator/">Open the simulator</a>
+        <a href="/simulator/how-it-works/">How it works</a>
+        <a href="/simulator/how-it-works/example/">Worked example</a>
+        <a href="/simulator/how-it-works/water/">Water</a>
+        <a href="/simulator/how-it-works/currents/">Currents</a>
+        <a href="/simulator/how-it-works/treatment/">Treatment</a>
+        <a href="/simulator/how-it-works/bloom/">Bloom</a>
+        <a href="/simulator/how-it-works/checks/">Checks</a>
+      </div>
+      <div>
+        <h2>Project</h2>
+        <a href="/outreach/">Outreach</a>
+        <a href="/outreach/plant-visit/">Plant visit</a>
+        <a href="/outreach/conference/">Conference talk</a>
+        <a href="/data/">Data</a>
+        <a href="/data/sources/">Sources</a>
+        <a href="/about/">About</a>
+        <a href="/about/contact/">Contact</a>
+        <a href="/about/contact/#cite">How to cite</a>
+      </div>
+      <div>
+        <h2>Open source</h2>
+        <p>MIT license: free to use, modify and share, with attribution.</p>
+        <a href="https://doi.org/10.5281/zenodo.22135606">Archived release (DOI):<br>doi.org/10.5281/zenodo.22135606</a>
+        <a href="https://github.com/arjunpendharkar/selectivity-tool">Tool and data on GitHub</a>
+        <a href="https://github.com/siddharthsanthosh1/selectivity-tool-web">Website source on GitHub</a>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <a href="mailto:siddharthsann@gmail.com">siddharthsann@gmail.com</a>
+        <a href="mailto:apandaharkar@gmail.com">apandaharkar@gmail.com</a>
+        <p>Or open an issue on either GitHub repository.</p>
+        <p class="cs-status"><span class="cs-dot"></span>Framework complete. Laboratory validation planned.</p>
+      </div>
+    </div>
+    <p class="cs-disclaimer"><strong>Model predictions, not a treatment recommendation.</strong> CyanoSelect ranks treatments from published lab data and simulates ponds; none of its predictions has been tested in a real pond yet. Registered products have undergone risk assessment by the U.S. Environmental Protection Agency, and the product label governs how they may be used. Follow the label and your state’s rules, and consult a licensed aquatic applicator or your state agency before treating any water body.</p>
+    <p class="cs-colophon">Built by Arjun Pendharkar and Siddharth Santhosh, Green Level High School, under the supervision of Dr. Bharathi Pandi. This site describes research tools whose predictions have not yet been validated in a laboratory or a real pond, and it is not guidance for treating a waterbody.</p>
+  </div>
+</footer>
+
+<script src="/assets/site.js"></script>
+<script data-goatcounter="https://cyanoselect.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

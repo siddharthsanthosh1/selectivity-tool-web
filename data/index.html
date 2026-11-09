@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Data: the CyanoSelect dataset | CyanoSelect</title>
-<meta name="description" content="Download the CyanoSelect dataset of published toxicity values, see the data gap (15 of 52 target values), the sources behind each score and what SOURCED, DERIVED and ESTIMATE mean.">
+<title>Data | CyanoSelect</title>
+<meta name="description" content="Download the CyanoSelect dataset of published lab tests behind every ranking and simulator effect level, with its data gap, findings, labels and corrections.">
 <link rel="canonical" href="https://cyanoselect.org/data/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Data: the CyanoSelect dataset | CyanoSelect">
-<meta property="og:description" content="Download the CyanoSelect dataset of published toxicity values, see the data gap (15 of 52 target values), the sources behind each score and what SOURCED, DERIVED and ESTIMATE mean.">
+<meta property="og:title" content="Data | CyanoSelect">
+<meta property="og:description" content="Download the CyanoSelect dataset of published lab tests behind every ranking and simulator effect level, with its data gap, findings, labels and corrections.">
 <meta property="og:url" content="https://cyanoselect.org/data/">
 <meta property="og:site_name" content="CyanoSelect">
 <meta property="og:image" content="https://cyanoselect.org/images/og-preview.png">
@@ -17,8 +17,8 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="CyanoSelect: rank algae bloom treatments by their predicted risk to non-target organisms.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Data: the CyanoSelect dataset | CyanoSelect">
-<meta name="twitter:description" content="Download the CyanoSelect dataset of published toxicity values, see the data gap (15 of 52 target values), the sources behind each score and what SOURCED, DERIVED and ESTIMATE mean.">
+<meta name="twitter:title" content="Data | CyanoSelect">
+<meta name="twitter:description" content="Download the CyanoSelect dataset of published lab tests behind every ranking and simulator effect level, with its data gap, findings, labels and corrections.">
 <meta name="twitter:image" content="https://cyanoselect.org/images/og-preview.png">
 <meta name="theme-color" content="#0A4F54">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A4F54'/%3E%3Cpath d='M6 21c3-6 5-9 10-9s7 3 10 9' stroke='%2302C39A' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='10' r='2.6' fill='%2300A896'/%3E%3C/svg%3E">
@@ -27,35 +27,40 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/chrome.css">
 <link rel="stylesheet" href="/assets/site.css">
+<script>
+/* Old links to sections that moved to another page go there. */
+(function(){
+  var map = {"sources":"/data/sources/","sources-sec":"/data/sources/"};
+  var h = location.hash.slice(1);
+  if (h && map[h]) location.replace(map[h]);
+})();
+</script>
 </head>
-<body>
+<body class="pg-data">
 
 <a class="cs-skip" href="#main">Skip to content</a>
 <nav class="cs-nav" aria-label="Main">
   <div class="cs-wrap cs-nav-in">
-    <a class="cs-brand" href="/">
-      <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true">
-        <rect width="32" height="32" rx="7" fill="#02C39A" opacity=".16"/>
-        <path d="M6 21c3-6 5-9 10-9s7 3 10 9" stroke="#02C39A" stroke-width="2.6" fill="none" stroke-linecap="round"/>
-        <circle cx="16" cy="10" r="2.6" fill="#00A896"/>
-      </svg>
-      CyanoSelect
-    </a>
+    <a class="cs-brand" href="/"><svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#02C39A" opacity=".16"/><path d="M6 21c3-6 5-9 10-9s7 3 10 9" stroke="#02C39A" stroke-width="2.6" fill="none" stroke-linecap="round"/><circle cx="16" cy="10" r="2.6" fill="#00A896"/></svg>CyanoSelect</a>
     <div class="cs-links" id="csMenu">
-        <a href="/rank/">Rank</a>
-        <a href="/simulator/">Simulator</a>
-        <a href="/how-it-works/">How it works</a>
-        <a href="/data/" aria-current="page">Data</a>
-        <a href="/about/">About</a>
+      <a href="/selectivity/">Selectivity Tool</a>
+      <a href="/simulator/">Pond Simulator</a>
+      <a href="/outreach/">Outreach</a>
+      <a href="/data/" aria-current="true">Data</a>
+      <a href="/about/">About</a>
     </div>
-    <button type="button" class="cs-toggle" id="csToggle" aria-expanded="false" aria-controls="csMenu" aria-label="Open menu">
-      <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
-    </button>
+    <button type="button" class="cs-toggle" id="csToggle" aria-expanded="false" aria-controls="csMenu" aria-label="Open menu"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
+  </div>
+</nav>
+<nav class="cs-sub" aria-label="Data">
+  <div class="cs-wrap cs-sub-in">
+    <a class="cs-sub-name" href="/data/">Data</a>
+    <div class="cs-sub-links"><a href="/data/" aria-current="page">Dataset</a><a href="/data/sources/">Sources</a></div>
   </div>
 </nav>
 
 <main id="main">
-<header class="page-hero">
+<header class="page-hero ph-waves">
   <div class="wrap">
     <p class="eyebrow">Data</p>
     <h1>The numbers behind every score.</h1>
@@ -66,9 +71,14 @@
     </div>
     <p class="hero-note">The spreadsheet has one row per treatment and bloom genus, with each value's endpoint and source, and a README sheet. The archived release at the DOI is the citable version of the method.</p>
   </div>
+  <svg class="hero-waves" viewBox="0 0 1440 130" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 74c180-40 300 26 480 10s300-58 480-40 300 62 480 34v52H0z" fill="#02C39A" opacity=".10"/>
+    <path d="M0 96c200-34 320 18 520 6s320-46 520-30 260 48 400 30v28H0z" fill="#00A896" opacity=".14"/>
+    <path d="M0 116c220-24 360 12 560 2s340-30 560-16 200 26 320 18v10H0z" fill="#EEF4F4"/>
+  </svg>
 </header>
 
-<section class="band-panel" id="gap">
+<section class="band-panel tight" id="gap">
   <div class="wrap">
     <div class="narrow">
       <p class="eyebrow">The data gap</p>
@@ -97,10 +107,22 @@
       </table>
     </div>
     <p class="scroll-hint">Scroll the table sideways to see every column.</p>
+
+    <article class="road-item road-solo" id="next-data">
+      <div><div class="road-num">2</div></div>
+      <div>
+        <p class="step-title">What's next: data</p>
+        <div class="road-head">
+          <h3>Fill in the missing data</h3>
+        </div>
+        <p>Only 15 of 52 target-kill cells are currently filled. Some of those gaps are genuine absences in the literature, and some are values locked behind paywalls or buried in regulatory documents. Every cell filled makes the ranking more stable. Priorities are additional target-kill values for the three under-covered cyanobacteria genera, and cross-validating the values that currently rest on a single source.</p>
+        <p class="note-muted">One of four next steps. The others: <a href="/selectivity/how-it-works/limits/#next">lab validation</a>, <a href="/outreach/#practitioners">outreach</a> and <a href="/selectivity/how-it-works/limits/#scope">scope</a>.</p>
+      </div>
+    </article>
   </div>
 </section>
 
-<section class="band-deep" id="findings">
+<section class="band-deep tight" id="findings">
   <div class="wrap">
     <!-- findings -->
     <div>
@@ -114,7 +136,7 @@
         <article class="finding reveal">
           <p class="n">Finding 01</p>
           <h3>Copper's effective dose rises with bloom density.</h3>
-          <p>Published work (Tsai 2016; Kinley et al. 2017) shows the concentration needed to control <em>Microcystis</em> rises as cell density increases. That narrows copper's margin against <em>Daphnia</em>, which is already its weakest axis in the <a href="/rank/#try">ranking</a>. Copper's score is the one most sensitive to the conditions of a real bloom.</p>
+          <p>Published work (Tsai 2016; Kinley et al. 2017) shows the concentration needed to control <em>Microcystis</em> rises as cell density increases. That narrows copper's margin against <em>Daphnia</em>, which is already its weakest axis in the <a href="/selectivity/">ranking</a>. Copper's score is the one most sensitive to the conditions of a real bloom.</p>
           <p class="stat">SI 3.4<small>Daphnia axis, at test cell density</small></p>
         </article>
 
@@ -136,162 +158,36 @@
   </div>
 </section>
 
-<section id="sources-sec">
+<section class="tight" id="sources-sec">
   <div class="wrap">
-    <p class="narrow note-muted">Below, "EPA ECOTOX" is the U.S. Environmental Protection Agency's ECOTOX knowledgebase of toxicity tests.</p>
-    <div class="accs">
-      <details class="acc" id="sources">
-        <summary><span class="acc-head"><span class="acc-k">Where the numbers come from</span><span class="acc-t">The published values behind each score.</span></span><svg class="acc-chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
-        <div class="acc-body">
-          <div class="narrow">
-            <p class="lede">Each selectivity index is a non-target EC50 divided by the <em>Microcystis</em> EC50. A lower EC50 means the organism responds at a lower dose.</p>
-          </div>
-
-          <div class="grid-3 src-grid">
-            <article class="card src-card">
-              <h3>Diquat dibromide</h3>
-                <div class="table-scroll">
-                  <table class="src-table">
-                    <thead><tr><th scope="col">Organism</th><th scope="col" class="num">EC50</th><th scope="col">Source</th></tr></thead>
-                    <tbody>
-                      <tr><td><em>Microcystis</em></td><td class="num">0.098, 0.105 mg/L</td><td>Peterson et al. 1997<span class="how">Carbon-uptake test, about 22 h</span></td></tr>
-                      <tr><td>Green alga</td><td class="num">0.492 mg/L</td><td>Peterson et al. 1997<span class="how">Same study and test (value used)</span></td></tr>
-                      <tr><td>Green alga</td><td class="num">0.032 mg/L</td><td>EPA ECOTOX<span class="how">72 to 96 h growth (not used)</span></td></tr>
-                      <tr><td>Green alga</td><td class="num">0.13 mg/L</td><td>Reward product safety data sheet<span class="how">72 h, as formulated product (not used)</span></td></tr>
-                      <tr><td><em>Daphnia</em></td><td class="num">1.86 mg/L</td><td>EPA ECOTOX<span class="how"></span></td></tr>
-                      <tr><td>Fish</td><td class="num">50.2 mg/L</td><td>EPA ECOTOX<span class="how"></span></td></tr>
-                    </tbody>
-                  </table>
-                </div>
-            </article>
-            <article class="card src-card">
-              <h3>Copper sulfate</h3>
-                <div class="table-scroll">
-                  <table class="src-table">
-                    <thead><tr><th scope="col">Organism</th><th scope="col" class="num">EC50</th><th scope="col">Source</th></tr></thead>
-                    <tbody>
-                      <tr><td><em>Microcystis</em></td><td class="num">0.063 mg Cu/L</td><td>Tsai 2016<span class="how">Matched 96 h growth</span></td></tr>
-                      <tr><td>Green alga</td><td class="num">1.873 mg Cu/L</td><td>Tsai 2016<span class="how">Matched 96 h growth</span></td></tr>
-                      <tr><td><em>Daphnia</em></td><td class="num">0.216 mg Cu/L</td><td>EPA ECOTOX Knowledgebase<span class="how"></span></td></tr>
-                      <tr><td>Fish</td><td class="num">0.317 mg Cu/L</td><td>EPA ECOTOX Knowledgebase<span class="how"></span></td></tr>
-                    </tbody>
-                  </table>
-                </div>
-            </article>
-            <article class="card src-card">
-              <h3>Hydrogen peroxide</h3>
-                <div class="table-scroll">
-                  <table class="src-table">
-                    <thead><tr><th scope="col">Organism</th><th scope="col" class="num">EC50</th><th scope="col">Source</th></tr></thead>
-                    <tbody>
-                      <tr><td><em>Microcystis</em></td><td class="num">2.62 mg/L</td><td>Weenink et al. 2022<span class="how"></span></td></tr>
-                      <tr><td>Green alga</td><td class="num">27.7 mg/L</td><td>Weenink et al. 2022<span class="how"></span></td></tr>
-                      <tr><td><em>Daphnia</em></td><td class="num">6.51 mg/L</td><td>Weenink et al. 2022<span class="how"></span></td></tr>
-                    </tbody>
-                  </table>
-                </div>
-            </article>
-          </div>
-
-          <div class="narrow src-group">
-            <h3>Added October 2026</h3>
-            <p class="lede">These values filled new cells in the dataset. Each selectivity index here divides the bystander's EC50 by that row's cyanobacterium EC50.</p>
-          </div>
-
-          <div class="grid-3 src-grid">
-            <article class="card src-card">
-              <h3>Diquat dibromide, <em>Anabaena</em></h3>
-                <div class="table-scroll">
-                  <table class="src-table">
-                    <thead><tr><th scope="col">Organism</th><th scope="col" class="num">EC50</th><th scope="col">Source</th></tr></thead>
-                    <tbody>
-                      <tr><td><em>Anabaena inaequalis</em></td><td class="num">0.005 mg/L</td><td>Peterson et al. 1997, Table 5<span class="how">Carbon-uptake test, about 22 h</span></td></tr>
-                      <tr><td>Green alga</td><td class="num">0.492 mg/L</td><td>Peterson et al. 1997<span class="how">Same study and test (value used)</span></td></tr>
-                      <tr><td><em>Daphnia</em></td><td class="num">1.86 mg/L</td><td>EPA ECOTOX<span class="how">Not matched to the target's test length</span></td></tr>
-                      <tr><td>Fish</td><td class="num">50.2 mg/L</td><td>EPA ECOTOX<span class="how">Not matched to the target's test length</span></td></tr>
-                    </tbody>
-                  </table>
-                </div>
-                <p class="src-note">Selectivity vs. green alga: about 98.</p>
-            </article>
-            <article class="card src-card">
-              <h3>Endothall, <em>Anabaena flos-aquae</em></h3>
-                <p class="src-note">Two salts. Values are in mg/L acid equivalent.</p>
-                <div class="table-scroll">
-                  <table class="src-table">
-                    <thead><tr><th scope="col">Organism</th><th scope="col" class="num">EC50</th><th scope="col">Source</th></tr></thead>
-                    <tbody>
-                      <tr><td>Dipotassium salt, <em>A. flos-aquae</em></td><td class="num">1.56</td><td>US EPA 2015 registration review<span class="how">120 h growth rate</span></td></tr>
-                      <tr><td>Dipotassium salt, green alga</td><td class="num">&gt;7.0</td><td>US EPA 2015<span class="how">120 h; only 2% effect at the top dose, so the true value is higher</span></td></tr>
-                      <tr><td>Dipotassium salt, <em>Daphnia</em></td><td class="num">70.7</td><td>US EPA 2015<span class="how"></span></td></tr>
-                      <tr><td>Dipotassium salt, fish (rainbow trout)</td><td class="num">9.152</td><td>US EPA 2015<span class="how"></span></td></tr>
-                      <tr><td>Amine salt (Hydrothol-type), <em>A. flos-aquae</em></td><td class="num">0.040</td><td>US EPA 2015<span class="how">96 h</span></td></tr>
-                      <tr><td>Amine salt, green alga</td><td class="num">0.0023</td><td>US EPA 2015<span class="how">96 h</span></td></tr>
-                      <tr><td>Amine salt, <em>Daphnia</em></td><td class="num">0.084</td><td>US EPA 2015<span class="how"></span></td></tr>
-                      <tr><td>Amine salt, fish (rainbow trout)</td><td class="num">0.131</td><td>US EPA 2015<span class="how"></span></td></tr>
-                    </tbody>
-                  </table>
-                </div>
-                <p class="src-note">The amine salt reaches the green alga at a lower dose than the cyanobacterium (selectivity about 0.06). The dipotassium salt does not (above 4.5).</p>
-            </article>
-            <article class="card src-card">
-              <h3>Flumioxazin, <em>Anabaena flos-aquae</em></h3>
-                <div class="table-scroll">
-                  <table class="src-table">
-                    <thead><tr><th scope="col">Organism</th><th scope="col" class="num">EC50</th><th scope="col">Source</th></tr></thead>
-                    <tbody>
-                      <tr><td><em>Anabaena flos-aquae</em></td><td class="num num-wrap">0.00083 mg/L (0.83 µg/L)</td><td>US EPA 2003 review<span class="how">5-day test</span></td></tr>
-                      <tr><td>Green alga (<em>Selenastrum capricornutum</em>)</td><td class="num num-wrap">0.00102 mg/L (1.02 µg/L)</td><td>US EPA 2003 review<span class="how">Same review</span></td></tr>
-                      <tr><td><em>Daphnia</em>, fish</td><td class="num num-wrap">not yet compiled</td><td><span class="how"></span></td></tr>
-                    </tbody>
-                  </table>
-                </div>
-                <p class="src-note">Selectivity vs. green alga: about 1.2, a very thin margin.</p>
-            </article>
-            <article class="card src-card">
-              <h3>Thiazole amide (compound 10), <em>Microcystis</em>: corrected</h3>
-                <div class="table-scroll">
-                  <table class="src-table">
-                    <thead><tr><th scope="col">Organism</th><th scope="col" class="num">EC50</th><th scope="col">Source</th></tr></thead>
-                    <tbody>
-                      <tr><td><em>Microcystis aeruginosa</em></td><td class="num">1.51 mg/L</td><td>Wang et al. 2018, <em>Scientific Reports</em><span class="how">96 h</span></td></tr>
-                      <tr><td>Green alga (<em>Chlorella pyrenoidosa</em>)</td><td class="num">1.52 mg/L</td><td>Wang et al. 2018<span class="how">Same study and test</span></td></tr>
-                    </tbody>
-                  </table>
-                </div>
-                <p class="src-note">Corrected from 0.08 mg/L, which belonged to a different organism in the same table. Selectivity vs. green alga: about 1.0.</p>
-            </article>
-          </div>
-
-          <p class="narrow src-foot">A 2026 screen of 15 herbicides (Barrick et al., <em>Environmental Toxicology and Chemistry</em>) did not list endothall or flumioxazin among the treatments that slowed <em>Dolichospermum</em> growth. We keep the EPA values and flag them until we can read that study's full data.</p>
-
-          <p class="narrow src-foot">EC50 values differ between studies because of test length, endpoint, strain, and water chemistry. Rankings should be read as comparisons, not predictions for a specific pond.</p>
-        </div>
-      </details>
-    </div>
+    <a class="next-card next-link" href="/data/sources/">
+      <div>
+        <p class="eyebrow">Sources</p>
+        <h2 class="sub-title">Where the numbers come from</h2>
+        <p>The published values behind each score: the source cards for diquat, copper sulfate and hydrogen peroxide, and the values added in October 2026.</p>
+      </div>
+      <span class="chev">See every source</span>
+    </a>
   </div>
 </section>
-<section class="band-panel" id="corrections">
-  <div class="wrap">
-    <div class="narrow">
+<section class="band-panel tight" id="corrections-labels">
+  <div class="wrap two-col cl-split">
+    <div id="corrections">
       <p class="eyebrow">Corrections</p>
       <h2>What we have changed, and why.</h2>
-          <p class="corrections"><strong>Corrections.</strong> September 2026: diquat values corrected after expert review. An earlier version paired mismatched studies and ranked diquat last. October 2026: Data-gap count updated from 13 to 15 of 52 after published Anabaena values for endothall and diquat were added. October 2026: Thiazole amide (compound 10) vs. Microcystis corrected from 0.08 to 1.51 mg/L; the earlier value belonged to a different organism in the same study table. Three Anabaena values added (diquat, endothall, flumioxazin); sources are listed under Where the numbers come from.</p>
+          <p class="corrections"><strong>Corrections.</strong> September 2026: diquat values corrected after expert review. An earlier version paired mismatched studies and ranked diquat last. October 2026: Data-gap count updated from 13 to 15 of 52 after published Anabaena values for endothall and diquat were added. October 2026: Thiazole amide (compound 10) vs. Microcystis corrected from 0.08 to 1.51 mg/L; the earlier value belonged to a different organism in the same study table. Three Anabaena values added (diquat, endothall, flumioxazin); sources are listed under <a href="/data/sources/">Where the numbers come from</a>.</p>
     </div>
-  </div>
-</section>
-
-<section id="labels">
-  <div class="wrap">
-    <div class="narrow">
+    <div>
+    <div id="labels">
       <p class="eyebrow">Labels</p>
       <h2>What each label means.</h2>
-      <p class="lede">The simulator lists every number it uses, with its source and one of three labels. The same words appear on the How it works page.</p>
+      <p class="lede">The simulator lists every number it uses, with its source and one of three labels. The same words appear on the simulator's <a href="/simulator/how-it-works/">How it works</a> pages.</p>
     </div>
     <div class="grid-3 labels-grid">
       <article class="card"><h3><span class="lab src2">SOURCED</span></h3><p>Read in the cited paper or dataset. Where we could not open a source to check it, the simulator's notes say so.</p></article>
       <article class="card"><h3><span class="lab der">DERIVED</span></h3><p>Worked out from sourced numbers or standard physics, like the speed of the wind-driven counterflow.</p></article>
       <article class="card"><h3><span class="lab est">ESTIMATE</span></h3><p>A physically reasonable value with a range, where no measurement was found, or where the citation is still pending. The uncertainty runs vary it across its range.</p></article>
+    </div>
     </div>
   </div>
 </section>
@@ -299,20 +195,42 @@
 
 <footer class="cs-footer">
   <div class="cs-wrap">
-    <p class="cs-disclaimer"><strong>Model predictions, not a treatment recommendation.</strong> CyanoSelect ranks treatments from published lab data and simulates ponds; none of its predictions has been tested in a real pond yet. Registered products have undergone risk assessment by the U.S. Environmental Protection Agency, and the product label governs how they may be used. Follow the label and your state's rules, and consult a licensed aquatic applicator or your state agency before treating any water body.</p>
     <div class="cs-foot-grid">
       <div>
-        <h2>CyanoSelect</h2>
-        <a href="/rank/">Rank treatments</a>
-        <a href="/simulator/">Simulate your pond</a>
-        <a href="/how-it-works/">How it works</a>
+        <h2>Selectivity Tool</h2>
+        <a href="/selectivity/">Open the tool</a>
+        <a href="/selectivity/how-it-works/">How it works</a>
+        <a href="/selectivity/how-it-works/example/">Worked example</a>
+        <a href="/selectivity/how-it-works/why/">Why these three</a>
+        <a href="/selectivity/how-it-works/math/">The math</a>
+        <a href="/selectivity/how-it-works/limits/">Limits and next steps</a>
+      </div>
+      <div>
+        <h2>Pond Simulator</h2>
+        <a href="/simulator/">Open the simulator</a>
+        <a href="/simulator/how-it-works/">How it works</a>
+        <a href="/simulator/how-it-works/example/">Worked example</a>
+        <a href="/simulator/how-it-works/water/">Water</a>
+        <a href="/simulator/how-it-works/currents/">Currents</a>
+        <a href="/simulator/how-it-works/treatment/">Treatment</a>
+        <a href="/simulator/how-it-works/bloom/">Bloom</a>
+        <a href="/simulator/how-it-works/checks/">Checks</a>
+      </div>
+      <div>
+        <h2>Project</h2>
+        <a href="/outreach/">Outreach</a>
+        <a href="/outreach/plant-visit/">Plant visit</a>
+        <a href="/outreach/conference/">Conference talk</a>
         <a href="/data/">Data</a>
+        <a href="/data/sources/">Sources</a>
         <a href="/about/">About</a>
+        <a href="/about/contact/">Contact</a>
+        <a href="/about/contact/#cite">How to cite</a>
       </div>
       <div>
         <h2>Open source</h2>
         <p>MIT license: free to use, modify and share, with attribution.</p>
-        <a href="https://doi.org/10.5281/zenodo.22135606">Archived release: doi.org/10.5281/zenodo.22135606</a>
+        <a href="https://doi.org/10.5281/zenodo.22135606">Archived release (DOI):<br>doi.org/10.5281/zenodo.22135606</a>
         <a href="https://github.com/arjunpendharkar/selectivity-tool">Tool and data on GitHub</a>
         <a href="https://github.com/siddharthsanthosh1/selectivity-tool-web">Website source on GitHub</a>
       </div>
@@ -321,8 +239,10 @@
         <a href="mailto:siddharthsann@gmail.com">siddharthsann@gmail.com</a>
         <a href="mailto:apandaharkar@gmail.com">apandaharkar@gmail.com</a>
         <p>Or open an issue on either GitHub repository.</p>
+        <p class="cs-status"><span class="cs-dot"></span>Framework complete. Laboratory validation planned.</p>
       </div>
     </div>
+    <p class="cs-disclaimer"><strong>Model predictions, not a treatment recommendation.</strong> CyanoSelect ranks treatments from published lab data and simulates ponds; none of its predictions has been tested in a real pond yet. Registered products have undergone risk assessment by the U.S. Environmental Protection Agency, and the product label governs how they may be used. Follow the label and your state’s rules, and consult a licensed aquatic applicator or your state agency before treating any water body.</p>
     <p class="cs-colophon">Built by Arjun Pendharkar and Siddharth Santhosh, Green Level High School, under the supervision of Dr. Bharathi Pandi. This site describes research tools whose predictions have not yet been validated in a laboratory or a real pond, and it is not guidance for treating a waterbody.</p>
   </div>
 </footer>

@@ -12,30 +12,38 @@ identify the lowest-risk option.
 
 ## What's here
 
-A static site with no backend. It runs entirely in the browser and deploys to **Netlify** from the `main` branch, root folder. Reorganized in November 2026 (see `SITE_AUDIT.md`).
+A static site with no backend. It runs entirely in the browser and deploys to **Netlify** from the `main` branch, root folder. Reorganized again in November 2026 into two products, each with its own sub-nav (see `DESIGN_NOTES.md`).
 
-| Page | File | What's on it |
+| Page | URL | What's on it |
 |---|---|---|
-| Home | `index.html` | What CyanoSelect is, three steps, credibility strip |
-| Rank treatments | `rank/index.html` | The interactive ranking (`assets/rank.js`), the results table, limitations |
-| Simulate your pond | `simulator/index.html` | The pond simulator in the site's header and footer |
-| How it works | `how-it-works/index.html` | The story, the ranking math and every simulator equation (KaTeX 0.16.11 from jsDelivr, pinned with integrity hashes) |
-| Data | `data/index.html` | Dataset download (`data/cyanoselect-dataset-2026-11-01.xlsx`), the data gap, sources, labels, corrections |
-| About | `about/index.html` | Team, timeline, talks and articles, outreach, thanks, what's next, contact |
+| Home | `/` | Hero, one tile per product, outreach tile, facts strip |
+| Selectivity Tool | `/selectivity/` | The interactive ranking (`assets/rank.js`) |
+| How it works | `/selectivity/how-it-works/` (+ `why/`, `math/`, `limits/`) | Score, separate, combine; worked example; data gap; the math; limitations and next steps |
+| Pond Simulator | `/simulator/` | The simulator, inside the site's header, sub-nav and footer |
+| How it works | `/simulator/how-it-works/` (+ `water/`, `currents/`, `treatment/`, `bloom/`, `checks/`) | Why we built it, worked example, then every equation by chapter (KaTeX 0.16.11 from jsDelivr, pinned with integrity hashes) |
+| Outreach | `/outreach/` | Timeline, plant visit, conference talk, expert review, talks and articles |
+| Data | `/data/` | Dataset download (`data/cyanoselect-dataset-2026-11-01.xlsx`), the data gap, findings, sources, corrections, labels |
+| About | `/about/` | Team, why we started, timeline, talks, thanks, contact |
 
-Shared files: `assets/chrome.css` (header and footer, also used by the simulator), `assets/site.css` (page styles), `assets/site.js` (menu, accordions, carousels). The header and footer are repeated in each page's HTML, so change them everywhere at once. `_redirects` sends `/about.html` to `/about/` and keeps the simulator's tests, tools and notes off the public site; `about.html` is a small redirect page for hosts without `_redirects`. Links to the old single-page anchors (`/#try`, `/#sources` …) are forwarded by a script on the home page.
+**Editing pages.** Every page except the simulator is built from a fragment in `tools/pages/`. The header, product sub-navs, chapter links and footer live once, in `tools/chrome.js`. After editing either, run:
 
-**Rebuilding the simulator page** after changing anything in `simulator/`:
+```
+node tools/build-site.js
+```
+
+Styles: `assets/chrome.css` (header, sub-nav, footer; also used by the simulator), `assets/site.css` (page styles). Scripts: `assets/site.js` (menu, accordions, carousels, lightbox). `_redirects` sends every old URL (`/about.html`, `/rank/`, `/how-it-works/` …) to its new page and keeps `tools/`, the simulator's tests and notes, and internal notes off the public site. Old in-page anchors (`/#try`, `/how-it-works/#m-heat` …) are forwarded by a small script on the page they land on.
+
+**Rebuilding the simulator page** after changing anything in `simulator/` or `tools/chrome.js`:
 
 ```
 cd simulator && node tools/build-page.js && cd .. && node tools/wrap-simulator.js
 ```
 
-`build-page.js` needs the `marked` package for the built-in guide. `wrap-simulator.js` adds the site header, intro and footer; it refuses to run twice on the same build. The simulator's own tests, review and README are in `simulator/`.
+`build-page.js` needs the `marked` package for the built-in guide. `wrap-simulator.js` adds the site header, the Pond Simulator sub-nav and the footer; it refuses to run twice on the same build. The simulator's own tests, review and README are in `simulator/`.
 
 ## The interactive tool
 
-The "Try it yourself" section runs the ranking model live in the browser:
+The Selectivity Tool page (`/selectivity/`) runs the ranking model live in the browser:
 
 - Switch between **worst-axis (min-SI)** and **geometric mean** scoring, and watch
   the ranking reorder

@@ -1,0 +1,95 @@
+<header class="page-hero ph-waves">
+  <div class="wrap">
+    <p class="eyebrow">Pond Simulator · How it works</p>
+    <h1>The bloom.</h1>
+    <p class="lede">How colonies rise and wander, how damage builds inside the cells, and what happens to toxin and oxygen after a knock-down.</p>
+  </div>
+  <svg class="hero-waves" viewBox="0 0 1440 130" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 74c180-40 300 26 480 10s300-58 480-40 300 62 480 34v52H0z" fill="#02C39A" opacity=".10"/>
+    <path d="M0 96c200-34 320 18 520 6s320-46 520-30 260 48 400 30v28H0z" fill="#00A896" opacity=".14"/>
+    <path d="M0 116c220-24 360 12 560 2s340-30 560-16 200 26 320 18v10H0z" fill="#EEF4F4"/>
+  </svg>
+</header>
+
+<!--CHAPTERS-->
+
+<section class="chapter">
+  <div class="wrap chapter-main">
+<article class="mcard" id="m-rise">
+          <h3>Colony rise (Stokes' law)</h3>
+          <p class="plain"><em>Microcystis</em> colonies have gas pockets and float, at a speed set by their size and how much lighter than water they are.</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ w = \frac{g\,(\rho_w - \rho_c)\,d^2}{18\,\mu(T)} \]</div>
+          <details class="symbols"><summary>What the symbols mean</summary><div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars"><thead><tr><th scope="col">Symbol</th><th scope="col">Meaning</th><th scope="col">Units</th><th scope="col">Value</th></tr></thead><tbody>
+            <tr><td>\(\rho_c\)</td><td>Colony density</td><td>kg/m³</td><td>985 (Zhao 2017, SOURCED)</td></tr>
+            <tr><td>\(d\)</td><td>Colony diameter</td><td>µm</td><td>200 (100–400), <span class="lab est">ESTIMATE</span></td></tr>
+            <tr><td>\(\mu(T)\)</td><td>Water viscosity at the water temperature</td><td>Pa·s</td><td>Vogel's formula</td></tr>
+          </tbody></table></div></details>
+          <p class="src">A 200-micron colony rises about 1 m (3.5 ft) per hour. <em>Planktothrix</em> is treated as neutral; <em>Anabaena</em> gets a slow estimated rise. The colonies don't sink by day and rise at night yet.</p>
+        </article>
+
+<article class="mcard" id="m-walk">
+          <h3>The colony random walk</h3>
+          <p class="plain">On the map, each tracked colony takes a random step up or down every minute or two, sized by the mixing strength at its depth, so that colonies that simply follow the water stay evenly spread (Visser 1997).</p>
+          <p>For the mixing profile above, \(K = \kappa u_* z(D - z)/D\), a colony's depth behaves exactly like a dot wandering over a ball, with depth read off its height: \(z = \tfrac{D}{2}(1 - \cos\theta)\). Each step turns the ball by a random angle \(\rho\) in a random direction \(\phi\):</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ \cos\theta' = \cos\theta\cos\rho + \sin\theta\sin\rho\cos\phi, \qquad \rho = \sqrt{-\frac{4\kappa u_*\Delta t}{D}\ln U_1}, \qquad \phi = 2\pi U_2 \]</div>
+          <details class="symbols"><summary>What the symbols mean</summary><div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars"><thead><tr><th scope="col">Symbol</th><th scope="col">Meaning</th><th scope="col">Units</th></tr></thead><tbody>
+            <tr><td>\(\theta\)</td><td>The colony's position on the ball</td><td>radians</td></tr>
+            <tr><td>\(U_1,\ U_2\)</td><td>Random numbers between 0 and 1</td><td>none</td></tr>
+            <tr><td>\(\Delta t\)</td><td>Step length</td><td>s (30–180)</td></tr>
+          </tbody></table></div></details>
+          <p class="src">Each step has the same average size and spread as Visser's (1997) random walk. Turning a ball keeps an even spread exactly even, whatever the step length.</p>
+          <p class="src"><strong>Changed Nov 8, 2026.</strong> Until then the model used Visser's step directly. With these step lengths it left the top and bottom few percent of the stirred water 20–33% too full of colonies. A calm-water floor, \(K_{\min}\), is added as a separate even step. <span class="lab der">DERIVED</span></p>
+        </article>
+
+<article class="mcard" id="m-guts">
+          <h3>The damage model (GUTS) and the share knocked down</h3>
+          <p class="plain">In a pond the concentration spikes and fades, so the model turns a changing exposure into damage inside the cells. A cell is knocked down when its damage passes its own toughness.</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ \frac{dD}{dt} = k_d\,\big(C(t) - D\big), \qquad F_{\text{knocked down}} = \frac{1}{1 + \big(m / D_{\max}\big)^{\beta}} \]</div>
+          <details class="symbols"><summary>What the symbols mean</summary><div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars"><thead><tr><th scope="col">Symbol</th><th scope="col">Meaning</th><th scope="col">Units</th><th scope="col">Value</th></tr></thead><tbody>
+            <tr><td>\(D\)</td><td>Damage, in concentration units</td><td>mg/L</td><td></td></tr>
+            <tr><td>\(k_d\)</td><td>Damage rate</td><td>1/h</td><td>0.45 (0.1–2), <span class="lab est">ESTIMATE</span></td></tr>
+            <tr><td>\(D_{\max}\)</td><td>Highest damage reached so far</td><td>mg/L</td><td></td></tr>
+            <tr><td>\(m\)</td><td>Median toughness, set so the lab test gives exactly 50% at its EC50 and test length</td><td>mg/L</td><td>calibrated</td></tr>
+            <tr><td>\(\beta\)</td><td>How spread out the toughness is</td><td>none</td><td>2 (1–4), <span class="lab est">ESTIMATE</span></td></tr>
+          </tbody></table></div></details>
+          <p class="src">GUTS (General Unified Threshold model of Survival) is the standard framework in ecotoxicology. This is its tolerance rule. The other rule, sudden death, knocks cells down at random at a rate \(b_w\max(0, D - z)\); the page shows it as a separate scenario. The peroxide test dosed once and let it fade, so the calibration replays that fading dose, at an estimated 0.46 per hour. "Knocked down" means photosynthesis or growth stopped, which is what the lab measured, not confirmed death.</p>
+        </article>
+
+<article class="mcard" id="m-toxin">
+          <h3>Toxin release and breakdown</h3>
+          <p class="plain">Cells hold most of their toxin inside. Knocked-down cells leak it into the water. Bacteria break dissolved toxin down after a lag, and sunlight slowly breaks it down in the stirred top water.</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ \frac{dM}{dt} = k_{\text{rel}}\,Y\,M_{\text{cell}} - \big(k_{\text{bio}} + k_{\text{sun}}\big)\,M, \qquad k_{\text{sun}} = \frac{\ln 2}{105\ \text{days·m} \times D} \]</div>
+          <details class="symbols"><summary>What the symbols mean</summary><div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars"><thead><tr><th scope="col">Symbol</th><th scope="col">Meaning</th><th scope="col">Units</th><th scope="col">Value</th></tr></thead><tbody>
+            <tr><td>\(M\)</td><td>Dissolved microcystin</td><td>µg/L</td><td>5% of the total at the start (1–10%)</td></tr>
+            <tr><td>\(M_{\text{cell}}\)</td><td>Toxin inside the cells: 0.4 µg per µg of chlorophyll (typical bloom)</td><td>µg/L</td><td><span class="lab est">ESTIMATE</span>, citation pending</td></tr>
+            <tr><td>\(Y\)</td><td>Share of the bloom knocked down but not yet leaked</td><td>none</td><td></td></tr>
+            <tr><td>\(k_{\text{rel}}\)</td><td>Leak rate</td><td>1/day</td><td>1 (0.5–1.5), <span class="lab est">ESTIMATE</span></td></tr>
+            <tr><td>\(k_{\text{bio}}\)</td><td>Bacterial breakdown, after a lag of 3 days (0–7)</td><td>1/day</td><td>0.46 (0.155–1.0); upper end SOURCED (Christoffersen et al. 2002), rest <span class="lab est">ESTIMATE</span></td></tr>
+            <tr><td>105</td><td>Sunlight half-life per metre of stirred water</td><td>days·m</td><td>105 (90–120), Welker & Steinberg 2000, SOURCED</td></tr>
+            <tr><td>\(D\)</td><td>Stirred-water depth (volume ÷ area); none under the thermocline</td><td>m</td><td></td></tr>
+          </tbody></table></div></details>
+          <p class="src">The page compares <strong>all</strong> toxin, inside cells and out, with the U.S. Environmental Protection Agency swimming advisory level (8 µg/L) and the World Health Organization levels, because that is what those levels are written for. It shows dissolved toxin separately, because that is the part a water plant's filters don't remove. Treatment doesn't make new toxin; it moves it out of the cells.</p>
+        </article>
+
+<article class="mcard" id="m-oxygen">
+          <h3>Oxygen</h3>
+          <p class="plain">The living bloom makes oxygen by day and breathes day and night; everything else in the pond is sized so the untreated pond is in balance. A knock-down stops the bloom's oxygen while the pond keeps breathing, which is the main cause of fish kills after a treatment.</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ \frac{d\,\Delta}{dt} = R_{\text{bloom}} - P_{\text{bloom}} + R_{\text{other}} + 2.67\,k_{\text{dead}}\,C_{\text{dead}} + \frac{S\,\theta^{T-20}}{D} - k_{\mathrm O_2}\,\frac{\Delta}{D}, \qquad \mathrm{DO} = \mathrm{DO}_{\text{sat}}(T) - \Delta \]</div>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ P_{\text{bloom}} = P_{\max}\,1.066^{\,T-25}\,\mathrm{Chl}_{\text{live}}\;\overline{\frac{I}{I + I_k}}\;\cdot\mathrm{PQ}\cdot\tfrac{32}{12}, \qquad k_{600} = 2.07 + 0.215\,U^{1.7}\ \text{cm/h}, \qquad k_{\mathrm O_2} = k_{600}\left(\frac{\mathrm{Sc}}{600}\right)^{-n} \]</div>
+          <details class="symbols"><summary>What the symbols mean</summary><div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars"><thead><tr><th scope="col">Symbol</th><th scope="col">Meaning</th><th scope="col">Units</th><th scope="col">Value</th></tr></thead><tbody>
+            <tr><td>\(\Delta\)</td><td>Oxygen shortfall below saturation</td><td>mg/L</td><td></td></tr>
+            <tr><td>\(P_{\max}\)</td><td>Bloom photosynthesis in bright light</td><td>mg C per mg chlorophyll per hour</td><td>4.5 (2–9), <span class="lab est">ESTIMATE</span> (Behrenfeld & Falkowski 1997)</td></tr>
+            <tr><td>\(R_{\text{bloom}}\)</td><td>Bloom breathing</td><td>× \(P_{\max}\)</td><td>0.1 (0.05–0.2), <span class="lab est">ESTIMATE</span></td></tr>
+            <tr><td>\(R_{\text{other}}\)</td><td>Everything else breathing, balanced to the untreated pond; half keeps going after a knock-down</td><td>mg/L/h</td><td>share 0.5 (0–1), <span class="lab est">ESTIMATE</span></td></tr>
+            <tr><td>\(k_{\text{dead}}\)</td><td>Dead bloom decay</td><td>1/day</td><td>0.2 at 20 °C (0.1–0.5), <span class="lab est">ESTIMATE</span></td></tr>
+            <tr><td>\(S\)</td><td>Pond-bed oxygen demand, where the stirred water touches the bed</td><td>g/m²/day</td><td>1.0 (0.5–1.8); centre SOURCED (Hammermeister 1982)</td></tr>
+            <tr><td>\(k_{600},\ n\)</td><td>Gas exchange through the surface; \(n = 2/3\) below 3.7 m/s wind, \(1/2\) above</td><td>cm/h</td><td>Cole & Caraco 1998, SOURCED</td></tr>
+            <tr><td>\(\mathrm{Sc}\)</td><td>Schmidt number of oxygen at the water temperature</td><td>none</td><td></td></tr>
+          </tbody></table></div></details>
+          <p class="src">The page reports the lowest hour, usually just before dawn, against fish-stress (4 mg/L) and fish-kill (2 mg/L) levels. It shows oxygen for the wind-stirred water only; bottom water in a layered pond can go much lower, and that isn't modelled yet.</p>
+          <p class="src">With the idealized day, every day has the same weather and the pond is balanced to it, so an overcast run can show more oxygen than a sunny one. The real crash risk is a cloudy spell after sunny weather, which only real weather input can show.</p>
+        </article>
+  </div>
+</section>
+
+<!--PAGER-->

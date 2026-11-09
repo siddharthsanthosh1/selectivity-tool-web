@@ -60,7 +60,8 @@
       var thumb = a.querySelector("img");
       img.src = a.getAttribute("href");
       img.alt = thumb.alt;
-      cap.textContent = thumb.alt;
+      var fc = a.parentNode.querySelector("figcaption");
+      cap.textContent = fc ? fc.textContent : thumb.alt;
       box.showModal();
     });
   });
@@ -71,10 +72,8 @@
   box.addEventListener("close", function(){ img.removeAttribute("src"); });
 })();
 
-/* NCLMS carousel: swipe or scroll natively; buttons, dots and arrow keys jump between photos. */
-(function(){
-  var root = document.querySelector(".carousel");
-  if (!root) return;
+/* Photo carousels: swipe or scroll natively; buttons, dots and arrow keys jump between photos. */
+Array.prototype.forEach.call(document.querySelectorAll(".carousel"), function(root){
   var track = root.querySelector(".car-track");
   var slides = root.querySelectorAll(".slide");
   var prev = root.querySelector('[data-dir="-1"]');
@@ -133,4 +132,4 @@
   });
 
   update();
-})();
+});

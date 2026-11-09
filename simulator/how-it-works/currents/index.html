@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Currents | Pond Simulator | CyanoSelect</title>
+<meta name="description" content="The wind counterflow, the tilted thermocline and the topographic swirl in the CyanoSelect pond simulator.">
+<link rel="canonical" href="https://cyanoselect.org/simulator/how-it-works/currents/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Currents | Pond Simulator | CyanoSelect">
+<meta property="og:description" content="The wind counterflow, the tilted thermocline and the topographic swirl in the CyanoSelect pond simulator.">
+<meta property="og:url" content="https://cyanoselect.org/simulator/how-it-works/currents/">
+<meta property="og:site_name" content="CyanoSelect">
+<meta property="og:image" content="https://cyanoselect.org/images/og-preview.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="CyanoSelect: rank algae bloom treatments by their predicted risk to non-target organisms.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Currents | Pond Simulator | CyanoSelect">
+<meta name="twitter:description" content="The wind counterflow, the tilted thermocline and the topographic swirl in the CyanoSelect pond simulator.">
+<meta name="twitter:image" content="https://cyanoselect.org/images/og-preview.png">
+<meta name="theme-color" content="#0A4F54">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A4F54'/%3E%3Cpath d='M6 21c3-6 5-9 10-9s7 3 10 9' stroke='%2302C39A' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='10' r='2.6' fill='%2300A896'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/chrome.css">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+</head>
+<body class="pg-simulator">
+
+<a class="cs-skip" href="#main">Skip to content</a>
+<nav class="cs-nav" aria-label="Main">
+  <div class="cs-wrap cs-nav-in">
+    <a class="cs-brand" href="/"><svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#02C39A" opacity=".16"/><path d="M6 21c3-6 5-9 10-9s7 3 10 9" stroke="#02C39A" stroke-width="2.6" fill="none" stroke-linecap="round"/><circle cx="16" cy="10" r="2.6" fill="#00A896"/></svg>CyanoSelect</a>
+    <div class="cs-links" id="csMenu">
+      <a href="/selectivity/">Selectivity Tool</a>
+      <a href="/simulator/" aria-current="true">Pond Simulator</a>
+      <a href="/outreach/">Outreach</a>
+      <a href="/data/">Data</a>
+      <a href="/about/">About</a>
+    </div>
+    <button type="button" class="cs-toggle" id="csToggle" aria-expanded="false" aria-controls="csMenu" aria-label="Open menu"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
+  </div>
+</nav>
+<nav class="cs-sub" aria-label="Pond Simulator">
+  <div class="cs-wrap cs-sub-in">
+    <a class="cs-sub-name" href="/simulator/">Pond Simulator</a>
+    <div class="cs-sub-links"><a href="/simulator/">Simulator</a><a href="/simulator/how-it-works/" aria-current="true">How it works</a></div>
+  </div>
+</nav>
+
+<main id="main">
+<header class="page-hero ph-waves">
+  <div class="wrap">
+    <p class="eyebrow">Pond Simulator · How it works</p>
+    <h1>Currents.</h1>
+    <p class="lede">How the wind moves the water: the counterflow, the tilted thermocline and the slow swirl across the pond.</p>
+  </div>
+  <svg class="hero-waves" viewBox="0 0 1440 130" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 74c180-40 300 26 480 10s300-58 480-40 300 62 480 34v52H0z" fill="#02C39A" opacity=".10"/>
+    <path d="M0 96c200-34 320 18 520 6s320-46 520-30 260 48 400 30v28H0z" fill="#00A896" opacity=".14"/>
+    <path d="M0 116c220-24 360 12 560 2s340-30 560-16 200 26 320 18v10H0z" fill="#EEF4F4"/>
+  </svg>
+</header>
+
+<nav class="chapters" aria-label="How it works chapters">
+  <div class="wrap">
+    <ol class="chapters-list">
+      <li><a href="/simulator/how-it-works/"><span class="ch-n">•</span>Overview</a></li>
+      <li><a href="/simulator/how-it-works/example/"><span class="ch-n">1</span>Worked example</a></li>
+      <li><a href="/simulator/how-it-works/water/"><span class="ch-n">2</span>Water</a></li>
+      <li><a href="/simulator/how-it-works/currents/" aria-current="page"><span class="ch-n">3</span>Currents</a></li>
+      <li><a href="/simulator/how-it-works/treatment/"><span class="ch-n">4</span>Treatment</a></li>
+      <li><a href="/simulator/how-it-works/bloom/"><span class="ch-n">5</span>Bloom</a></li>
+      <li><a href="/simulator/how-it-works/checks/"><span class="ch-n">6</span>Checks</a></li>
+    </ol>
+  </div>
+</nav>
+
+<section class="chapter">
+  <div class="wrap chapter-main">
+<figure class="diagram">
+          <svg viewBox="0 0 640 250" role="img" aria-labelledby="dg1t dg1d">
+            <title id="dg1t">A layered pond in wind</title>
+            <desc id="dg1d">Wind blows left to right over a bowl-shaped pond. Warm stirred water sits on top of cooler water. The top water moves downwind and returns underneath. The boundary between warm and cool water tilts: thicker at the downwind shore, thinner upwind.</desc>
+            <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0A4F54"/></marker></defs>
+            <path d="M40 60 Q320 330 600 60 Z" fill="#CFE7E6"/>
+            <path d="M40 60 L600 60 L600 60 Q560 110 520 132 L120 112 Q80 90 40 60Z" fill="#F4C99A" opacity=".7"/>
+            <path d="M120 112 L520 132" stroke="#C8772B" stroke-width="2" stroke-dasharray="6 5"/>
+            <path d="M40 60 L600 60" stroke="#0A4F54" stroke-width="2"/>
+            <g stroke="#0A4F54" stroke-width="2" fill="none" marker-end="url(#ah)">
+              <path d="M70 30 H210"/><path d="M250 30 H390"/><path d="M430 30 H570"/>
+              <path d="M150 74 H330"/><path d="M360 74 H500"/>
+              <path d="M470 108 H310"/><path d="M290 104 H170"/>
+            </g>
+            <g font-family="Inter,sans-serif" font-size="13" fill="#1B2530">
+              <text x="70" y="20">wind</text>
+              <text x="250" y="96" font-size="12" fill="#5A6B72">return flow</text>
+              <text x="420" y="160" fill="#7A4A14" font-size="12">thermocline (tilted)</text>
+              <text x="240" y="200" fill="#0A4F54">cooler, denser water</text>
+              <text x="44" y="236" fill="#5A6B72" font-size="12">upwind shore</text>
+              <text x="510" y="236" fill="#5A6B72" font-size="12">downwind shore</text>
+            </g>
+          </svg>
+          <figcaption>Wind drags the warm top water downwind; it returns just above the thermocline, which tilts until its slope balances the wind's push.</figcaption>
+        </figure>
+
+<article class="mcard" id="m-counter">
+          <h3>Wind counterflow</h3>
+          <p class="plain">The wind drags the top water downwind. It has nowhere to go, so it flows back underneath: as much water returns as goes forward.</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ u(\zeta) = u_s\,(3\zeta^2 - 2\zeta), \qquad u_s = \frac{1.5\,u_*}{\kappa} \approx 3.7\,u_* \]</div>
+          <details class="symbols"><summary>What the symbols mean</summary><div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars"><thead><tr><th scope="col">Symbol</th><th scope="col">Meaning</th><th scope="col">Units</th><th scope="col">Value</th></tr></thead><tbody>
+            <tr><td>\(\zeta\)</td><td>Height in the stirred layer: 0 at its bottom, 1 at the surface</td><td>none</td><td></td></tr>
+            <tr><td>\(u_s\)</td><td>Surface speed, about 0.5% of the wind</td><td>m/s</td><td>1.1 cm/s in the example</td></tr>
+          </tbody></table></div></details>
+          <p>The flow is zero two-thirds of the way up and returns below that at up to a third of the surface speed. The very top centimetre moves faster still, dragged directly by the wind: 0.53 times the air's friction velocity (0.4–0.7; Wu 1975, SOURCED), fading over about 1 cm (<span class="lab est">ESTIMATE</span>).</p>
+          <p class="src">The profile comes from the eddy viscosity \(\kappa u_* D/6\) with water that sticks to the bottom of the layer. <span class="lab der">DERIVED</span></p>
+        </article>
+
+<article class="mcard" id="m-tilt">
+          <h3>Thermocline tilt and the Wedderburn number</h3>
+          <p class="plain">In a layered pond the wind piles warm water against the downwind shore, so the boundary under it tilts. If the tilt is steep enough, cool water comes up at the upwind shore (upwelling).</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ \text{slope} = \frac{u_*^2}{g' h}, \qquad W = \frac{g' h^2}{u_*^2 L}, \qquad g' = g\,\frac{\Delta\rho}{\rho_0}, \qquad t_{\text{set-up}} = \frac{L}{2c}, \quad c = \sqrt{\frac{g' h_1 h_2}{h_1 + h_2}} \]</div>
+          <details class="symbols"><summary>What the symbols mean</summary><div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars"><thead><tr><th scope="col">Symbol</th><th scope="col">Meaning</th><th scope="col">Units</th></tr></thead><tbody>
+            <tr><td>\(g'\)</td><td>Gravity scaled by the density step across the thermocline</td><td>m/s²</td></tr>
+            <tr><td>\(h\) (or \(h_1\)), \(h_2\)</td><td>Warm-layer thickness; cool water below it</td><td>m</td></tr>
+            <tr><td>\(L\)</td><td>Length of the pond along the wind</td><td>m</td></tr>
+            <tr><td>\(W\)</td><td>Wedderburn number: below 1, upwelling at the upwind shore</td><td>none</td></tr>
+          </tbody></table></div></details>
+          <p class="src">The tilt eases toward its steady value over a quarter of the internal sloshing period, \(t_{\text{set-up}}\). The sloshing after the wind changes is not modelled. <span class="lab der">DERIVED</span></p>
+        </article>
+
+<article class="mcard" id="m-swirl">
+          <h3>The topographic swirl (streamfunction)</h3>
+          <p class="plain">Shallow water is easier for the wind to push than deep water, so the edges move downwind and the deep middle flows back upwind in two slow loops.</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ \nabla\cdot\left(\frac{r}{D^2}\,\nabla\psi\right) = -\,\hat{\mathbf z}\cdot\nabla\times\left(\frac{1.5\,\boldsymbol\tau}{\rho_0\,D}\right), \qquad \mathbf U = \left(\frac{\partial\psi}{\partial y},\ -\frac{\partial\psi}{\partial x}\right), \qquad \psi = 0 \text{ at the shore} \]</div>
+          <details class="symbols"><summary>What the symbols mean</summary><div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars"><thead><tr><th scope="col">Symbol</th><th scope="col">Meaning</th><th scope="col">Units</th><th scope="col">Value</th></tr></thead><tbody>
+            <tr><td>\(\psi\)</td><td>Streamfunction: the flow between two points is the difference in \(\psi\)</td><td>m³/s</td><td></td></tr>
+            <tr><td>\(\mathbf U\)</td><td>Depth-integrated flow</td><td>m²/s</td><td></td></tr>
+            <tr><td>\(r\)</td><td>Bottom friction, from the same eddy viscosity</td><td>m/s</td><td>\(\kappa u_*/2\)</td></tr>
+            <tr><td>\(\boldsymbol\tau\)</td><td>Wind stress; the bed's drag adds half again (1.5×)</td><td>N/m²</td><td></td></tr>
+            <tr><td>\(D\)</td><td>Depth of the stirred water in each square</td><td>m</td><td></td></tr>
+          </tbody></table></div></details>
+          <p class="src">A flat surface ("rigid lid") and linear friction leave this single equation, solved over the whole map at once. Using a streamfunction guarantees exactly as much water leaves each square as enters it; the tests check that to about 1 part in 10¹⁵. <span class="lab der">DERIVED</span> Sideways mixing, 0.0002 m²/s per metre of pond size (from Lake Constance drifters, Peeters 2015), is an <span class="lab est">ESTIMATE</span>.</p>
+        </article>
+  </div>
+</section>
+
+<nav class="pager" aria-label="Chapter navigation">
+  <div class="wrap">
+    <div class="pager-row"><a class="pager-prev" href="/simulator/how-it-works/water/"><span class="pager-k">‹ Previous</span><span class="pager-t">The water: shape, light, heat and mixing</span></a><a class="pager-next" href="/simulator/how-it-works/treatment/"><span class="pager-k">Next ›</span><span class="pager-t">How each product spreads and breaks down</span></a></div>
+    <p class="pager-tool"><a class="chev" href="/simulator/">Open the simulator</a></p>
+  </div>
+</nav>
+</main>
+
+<footer class="cs-footer">
+  <div class="cs-wrap">
+    <div class="cs-foot-grid">
+      <div>
+        <h2>Selectivity Tool</h2>
+        <a href="/selectivity/">Open the tool</a>
+        <a href="/selectivity/how-it-works/">How it works</a>
+        <a href="/selectivity/how-it-works/example/">Worked example</a>
+        <a href="/selectivity/how-it-works/why/">Why these three</a>
+        <a href="/selectivity/how-it-works/math/">The math</a>
+        <a href="/selectivity/how-it-works/limits/">Limits and next steps</a>
+      </div>
+      <div>
+        <h2>Pond Simulator</h2>
+        <a href="/simulator/">Open the simulator</a>
+        <a href="/simulator/how-it-works/">How it works</a>
+        <a href="/simulator/how-it-works/example/">Worked example</a>
+        <a href="/simulator/how-it-works/water/">Water</a>
+        <a href="/simulator/how-it-works/currents/">Currents</a>
+        <a href="/simulator/how-it-works/treatment/">Treatment</a>
+        <a href="/simulator/how-it-works/bloom/">Bloom</a>
+        <a href="/simulator/how-it-works/checks/">Checks</a>
+      </div>
+      <div>
+        <h2>Project</h2>
+        <a href="/outreach/">Outreach</a>
+        <a href="/outreach/plant-visit/">Plant visit</a>
+        <a href="/outreach/conference/">Conference talk</a>
+        <a href="/data/">Data</a>
+        <a href="/data/sources/">Sources</a>
+        <a href="/about/">About</a>
+        <a href="/about/contact/">Contact</a>
+        <a href="/about/contact/#cite">How to cite</a>
+      </div>
+      <div>
+        <h2>Open source</h2>
+        <p>MIT license: free to use, modify and share, with attribution.</p>
+        <a href="https://doi.org/10.5281/zenodo.22135606">Archived release (DOI):<br>doi.org/10.5281/zenodo.22135606</a>
+        <a href="https://github.com/arjunpendharkar/selectivity-tool">Tool and data on GitHub</a>
+        <a href="https://github.com/siddharthsanthosh1/selectivity-tool-web">Website source on GitHub</a>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <a href="mailto:siddharthsann@gmail.com">siddharthsann@gmail.com</a>
+        <a href="mailto:apandaharkar@gmail.com">apandaharkar@gmail.com</a>
+        <p>Or open an issue on either GitHub repository.</p>
+        <p class="cs-status"><span class="cs-dot"></span>Framework complete. Laboratory validation planned.</p>
+      </div>
+    </div>
+    <p class="cs-disclaimer"><strong>Model predictions, not a treatment recommendation.</strong> CyanoSelect ranks treatments from published lab data and simulates ponds; none of its predictions has been tested in a real pond yet. Registered products have undergone risk assessment by the U.S. Environmental Protection Agency, and the product label governs how they may be used. Follow the label and your state’s rules, and consult a licensed aquatic applicator or your state agency before treating any water body.</p>
+    <p class="cs-colophon">Built by Arjun Pendharkar and Siddharth Santhosh, Green Level High School, under the supervision of Dr. Bharathi Pandi. This site describes research tools whose predictions have not yet been validated in a laboratory or a real pond, and it is not guidance for treating a waterbody.</p>
+  </div>
+</footer>
+
+<script src="/assets/site.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
+  onload="renderMathInElement(document.getElementById('main'),{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false})"></script>
+<script data-goatcounter="https://cyanoselect.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

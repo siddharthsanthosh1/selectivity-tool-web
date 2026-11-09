@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checks | Pond Simulator | CyanoSelect</title>
+<meta name="description" content="The 200 uncertainty runs, how the CyanoSelect pond simulator was checked, and what it doesn’t do yet.">
+<link rel="canonical" href="https://cyanoselect.org/simulator/how-it-works/checks/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Checks | Pond Simulator | CyanoSelect">
+<meta property="og:description" content="The 200 uncertainty runs, how the CyanoSelect pond simulator was checked, and what it doesn’t do yet.">
+<meta property="og:url" content="https://cyanoselect.org/simulator/how-it-works/checks/">
+<meta property="og:site_name" content="CyanoSelect">
+<meta property="og:image" content="https://cyanoselect.org/images/og-preview.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="CyanoSelect: rank algae bloom treatments by their predicted risk to non-target organisms.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Checks | Pond Simulator | CyanoSelect">
+<meta name="twitter:description" content="The 200 uncertainty runs, how the CyanoSelect pond simulator was checked, and what it doesn’t do yet.">
+<meta name="twitter:image" content="https://cyanoselect.org/images/og-preview.png">
+<meta name="theme-color" content="#0A4F54">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A4F54'/%3E%3Cpath d='M6 21c3-6 5-9 10-9s7 3 10 9' stroke='%2302C39A' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='10' r='2.6' fill='%2300A896'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/chrome.css">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+</head>
+<body class="pg-simulator">
+
+<a class="cs-skip" href="#main">Skip to content</a>
+<nav class="cs-nav" aria-label="Main">
+  <div class="cs-wrap cs-nav-in">
+    <a class="cs-brand" href="/"><svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#02C39A" opacity=".16"/><path d="M6 21c3-6 5-9 10-9s7 3 10 9" stroke="#02C39A" stroke-width="2.6" fill="none" stroke-linecap="round"/><circle cx="16" cy="10" r="2.6" fill="#00A896"/></svg>CyanoSelect</a>
+    <div class="cs-links" id="csMenu">
+      <a href="/selectivity/">Selectivity Tool</a>
+      <a href="/simulator/" aria-current="true">Pond Simulator</a>
+      <a href="/outreach/">Outreach</a>
+      <a href="/data/">Data</a>
+      <a href="/about/">About</a>
+    </div>
+    <button type="button" class="cs-toggle" id="csToggle" aria-expanded="false" aria-controls="csMenu" aria-label="Open menu"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
+  </div>
+</nav>
+<nav class="cs-sub" aria-label="Pond Simulator">
+  <div class="cs-wrap cs-sub-in">
+    <a class="cs-sub-name" href="/simulator/">Pond Simulator</a>
+    <div class="cs-sub-links"><a href="/simulator/">Simulator</a><a href="/simulator/how-it-works/" aria-current="true">How it works</a></div>
+  </div>
+</nav>
+
+<main id="main">
+<header class="page-hero ph-waves">
+  <div class="wrap">
+    <p class="eyebrow">Pond Simulator · How it works</p>
+    <h1>Checks and limits.</h1>
+    <p class="lede">How uncertain the predictions are, how we checked the code, and what the simulator doesn’t do yet.</p>
+  </div>
+  <svg class="hero-waves" viewBox="0 0 1440 130" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 74c180-40 300 26 480 10s300-58 480-40 300 62 480 34v52H0z" fill="#02C39A" opacity=".10"/>
+    <path d="M0 96c200-34 320 18 520 6s320-46 520-30 260 48 400 30v28H0z" fill="#00A896" opacity=".14"/>
+    <path d="M0 116c220-24 360 12 560 2s340-30 560-16 200 26 320 18v10H0z" fill="#EEF4F4"/>
+  </svg>
+</header>
+
+<nav class="chapters" aria-label="How it works chapters">
+  <div class="wrap">
+    <ol class="chapters-list">
+      <li><a href="/simulator/how-it-works/"><span class="ch-n">•</span>Overview</a></li>
+      <li><a href="/simulator/how-it-works/example/"><span class="ch-n">1</span>Worked example</a></li>
+      <li><a href="/simulator/how-it-works/water/"><span class="ch-n">2</span>Water</a></li>
+      <li><a href="/simulator/how-it-works/currents/"><span class="ch-n">3</span>Currents</a></li>
+      <li><a href="/simulator/how-it-works/treatment/"><span class="ch-n">4</span>Treatment</a></li>
+      <li><a href="/simulator/how-it-works/bloom/"><span class="ch-n">5</span>Bloom</a></li>
+      <li><a href="/simulator/how-it-works/checks/" aria-current="page"><span class="ch-n">6</span>Checks</a></li>
+    </ol>
+  </div>
+</nav>
+
+<section class="chapter">
+  <div class="wrap chapter-main">
+<article class="mcard" id="m-runs">
+          <h3>The 200 Latin hypercube runs, and what the band means</h3>
+          <p class="plain">Many numbers are uncertain, so the layers and well-mixed models run 200 times, each run drawing every uncertain number from its range.</p>
+          <p>Each range is cut into 200 slices of equal chance. Every slice is used exactly once, in a shuffled order, so each range is covered evenly (a Latin hypercube). Ranges spanning more than tenfold are sampled on a log scale. The charts show the median run and a band from the 5th to the 95th percentile of the 200 runs.</p>
+          <p class="src">The band covers uncertain numbers only. It doesn't cover the model's own structure: the other kill rule (shown separately), the three views' different simplifications, or the estimates the runs hold fixed. Read it as the smallest the real uncertainty could be. The map and side slice run once, with the central value of every number.</p>
+          <p class="src"><strong>Changed Nov 8, 2026.</strong> Until then there were 40 runs. With 40, the median knock-down moved by about ±6 points with the random seed; with 200 it moves by about ±3.</p>
+        </article>
+
+<section class="chapter-sec" id="checked" aria-labelledby="chk-h">
+        <h2 id="chk-h">How we checked it</h2>
+        <div class="lab-facts checks">
+          <div><b>284</b><span>automated tests</span></div>
+          <div><b>35</b><span>scenarios in a separate Python version</span></div>
+          <div><b>23</b><span>checks of the page in a real browser</span></div>
+        </div>
+        <ul class="plainlist">
+          <li><strong>284 automated tests</strong> (74 for the well-mixed model, 96 for the layers model, 114 for the map and side slice). They check that:
+            <ul>
+              <li>a fully mixed pond gives the same answer as the well-mixed model;</li>
+              <li>stronger wind never makes the stirred layer shallower;</li>
+              <li>the lab calibrations give exactly 50% at each EC50;</li>
+              <li>colonies that simply follow the water stay evenly spread.</li>
+            </ul>
+          </li>
+          <li><strong>An independent Python version</strong> of the well-mixed model, written separately from the website's code, matches it to 1 part in 10¹⁰ across 35 scenarios.</li>
+          <li><strong>Mass balance.</strong> Product, cells and toxin add up to within 1 part in 10¹⁰ for all 13 combinations of product and application method, in all three views: nothing appears or disappears.</li>
+          <li><strong>Convergence.</strong> We halved and quartered the time step, used 12 to 40 layers, doubled the number of tracked colonies and ran up to 1,000 uncertainty runs. That is why the layers model now takes 5-minute steps and the page runs 200 times.</li>
+          <li><strong>Cited values against their sources.</strong> Every value labelled SOURCED was checked against the paper it cites. Where a paper couldn't be opened, the simulator's notes say so, and values without a checkable citation are labelled ESTIMATE, citation pending.</li>
+        </ul>
+        <p class="src">What the tests can't show is that the predictions match a real pond. That needs real pond data: product concentrations at a few spots and depths after a treatment, plus before-and-after bloom counts and oxygen readings. If you can help with that, <a href="/about/contact/">tell us</a>.</p>
+      </section>
+
+<section class="chapter-sec" id="limits" aria-labelledby="lim-h">
+        <h2 id="lim-h">What it doesn't do yet</h2>
+        <h3>The simulator</h3>
+        <ul class="limits-list">
+          <li><strong>No check against a real pond.</strong> The tests show the math does what it says. Matching a real pond needs before-and-after measurements in a treated pond.</li>
+          <li>Real weather comes from a weather model for the area, not a station at the pond. Forecasts lose skill after about a week, and a sheltered pond can be calmer than the area's wind.</li>
+          <li>No inflows or outflows.</li>
+          <li>No waves, and so no wave drift on top of the surface current.</li>
+          <li>No sloshing of the thermocline after the wind changes (internal seiches); the tilt is the steady one.</li>
+          <li>No plume right at an injection hose: the dense layer starts already spread over each treated square.</li>
+          <li>No colonies sinking a little by day and rising at night.</li>
+          <li>Copper's harm to animals follows hardness only, not the dissolved organic carbon or pH that also matter.</li>
+          <li>The idealized day's sunshine is an estimate, and the stirred layer has a 2.5-ft minimum by day. On a run of sunny days the top of a 6-ft pond warms about 11 °F by afternoon, at the high end of what small ponds show.</li>
+          <li>Pond size changes the wind only through tree shelter; an open pond mixes the same at any size.</li>
+          <li>No oxygen in the cool bottom water of a layered pond.</li>
+          <li>In a strong wind, colonies that simply drift with the water can still gather up to about 10% too thickly along the shores of the map. In the side slice, colonies at the very top move at the top level's average speed rather than the faster top centimetre.</li>
+        </ul>
+        <h3>The ranking</h3>
+        <p>Pairs are predictions, the input data is sparse (<a href="/data/#gap">15 of 52</a> target values exist), test lengths don't always match, Bliss independence can fail, and the ranking scores selectivity, not how well a product controls the bloom. The full list is on the <a href="/selectivity/how-it-works/limits/">ranking's limits page</a>.</p>
+      </section>
+  </div>
+</section>
+
+<nav class="pager" aria-label="Chapter navigation">
+  <div class="wrap">
+    <div class="pager-row"><a class="pager-prev" href="/simulator/how-it-works/bloom/"><span class="pager-k">‹ Previous</span><span class="pager-t">The bloom: colonies, damage, toxin and oxygen</span></a><span></span></div>
+    <p class="pager-tool"><a class="chev" href="/simulator/">Open the simulator</a></p>
+  </div>
+</nav>
+</main>
+
+<footer class="cs-footer">
+  <div class="cs-wrap">
+    <div class="cs-foot-grid">
+      <div>
+        <h2>Selectivity Tool</h2>
+        <a href="/selectivity/">Open the tool</a>
+        <a href="/selectivity/how-it-works/">How it works</a>
+        <a href="/selectivity/how-it-works/example/">Worked example</a>
+        <a href="/selectivity/how-it-works/why/">Why these three</a>
+        <a href="/selectivity/how-it-works/math/">The math</a>
+        <a href="/selectivity/how-it-works/limits/">Limits and next steps</a>
+      </div>
+      <div>
+        <h2>Pond Simulator</h2>
+        <a href="/simulator/">Open the simulator</a>
+        <a href="/simulator/how-it-works/">How it works</a>
+        <a href="/simulator/how-it-works/example/">Worked example</a>
+        <a href="/simulator/how-it-works/water/">Water</a>
+        <a href="/simulator/how-it-works/currents/">Currents</a>
+        <a href="/simulator/how-it-works/treatment/">Treatment</a>
+        <a href="/simulator/how-it-works/bloom/">Bloom</a>
+        <a href="/simulator/how-it-works/checks/">Checks</a>
+      </div>
+      <div>
+        <h2>Project</h2>
+        <a href="/outreach/">Outreach</a>
+        <a href="/outreach/plant-visit/">Plant visit</a>
+        <a href="/outreach/conference/">Conference talk</a>
+        <a href="/data/">Data</a>
+        <a href="/data/sources/">Sources</a>
+        <a href="/about/">About</a>
+        <a href="/about/contact/">Contact</a>
+        <a href="/about/contact/#cite">How to cite</a>
+      </div>
+      <div>
+        <h2>Open source</h2>
+        <p>MIT license: free to use, modify and share, with attribution.</p>
+        <a href="https://doi.org/10.5281/zenodo.22135606">Archived release (DOI):<br>doi.org/10.5281/zenodo.22135606</a>
+        <a href="https://github.com/arjunpendharkar/selectivity-tool">Tool and data on GitHub</a>
+        <a href="https://github.com/siddharthsanthosh1/selectivity-tool-web">Website source on GitHub</a>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <a href="mailto:siddharthsann@gmail.com">siddharthsann@gmail.com</a>
+        <a href="mailto:apandaharkar@gmail.com">apandaharkar@gmail.com</a>
+        <p>Or open an issue on either GitHub repository.</p>
+        <p class="cs-status"><span class="cs-dot"></span>Framework complete. Laboratory validation planned.</p>
+      </div>
+    </div>
+    <p class="cs-disclaimer"><strong>Model predictions, not a treatment recommendation.</strong> CyanoSelect ranks treatments from published lab data and simulates ponds; none of its predictions has been tested in a real pond yet. Registered products have undergone risk assessment by the U.S. Environmental Protection Agency, and the product label governs how they may be used. Follow the label and your state’s rules, and consult a licensed aquatic applicator or your state agency before treating any water body.</p>
+    <p class="cs-colophon">Built by Arjun Pendharkar and Siddharth Santhosh, Green Level High School, under the supervision of Dr. Bharathi Pandi. This site describes research tools whose predictions have not yet been validated in a laboratory or a real pond, and it is not guidance for treating a waterbody.</p>
+  </div>
+</footer>
+
+<script src="/assets/site.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
+  onload="renderMathInElement(document.getElementById('main'),{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false})"></script>
+<script data-goatcounter="https://cyanoselect.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

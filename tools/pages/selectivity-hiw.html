@@ -1,0 +1,166 @@
+<header class="page-hero ph-waves">
+  <div class="wrap">
+    <p class="eyebrow">Selectivity Tool · How it works</p>
+    <h1>Score the trade-off, keep the axes separate, then predict the pairs.</h1>
+    <p class="lede">The tool combines two established methods (selectivity indices from toxicology and Bliss independence from combination pharmacology) into one framework for bloom control. Three steps, no black boxes.</p>
+  </div>
+  <svg class="hero-waves" viewBox="0 0 1440 130" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 74c180-40 300 26 480 10s300-58 480-40 300 62 480 34v52H0z" fill="#02C39A" opacity=".10"/>
+    <path d="M0 96c200-34 320 18 520 6s320-46 520-30 260 48 400 30v28H0z" fill="#00A896" opacity=".14"/>
+    <path d="M0 116c220-24 360 12 560 2s340-30 560-16 200 26 320 18v10H0z" fill="#EEF4F4"/>
+  </svg>
+</header>
+
+<!--CHAPTERS-->
+
+<section class="chapter" id="how">
+  <div class="wrap chapter-main">
+      <!-- STEP 1 -->
+      <div class="step">
+        <div><div class="step-num">1</div></div>
+        <div>
+          <p class="step-title">Score</p>
+          <h3>Selectivity Index = non-target EC50 divided by target EC50</h3>
+          <span class="formula">SI = EC50 (bystander) &divide; EC50 (bloom)</span>
+          <p>EC50 is the dose that causes a 50% effect. It runs backwards from intuition: a <strong>low</strong> EC50 means harm arrives at a small dose, so a low number is a sensitive organism, not a safe one.</p>
+          <p>The ideal treatment kills the bloom at a low dose and only touches the bystanders at a much higher dose. That gap is the selectivity window, and SI measures it as a single number.</p>
+
+          <figure class="diagram">
+            <svg viewBox="0 0 700 340" role="img" aria-labelledby="sititle sidesc" width="100%">
+              <title id="sititle">Dose response curves showing a selectivity window</title>
+              <desc id="sidesc">The bloom responds at a low dose while the bystander organism responds only at a much higher dose. The gap between the two half-effect doses is the selectivity window.</desc>
+              <defs>
+                <linearGradient id="win" x1="0" x2="1">
+                  <stop offset="0" stop-color="#02C39A" stop-opacity=".22"/>
+                  <stop offset="1" stop-color="#02C39A" stop-opacity=".05"/>
+                </linearGradient>
+              </defs>
+              <!-- axes -->
+              <line x1="70" y1="280" x2="670" y2="280" stroke="#D6E3E3" stroke-width="2"/>
+              <line x1="70" y1="40" x2="70" y2="280" stroke="#D6E3E3" stroke-width="2"/>
+              <!-- 50% line -->
+              <line x1="70" y1="165" x2="670" y2="165" stroke="#B7CCCC" stroke-width="1.5" stroke-dasharray="5 6"/>
+              <text x="76" y="158" font-family="Inter,sans-serif" font-size="12" fill="#5A6B72">50% effect</text>
+              <!-- selectivity window -->
+              <rect x="200" y="52" width="270" height="228" fill="url(#win)"/>
+              <text x="462" y="92" text-anchor="end" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#0F6E74">selectivity window</text>
+              <text x="462" y="111" text-anchor="end" font-family="Inter,sans-serif" font-size="12" fill="#5A6B72">bloom is dying, bystanders are not</text>
+              <!-- target curve -->
+              <path d="M70 272C120 268 165 250 200 165c30-72 62-96 110-102" fill="none" stroke="#0A4F54" stroke-width="3.5" stroke-linecap="round"/>
+              <!-- bystander curve -->
+              <path d="M70 276C220 274 380 268 470 165c40-46 100-70 200-74" fill="none" stroke="#00A896" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="9 7"/>
+              <!-- EC50 markers -->
+              <circle cx="200" cy="165" r="6" fill="#0A4F54"/>
+              <circle cx="470" cy="165" r="6" fill="#00A896"/>
+              <line x1="200" y1="165" x2="200" y2="280" stroke="#0A4F54" stroke-width="1.5" stroke-dasharray="4 5"/>
+              <line x1="470" y1="165" x2="470" y2="280" stroke="#00A896" stroke-width="1.5" stroke-dasharray="4 5"/>
+              <text x="200" y="300" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#0A4F54">EC50 bloom</text>
+              <text x="470" y="300" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#00A896">EC50 bystander</text>
+              <!-- arrow between -->
+              <line x1="208" y1="128" x2="462" y2="128" stroke="#0F6E74" stroke-width="1.5"/>
+              <path d="M200 128l9-4v8z" fill="#0F6E74"/><path d="M470 128l-9-4v8z" fill="#0F6E74"/>
+              <!-- labels -->
+              <text x="316" y="200" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#0A4F54">bloom</text>
+              <text x="560" y="215" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#00A896">bystander</text>
+              <text x="370" y="326" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="#5A6B72">dose (increasing)</text>
+              <text x="34" y="165" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="#5A6B72" transform="rotate(-90 34 165)">effect</text>
+            </svg>
+            <figcaption>A favorable treatment (illustrated). The bloom hits 50% effect at a low dose, the bystander only at a much higher one. The wider that gap, the higher the SI.</figcaption>
+          </figure>
+
+          <div class="si-pair">
+            <div class="si-box good">
+              <strong>SI above 1: good</strong>
+              <p>The bloom dies first. There is a dose that controls the bloom before the bystander is meaningfully harmed.</p>
+            </div>
+            <div class="si-box bad">
+              <strong>SI below 1: flagged</strong>
+              <p>In the published tests, the bystander responded at a lower dose than the bloom did. The tool flags that axis.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step">
+        <div><div class="step-num">2</div></div>
+        <div>
+          <p class="step-title">Separate</p>
+          <h3>Three non-target axes, tracked independently and never averaged</h3>
+          <div class="axes">
+            <div class="axis">
+              <svg width="30" height="30" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="#02C39A" opacity=".16"/><circle cx="16" cy="18" r="4.5" fill="#00A896"/><circle cx="24" cy="23" r="4" fill="#0F6E74"/></svg>
+              <h4>Green alga</h4>
+              <p class="sp">Raphidocelis subcapitata</p>
+              <p class="role">The primary producer. If it goes, the food web loses its base.</p>
+            </div>
+            <div class="axis">
+              <svg width="30" height="30" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="#00A896" opacity=".16"/><ellipse cx="19" cy="21" rx="7" ry="8.5" fill="#0F6E74"/><circle cx="15.5" cy="15" r="2.2" fill="#0A4F54"/></svg>
+              <h4>Water flea</h4>
+              <p class="sp">Daphnia magna</p>
+              <p class="role">The grazer. It eats algae and feeds fish, so it sits in the middle of everything.</p>
+            </div>
+            <div class="axis">
+              <svg width="30" height="30" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="#0F6E74" opacity=".16"/><path d="M11 20c4-5.5 12-5.5 16 0-4 5.5-12 5.5-16 0z" fill="#0F6E74"/><path d="M27 20l5-3.5v7L27 20z" fill="#00A896"/></svg>
+              <h4>Fish</h4>
+              <p class="sp">Danio rerio</p>
+              <p class="role">The vertebrate check. Standard proxy for vertebrate safety, including ours.</p>
+            </div>
+          </div>
+          <p>A treatment can score well for one group and poorly for another. Copper is the clearest case: it looks excellent against the green alga and much weaker against the water flea. Average those two numbers together and you get one comfortable-looking score that hides exactly the trade-off a lake manager needs to see.</p>
+          <p>So the axes are reported separately, and the headline number is <strong>min-SI</strong>, the worst axis of the three.</p>
+          <p class="keyline">You are only as selective as your weakest link.</p>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step">
+        <div><div class="step-num">3</div></div>
+        <div>
+          <p class="step-title">Combine</p>
+          <h3>Predict what treatment pairs will do, before anyone runs the experiment</h3>
+          <span class="formula">effect(A+B) = A + B &minus; (A &times; B)</span>
+          <p>This is Bliss independence: the effect of A, plus the effect of B, minus the overlap you would otherwise count twice. It assumes the two agents act independently, which is a stated assumption rather than a claim.</p>
+          <p>Why it matters here: since the headline score is the weakest axis, the way to improve a treatment is to lift that axis. Pair something strong on the green alga axis with something strong on the water flea axis and the pair can outrank either one alone. The tool generates every single treatment and every pair, scores them on the same scale, and ranks them together.</p>
+
+          <figure class="diagram">
+            <svg viewBox="0 0 700 210" role="img" aria-labelledby="bltitle bldesc" width="100%">
+              <title id="bltitle">Pairing lifts the weakest axis</title>
+              <desc id="bldesc">Treatment A is strong on the alga axis and weak on the Daphnia axis. Treatment B is the reverse. The predicted pair sits between them on both axes, so its weakest axis is higher than either treatment alone.</desc>
+              <g font-family="Inter,sans-serif" font-size="12" fill="#5A6B72">
+                <text x="20" y="34" font-weight="700" fill="#1B2530">Treatment A</text>
+                <rect x="150" y="22" width="230" height="15" rx="7.5" fill="#00A896"/><text x="392" y="34">strong on alga</text>
+                <rect x="150" y="46" width="52" height="15" rx="7.5" fill="#C0472B"/><text x="214" y="58">weak on Daphnia</text>
+
+                <text x="20" y="106" font-weight="700" fill="#1B2530">Treatment B</text>
+                <rect x="150" y="94" width="60" height="15" rx="7.5" fill="#C0472B"/><text x="222" y="106">weak on alga</text>
+                <rect x="150" y="118" width="245" height="15" rx="7.5" fill="#00A896"/><text x="407" y="130">strong on Daphnia</text>
+
+                <line x1="20" y1="152" x2="680" y2="152" stroke="#D6E3E3" stroke-width="1.5"/>
+                <text x="20" y="180" font-weight="700" fill="#0A4F54">Predicted A + B</text>
+                <rect x="150" y="168" width="140" height="15" rx="7.5" fill="#0F6E74"/><text x="302" y="180" fill="#0F6E74">alga holds</text>
+                <rect x="150" y="192" width="132" height="15" rx="7.5" fill="#0F6E74"/><text x="294" y="204" fill="#0F6E74">Daphnia lifted above failing</text>
+              </g>
+            </svg>
+            <figcaption>Bar length is selectivity on that axis (illustrative, not data). The pair gives up some of A's best axis and buys back the axis that was failing, which is what raises its min-SI.</figcaption>
+          </figure>
+        </div>
+      </div>
+  </div>
+</section>
+
+<section class="tight" id="gap">
+  <div class="wrap chapter-main">
+    <div class="gap-callout">
+      <p class="gap-big">15 <span>of</span> 52</p>
+      <div>
+        <p class="eyebrow">The data gap</p>
+        <h2 class="sub-title">Most treatments have no target value yet.</h2>
+        <p>For 13 treatments and 4 bloom-forming cyanobacteria, only 15 of the 52 treatment–genus pairs have a published value for how strongly the treatment hits the bloom itself. Harm to fish, water fleas and green algae is far better measured, because that is what regulatory testing is built for.</p>
+        <p class="tile-links tile-links-left"><a class="chev" href="/data/#gap">See the gap table</a><a class="chev" href="/data/sources/">Where the numbers come from</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--PAGER-->

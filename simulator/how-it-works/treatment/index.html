@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Treatment | Pond Simulator | CyanoSelect</title>
+<meta name="description" content="How hydrogen peroxide, flumioxazin, diquat and copper spread and break down in the CyanoSelect pond simulator.">
+<link rel="canonical" href="https://cyanoselect.org/simulator/how-it-works/treatment/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Treatment | Pond Simulator | CyanoSelect">
+<meta property="og:description" content="How hydrogen peroxide, flumioxazin, diquat and copper spread and break down in the CyanoSelect pond simulator.">
+<meta property="og:url" content="https://cyanoselect.org/simulator/how-it-works/treatment/">
+<meta property="og:site_name" content="CyanoSelect">
+<meta property="og:image" content="https://cyanoselect.org/images/og-preview.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="CyanoSelect: rank algae bloom treatments by their predicted risk to non-target organisms.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Treatment | Pond Simulator | CyanoSelect">
+<meta name="twitter:description" content="How hydrogen peroxide, flumioxazin, diquat and copper spread and break down in the CyanoSelect pond simulator.">
+<meta name="twitter:image" content="https://cyanoselect.org/images/og-preview.png">
+<meta name="theme-color" content="#0A4F54">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A4F54'/%3E%3Cpath d='M6 21c3-6 5-9 10-9s7 3 10 9' stroke='%2302C39A' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='10' r='2.6' fill='%2300A896'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/chrome.css">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+</head>
+<body class="pg-simulator">
+
+<a class="cs-skip" href="#main">Skip to content</a>
+<nav class="cs-nav" aria-label="Main">
+  <div class="cs-wrap cs-nav-in">
+    <a class="cs-brand" href="/"><svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#02C39A" opacity=".16"/><path d="M6 21c3-6 5-9 10-9s7 3 10 9" stroke="#02C39A" stroke-width="2.6" fill="none" stroke-linecap="round"/><circle cx="16" cy="10" r="2.6" fill="#00A896"/></svg>CyanoSelect</a>
+    <div class="cs-links" id="csMenu">
+      <a href="/selectivity/">Selectivity Tool</a>
+      <a href="/simulator/" aria-current="true">Pond Simulator</a>
+      <a href="/outreach/">Outreach</a>
+      <a href="/data/">Data</a>
+      <a href="/about/">About</a>
+    </div>
+    <button type="button" class="cs-toggle" id="csToggle" aria-expanded="false" aria-controls="csMenu" aria-label="Open menu"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
+  </div>
+</nav>
+<nav class="cs-sub" aria-label="Pond Simulator">
+  <div class="cs-wrap cs-sub-in">
+    <a class="cs-sub-name" href="/simulator/">Pond Simulator</a>
+    <div class="cs-sub-links"><a href="/simulator/">Simulator</a><a href="/simulator/how-it-works/" aria-current="true">How it works</a></div>
+  </div>
+</nav>
+
+<main id="main">
+<header class="page-hero ph-waves">
+  <div class="wrap">
+    <p class="eyebrow">Pond Simulator · How it works</p>
+    <h1>The treatment.</h1>
+    <p class="lede">How each product spreads and breaks down: peroxide, flumioxazin, diquat binding to clay, and copper with water hardness.</p>
+  </div>
+  <svg class="hero-waves" viewBox="0 0 1440 130" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 74c180-40 300 26 480 10s300-58 480-40 300 62 480 34v52H0z" fill="#02C39A" opacity=".10"/>
+    <path d="M0 96c200-34 320 18 520 6s320-46 520-30 260 48 400 30v28H0z" fill="#00A896" opacity=".14"/>
+    <path d="M0 116c220-24 360 12 560 2s340-30 560-16 200 26 320 18v10H0z" fill="#EEF4F4"/>
+  </svg>
+</header>
+
+<nav class="chapters" aria-label="How it works chapters">
+  <div class="wrap">
+    <ol class="chapters-list">
+      <li><a href="/simulator/how-it-works/"><span class="ch-n">•</span>Overview</a></li>
+      <li><a href="/simulator/how-it-works/example/"><span class="ch-n">1</span>Worked example</a></li>
+      <li><a href="/simulator/how-it-works/water/"><span class="ch-n">2</span>Water</a></li>
+      <li><a href="/simulator/how-it-works/currents/"><span class="ch-n">3</span>Currents</a></li>
+      <li><a href="/simulator/how-it-works/treatment/" aria-current="page"><span class="ch-n">4</span>Treatment</a></li>
+      <li><a href="/simulator/how-it-works/bloom/"><span class="ch-n">5</span>Bloom</a></li>
+      <li><a href="/simulator/how-it-works/checks/"><span class="ch-n">6</span>Checks</a></li>
+    </ol>
+  </div>
+</nav>
+
+<section class="chapter">
+  <div class="wrap chapter-main">
+<article class="mcard" id="m-h2o2">
+          <h3>Hydrogen peroxide decay</h3>
+          <p class="plain">Bacteria and algae break peroxide down, faster in warm water and in a thick bloom. Part of the dose is also used up instantly.</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ \frac{dC}{dt} = -k\,C, \qquad k = 1.078^{\,T - 20}\,\big(k_0 + b\,\mathrm{Chl}\big) \]</div>
+          <details class="symbols"><summary>What the symbols mean</summary><div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars"><thead><tr><th scope="col">Symbol</th><th scope="col">Meaning</th><th scope="col">Units</th><th scope="col">Value</th></tr></thead><tbody>
+            <tr><td>1.078</td><td>Temperature factor per °C</td><td>none</td><td>Pedersen 2019, SOURCED</td></tr>
+            <tr><td>\(k_0\)</td><td>Loss rate without the bloom</td><td>1/h</td><td>0.01 (0.002–0.04), Marsico 2015, SOURCED range</td></tr>
+            <tr><td>\(b\)</td><td>Extra loss per µg/L of chlorophyll</td><td>L/(µg·h)</td><td>0.002 (0.001–0.004), <span class="lab est">ESTIMATE</span></td></tr>
+            <tr><td></td><td>Instant demand</td><td>mg/L</td><td>0.4 (0.1–1.2), Weenink et al. 2015</td></tr>
+          </tbody></table></div></details>
+          <p class="src">Each step uses the exact exponential. In the example the top water loses half its peroxide in about 1¼ hours. Your own measured half-life replaces the rate.</p>
+        </article>
+
+<article class="mcard" id="m-flum">
+          <h3>Flumioxazin breakdown with pH</h3>
+          <p class="plain">Flumioxazin breaks down in water, much faster at high pH, and a bloom's photosynthesis raises the pH every afternoon.</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ k = k_0 + k_{\text{OH}}\,10^{\,\mathrm{pH} - 14} \]</div>
+          <details class="symbols"><summary>What the symbols mean</summary><div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars"><thead><tr><th scope="col">Symbol</th><th scope="col">Meaning</th><th scope="col">Units</th><th scope="col">Value</th></tr></thead><tbody>
+            <tr><td>\(k_0\)</td><td>Breakdown rate in neutral water</td><td>1/h</td><td>0.0067</td></tr>
+            <tr><td>\(k_{\text{OH}}\)</td><td>Extra rate per mol/L of hydroxide</td><td>1/h per mol/L</td><td>2.24×10⁵</td></tr>
+            <tr><td>\(\mathrm{pH}\)</td><td>Each layer's pH, which swings through the day</td><td>none</td><td></td></tr>
+          </tbody></table></div></details>
+          <p class="src">Rates at 25 °C from the Joint Meeting on Pesticide Residues 2015 evaluation. <span class="lab der">DERIVED</span></p>
+        </article>
+
+<article class="mcard" id="m-diquat">
+          <h3>Diquat binding to clay</h3>
+          <p class="plain">In muddy water, clay takes up diquat, most of it within the first hour, slowing as the clay fills up.</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ \frac{db}{dt} = k\,C\left(1 - \frac{b}{b_{\max}}\right), \qquad b_{\max} = 0.6 \times \frac{1.5\,\mathrm{NTU}}{1000} \times \mathrm{CEC} \times 92.1 \]</div>
+          <details class="symbols"><summary>What the symbols mean</summary><div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars"><thead><tr><th scope="col">Symbol</th><th scope="col">Meaning</th><th scope="col">Units</th><th scope="col">Value</th></tr></thead><tbody>
+            <tr><td>\(C,\ b\)</td><td>Dissolved and bound diquat</td><td>mg/L</td><td></td></tr>
+            <tr><td>\(k\)</td><td>Binding speed</td><td>1/h</td><td>6 (1–30), <span class="lab est">ESTIMATE</span></td></tr>
+            <tr><td>0.6</td><td>Share of the clay's charge capacity diquat can reach</td><td>none</td><td>0.6 (0.3–1), <span class="lab est">ESTIMATE</span></td></tr>
+            <tr><td>1.5</td><td>Suspended solids per NTU</td><td>mg/L per NTU</td><td>1.5 (1–2), <span class="lab est">ESTIMATE</span></td></tr>
+            <tr><td>\(\mathrm{CEC}\)</td><td>Clay's charge capacity (typical clay)</td><td>meq/g</td><td>0.35 (Poovey & Getsinger 2002, SOURCED)</td></tr>
+            <tr><td>92.1</td><td>Diquat per milliequivalent</td><td>mg/meq</td><td><span class="lab der">DERIVED</span></td></tr>
+          </tbody></table></div></details>
+          <p class="src">With \(C + b\) fixed over a step, this is solved exactly, in every layer and square the diquat reaches. After that, diquat leaves the water at 0.5 per day (0.35–0.7; Wilson & Wu, SOURCED range).</p>
+        </article>
+
+<article class="mcard" id="m-copper">
+          <h3>Copper and water hardness</h3>
+          <p class="plain">Copper is far more toxic to fish and water fleas in soft water, so their effect levels are scaled to your water's hardness.</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ \mathrm{EC50}(H) = \mathrm{EC50}_{\text{lab}}\left(\frac{H}{100}\right)^{0.9422}, \qquad 10 \le H \le 400\ \text{mg/L} \]</div>
+          <details class="symbols"><summary>What the symbols mean</summary><div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars"><thead><tr><th scope="col">Symbol</th><th scope="col">Meaning</th><th scope="col">Units</th><th scope="col">Value</th></tr></thead><tbody>
+            <tr><td>\(H\)</td><td>Your water's hardness (taken as the alkalinity if blank)</td><td>mg/L as CaCO₃</td><td></td></tr>
+            <tr><td>0.9422</td><td>Hardness slope for acute copper toxicity</td><td>none</td><td>U.S. Environmental Protection Agency rule, 40 CFR 131.38, SOURCED</td></tr>
+            <tr><td>100</td><td>Hardness of the lab water behind the dataset's animal values</td><td>mg/L</td><td><span class="lab est">ESTIMATE</span></td></tr>
+          </tbody></table></div></details>
+          <p class="src">Green algae and the bloom aren't adjusted, because the rule is for animals. Copper itself leaves the water at a measured fish-pond rate, \(k = (0.761 + 0.0018\,(\text{alkalinity} - 78))\cdot 1.09^{\,T - 26.8}\) per day (Marple et al. 2001, DERIVED).</p>
+        </article>
+  </div>
+</section>
+
+<nav class="pager" aria-label="Chapter navigation">
+  <div class="wrap">
+    <div class="pager-row"><a class="pager-prev" href="/simulator/how-it-works/currents/"><span class="pager-k">‹ Previous</span><span class="pager-t">Currents and the tilted thermocline</span></a><a class="pager-next" href="/simulator/how-it-works/bloom/"><span class="pager-k">Next ›</span><span class="pager-t">The bloom: colonies, damage, toxin and oxygen</span></a></div>
+    <p class="pager-tool"><a class="chev" href="/simulator/">Open the simulator</a></p>
+  </div>
+</nav>
+</main>
+
+<footer class="cs-footer">
+  <div class="cs-wrap">
+    <div class="cs-foot-grid">
+      <div>
+        <h2>Selectivity Tool</h2>
+        <a href="/selectivity/">Open the tool</a>
+        <a href="/selectivity/how-it-works/">How it works</a>
+        <a href="/selectivity/how-it-works/example/">Worked example</a>
+        <a href="/selectivity/how-it-works/why/">Why these three</a>
+        <a href="/selectivity/how-it-works/math/">The math</a>
+        <a href="/selectivity/how-it-works/limits/">Limits and next steps</a>
+      </div>
+      <div>
+        <h2>Pond Simulator</h2>
+        <a href="/simulator/">Open the simulator</a>
+        <a href="/simulator/how-it-works/">How it works</a>
+        <a href="/simulator/how-it-works/example/">Worked example</a>
+        <a href="/simulator/how-it-works/water/">Water</a>
+        <a href="/simulator/how-it-works/currents/">Currents</a>
+        <a href="/simulator/how-it-works/treatment/">Treatment</a>
+        <a href="/simulator/how-it-works/bloom/">Bloom</a>
+        <a href="/simulator/how-it-works/checks/">Checks</a>
+      </div>
+      <div>
+        <h2>Project</h2>
+        <a href="/outreach/">Outreach</a>
+        <a href="/outreach/plant-visit/">Plant visit</a>
+        <a href="/outreach/conference/">Conference talk</a>
+        <a href="/data/">Data</a>
+        <a href="/data/sources/">Sources</a>
+        <a href="/about/">About</a>
+        <a href="/about/contact/">Contact</a>
+        <a href="/about/contact/#cite">How to cite</a>
+      </div>
+      <div>
+        <h2>Open source</h2>
+        <p>MIT license: free to use, modify and share, with attribution.</p>
+        <a href="https://doi.org/10.5281/zenodo.22135606">Archived release (DOI):<br>doi.org/10.5281/zenodo.22135606</a>
+        <a href="https://github.com/arjunpendharkar/selectivity-tool">Tool and data on GitHub</a>
+        <a href="https://github.com/siddharthsanthosh1/selectivity-tool-web">Website source on GitHub</a>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <a href="mailto:siddharthsann@gmail.com">siddharthsann@gmail.com</a>
+        <a href="mailto:apandaharkar@gmail.com">apandaharkar@gmail.com</a>
+        <p>Or open an issue on either GitHub repository.</p>
+        <p class="cs-status"><span class="cs-dot"></span>Framework complete. Laboratory validation planned.</p>
+      </div>
+    </div>
+    <p class="cs-disclaimer"><strong>Model predictions, not a treatment recommendation.</strong> CyanoSelect ranks treatments from published lab data and simulates ponds; none of its predictions has been tested in a real pond yet. Registered products have undergone risk assessment by the U.S. Environmental Protection Agency, and the product label governs how they may be used. Follow the label and your state’s rules, and consult a licensed aquatic applicator or your state agency before treating any water body.</p>
+    <p class="cs-colophon">Built by Arjun Pendharkar and Siddharth Santhosh, Green Level High School, under the supervision of Dr. Bharathi Pandi. This site describes research tools whose predictions have not yet been validated in a laboratory or a real pond, and it is not guidance for treating a waterbody.</p>
+  </div>
+</footer>
+
+<script src="/assets/site.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
+  onload="renderMathInElement(document.getElementById('main'),{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false})"></script>
+<script data-goatcounter="https://cyanoselect.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

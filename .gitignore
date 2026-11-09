@@ -30,3 +30,9 @@ __pycache__/
 
 # Local QA screenshots (not part of the site)
 review-screenshots/
+
+# Local Netlify folder
+.netlify
+
+# Private review notes (kept in ~/Documents/CyanoSelect-private, never committed)
+SIMULATOR_REVIEW.md

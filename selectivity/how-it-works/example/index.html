@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Worked example | Selectivity Tool | CyanoSelect</title>
+<meta name="description" content="Diquat against Microcystis, start to finish: the published EC50s, the three selectivity indices (4.9, 18.4 and 497) and where diquat ranks.">
+<link rel="canonical" href="https://cyanoselect.org/selectivity/how-it-works/example/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Worked example | Selectivity Tool | CyanoSelect">
+<meta property="og:description" content="Diquat against Microcystis, start to finish: the published EC50s, the three selectivity indices (4.9, 18.4 and 497) and where diquat ranks.">
+<meta property="og:url" content="https://cyanoselect.org/selectivity/how-it-works/example/">
+<meta property="og:site_name" content="CyanoSelect">
+<meta property="og:image" content="https://cyanoselect.org/images/og-preview.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="CyanoSelect: rank algae bloom treatments by their predicted risk to non-target organisms.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Worked example | Selectivity Tool | CyanoSelect">
+<meta name="twitter:description" content="Diquat against Microcystis, start to finish: the published EC50s, the three selectivity indices (4.9, 18.4 and 497) and where diquat ranks.">
+<meta name="twitter:image" content="https://cyanoselect.org/images/og-preview.png">
+<meta name="theme-color" content="#0A4F54">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A4F54'/%3E%3Cpath d='M6 21c3-6 5-9 10-9s7 3 10 9' stroke='%2302C39A' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='10' r='2.6' fill='%2300A896'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/chrome.css">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+</head>
+<body class="pg-selectivity">
+
+<a class="cs-skip" href="#main">Skip to content</a>
+<nav class="cs-nav" aria-label="Main">
+  <div class="cs-wrap cs-nav-in">
+    <a class="cs-brand" href="/"><svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#02C39A" opacity=".16"/><path d="M6 21c3-6 5-9 10-9s7 3 10 9" stroke="#02C39A" stroke-width="2.6" fill="none" stroke-linecap="round"/><circle cx="16" cy="10" r="2.6" fill="#00A896"/></svg>CyanoSelect</a>
+    <div class="cs-links" id="csMenu">
+      <a href="/selectivity/" aria-current="true">Selectivity Tool</a>
+      <a href="/simulator/">Pond Simulator</a>
+      <a href="/outreach/">Outreach</a>
+      <a href="/data/">Data</a>
+      <a href="/about/">About</a>
+    </div>
+    <button type="button" class="cs-toggle" id="csToggle" aria-expanded="false" aria-controls="csMenu" aria-label="Open menu"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
+  </div>
+</nav>
+<nav class="cs-sub" aria-label="Selectivity Tool">
+  <div class="cs-wrap cs-sub-in">
+    <a class="cs-sub-name" href="/selectivity/">Selectivity Tool</a>
+    <div class="cs-sub-links"><a href="/selectivity/">Tool</a><a href="/selectivity/how-it-works/" aria-current="true">How it works</a></div>
+  </div>
+</nav>
+
+<main id="main">
+<header class="page-hero ph-waves">
+  <div class="wrap">
+    <p class="eyebrow">Selectivity Tool · How it works</p>
+    <h1>Worked example: diquat against <em>Microcystis</em>.</h1>
+    <p class="lede">One treatment, start to finish: the published EC50s, the three selectivity indices, and where diquat lands in the ranking.</p>
+  </div>
+  <svg class="hero-waves" viewBox="0 0 1440 130" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 74c180-40 300 26 480 10s300-58 480-40 300 62 480 34v52H0z" fill="#02C39A" opacity=".10"/>
+    <path d="M0 96c200-34 320 18 520 6s320-46 520-30 260 48 400 30v28H0z" fill="#00A896" opacity=".14"/>
+    <path d="M0 116c220-24 360 12 560 2s340-30 560-16 200 26 320 18v10H0z" fill="#EEF4F4"/>
+  </svg>
+</header>
+
+<nav class="chapters" aria-label="How it works chapters">
+  <div class="wrap">
+    <ol class="chapters-list">
+      <li><a href="/selectivity/how-it-works/"><span class="ch-n">•</span>Overview</a></li>
+      <li><a href="/selectivity/how-it-works/example/" aria-current="page"><span class="ch-n">1</span>Worked example</a></li>
+      <li><a href="/selectivity/how-it-works/why/"><span class="ch-n">2</span>Why these three</a></li>
+      <li><a href="/selectivity/how-it-works/math/"><span class="ch-n">3</span>The math</a></li>
+      <li><a href="/selectivity/how-it-works/limits/"><span class="ch-n">4</span>Limits and next steps</a></li>
+    </ol>
+  </div>
+</nav>
+
+<section class="chapter" id="worked">
+  <div class="wrap chapter-main">
+    <article class="mcard" id="r-example">
+          <h3>Worked example: diquat against <em>Microcystis</em></h3>
+          <p class="plain">Diquat's bloom EC50 and its three bystander values, all from published tests.</p>
+          <div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars"><thead><tr><th scope="col">Organism</th><th scope="col">EC50 (mg/L)</th><th scope="col">Source</th><th scope="col">SI</th></tr></thead><tbody>
+            <tr><td><em>Microcystis</em> (bloom)</td><td>0.101</td><td>Peterson et al. 1997 (0.098 and 0.105, same carbon-uptake test)</td><td>—</td></tr>
+            <tr><td>Green alga</td><td>0.492</td><td>Peterson et al. 1997, same study and test</td><td><strong>4.9</strong></td></tr>
+            <tr><td>Water flea (<em>Daphnia</em>)</td><td>1.86</td><td>U.S. Environmental Protection Agency ECOTOX database</td><td>18.4</td></tr>
+            <tr><td>Fish</td><td>50.2</td><td>U.S. Environmental Protection Agency ECOTOX database</td><td>497</td></tr>
+          </tbody></table></div>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ \mathrm{SI}_{\text{green alga}} = \frac{0.492}{0.101} = 4.9, \quad \mathrm{SI}_{\text{water flea}} = \frac{1.86}{0.101} = 18.4, \quad \mathrm{SI}_{\text{fish}} = \frac{50.2}{0.101} = 497 \]</div>
+          <p>Diquat's weakest margin is the green alga, so its min-SI is 4.9 (4.87 unrounded). Scored on the two lab-testable axes, it ranks first among single treatments. Paired with copper sulfate, whose weak axis is the water flea instead, the predicted pair scores 6.24, above either product alone.</p>
+        </article>
+    <p class="tile-links tile-links-left"><a class="chev" href="/selectivity/">See diquat in the ranking</a><a class="chev" href="/data/sources/">Diquat's source card</a></p>
+  </div>
+</section>
+
+<nav class="pager" aria-label="Chapter navigation">
+  <div class="wrap">
+    <div class="pager-row"><a class="pager-prev" href="/selectivity/how-it-works/"><span class="pager-k">‹ Previous</span><span class="pager-t">How the ranking works</span></a><a class="pager-next" href="/selectivity/how-it-works/why/"><span class="pager-k">Next ›</span><span class="pager-t">Why we score these three organisms</span></a></div>
+    <p class="pager-tool"><a class="chev" href="/selectivity/">Open the tool</a></p>
+  </div>
+</nav>
+</main>
+
+<footer class="cs-footer">
+  <div class="cs-wrap">
+    <div class="cs-foot-grid">
+      <div>
+        <h2>Selectivity Tool</h2>
+        <a href="/selectivity/">Open the tool</a>
+        <a href="/selectivity/how-it-works/">How it works</a>
+        <a href="/selectivity/how-it-works/example/">Worked example</a>
+        <a href="/selectivity/how-it-works/why/">Why these three</a>
+        <a href="/selectivity/how-it-works/math/">The math</a>
+        <a href="/selectivity/how-it-works/limits/">Limits and next steps</a>
+      </div>
+      <div>
+        <h2>Pond Simulator</h2>
+        <a href="/simulator/">Open the simulator</a>
+        <a href="/simulator/how-it-works/">How it works</a>
+        <a href="/simulator/how-it-works/example/">Worked example</a>
+        <a href="/simulator/how-it-works/water/">Water</a>
+        <a href="/simulator/how-it-works/currents/">Currents</a>
+        <a href="/simulator/how-it-works/treatment/">Treatment</a>
+        <a href="/simulator/how-it-works/bloom/">Bloom</a>
+        <a href="/simulator/how-it-works/checks/">Checks</a>
+      </div>
+      <div>
+        <h2>Project</h2>
+        <a href="/outreach/">Outreach</a>
+        <a href="/outreach/plant-visit/">Plant visit</a>
+        <a href="/outreach/conference/">Conference talk</a>
+        <a href="/data/">Data</a>
+        <a href="/data/sources/">Sources</a>
+        <a href="/about/">About</a>
+        <a href="/about/contact/">Contact</a>
+        <a href="/about/contact/#cite">How to cite</a>
+      </div>
+      <div>
+        <h2>Open source</h2>
+        <p>MIT license: free to use, modify and share, with attribution.</p>
+        <a href="https://doi.org/10.5281/zenodo.22135606">Archived release (DOI):<br>doi.org/10.5281/zenodo.22135606</a>
+        <a href="https://github.com/arjunpendharkar/selectivity-tool">Tool and data on GitHub</a>
+        <a href="https://github.com/siddharthsanthosh1/selectivity-tool-web">Website source on GitHub</a>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <a href="mailto:siddharthsann@gmail.com">siddharthsann@gmail.com</a>
+        <a href="mailto:apandaharkar@gmail.com">apandaharkar@gmail.com</a>
+        <p>Or open an issue on either GitHub repository.</p>
+        <p class="cs-status"><span class="cs-dot"></span>Framework complete. Laboratory validation planned.</p>
+      </div>
+    </div>
+    <p class="cs-disclaimer"><strong>Model predictions, not a treatment recommendation.</strong> CyanoSelect ranks treatments from published lab data and simulates ponds; none of its predictions has been tested in a real pond yet. Registered products have undergone risk assessment by the U.S. Environmental Protection Agency, and the product label governs how they may be used. Follow the label and your state’s rules, and consult a licensed aquatic applicator or your state agency before treating any water body.</p>
+    <p class="cs-colophon">Built by Arjun Pendharkar and Siddharth Santhosh, Green Level High School, under the supervision of Dr. Bharathi Pandi. This site describes research tools whose predictions have not yet been validated in a laboratory or a real pond, and it is not guidance for treating a waterbody.</p>
+  </div>
+</footer>
+
+<script src="/assets/site.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
+  onload="renderMathInElement(document.getElementById('main'),{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false})"></script>
+<script data-goatcounter="https://cyanoselect.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

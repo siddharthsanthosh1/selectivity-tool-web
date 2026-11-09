@@ -1,0 +1,45 @@
+<header class="page-hero ph-waves">
+  <div class="wrap">
+    <p class="eyebrow">Pond Simulator · How it works</p>
+    <h1>Worked example: one acre, one heavy bloom, one spray of peroxide.</h1>
+    <p class="lede">The simulator's built-in example pond, and what the model predicts for it. These are model predictions, not measurements: nothing here has been tested in a real pond yet.</p>
+  </div>
+  <svg class="hero-waves" viewBox="0 0 1440 130" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 74c180-40 300 26 480 10s300-58 480-40 300 62 480 34v52H0z" fill="#02C39A" opacity=".10"/>
+    <path d="M0 96c200-34 320 18 520 6s320-46 520-30 260 48 400 30v28H0z" fill="#00A896" opacity=".14"/>
+    <path d="M0 116c220-24 360 12 560 2s340-30 560-16 200 26 320 18v10H0z" fill="#EEF4F4"/>
+  </svg>
+</header>
+
+<!--CHAPTERS-->
+
+<section class="tight" id="example">
+  <div class="wrap chapter-main">
+    <p>The pond:</p><ul>
+            <li>1 acre, 8 ft at the deepest point, round, 82 °F water.</li>
+            <li>Open banks, with a 4.5 mph wind from the southwest on a sunny mid-July day.</li>
+            <li>A heavy <em>Microcystis</em> bloom (100 µg/L chlorophyll).</li>
+            <li>Liquid hydrogen peroxide sprayed on the whole pond at 3 mg/L at 8 AM.</li>
+          </ul>
+        <figure class="example-fig">
+          <img src="/images/how-it-works/example-map.jpg" width="764" height="505" loading="lazy" alt="Map of the round 1-acre example pond seen from above, right after spraying. The water is dark blue where the peroxide is strongest in the top water. Hundreds of small dots, the tracked colonies, are spread across the pond, and arrows along the edges show the top-water current running northeast, with the wind from the southwest.">
+          <figcaption>The example pond on the simulator's map right after spraying. Colour is peroxide in the top water, dots are tracked colonies, and arrows are the top-water current. One run with central settings, from the simulator on this site.</figcaption>
+        </figure>
+
+        <div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars ex-table"><thead><tr><th scope="col">What the model predicts</th><th scope="col">Value</th><th scope="col">How firm it is</th></tr></thead><tbody>
+          <tr><td>Top-water peak right after spraying</td><td>about 26 mg/L</td><td>The map's highest top-water square in the first hour. The layers model's top 6 inches peak at about 20 mg/L.</td></tr>
+          <tr><td>Bloom knocked down by day 2 (median of 200 runs)</td><td>about 61–67%</td><td>The page shows 67%. The median moves between about 61% and 67% with the random seed; 1,000 runs give 61%.</td></tr>
+          <tr><td>Knock-down, 5th–95th percentile</td><td>about 4% to 98%</td><td>Knock-down is the most uncertain prediction, because no one has measured how fast these chemicals damage cells over time.</td></tr>
+          <tr><td>Knock-down on the map (one central run)</td><td>63%</td><td></td></tr>
+          <tr><td>Total toxin vs the swimming advisory level (8 µg/L)</td><td>above it all 14 days</td><td>Starts at about 54 µg/L in the top water, nearly 7 times the level, and never falls below about 16. The cells still alive hold their toxin, and released toxin breaks down slowly.</td></tr>
+          <tr><td>Lowest-hour oxygen (median of runs)</td><td>3.7 mg/L</td><td>Below the 4 mg/L fish-stress level. The 5th–95th percentile is 1.6–5.2 mg/L; in the worst 5% of runs it falls to about 1 mg/L, low enough to kill fish.</td></tr>
+          <tr><td>Lowest-hour oxygen, map and layers model</td><td>4.5 and 4.1 mg/L</td><td>One central run each.</td></tr>
+        </tbody></table></div>
+        <div class="src"><p>These are the numbers after the November 2026 checks, which found:</p><ul>
+            <li>the earlier median of 64% (8–98% across 40 runs) depended on the random seed;</li>
+            <li>the 10-minute time step cost the layers model about 2.7 points.</li>
+          </ul></div>
+  </div>
+</section>
+
+<!--PAGER-->

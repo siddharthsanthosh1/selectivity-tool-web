@@ -1,0 +1,117 @@
+<header class="page-hero ph-compact">
+  <div class="wrap">
+    <p class="eyebrow">Selectivity Tool</p>
+    <h1>Which treatment spares the rest of the lake?</h1>
+    <p class="lede">Every treatment and predicted pair, scored against <em>Microcystis aeruginosa</em> on its predicted risk to green algae, water fleas and fish.</p>
+  </div>
+</header>
+
+<section class="tool-sec" id="try">
+  <div class="wrap">
+    <div class="tool">
+      <div class="controls">
+        <div class="ctrl ctrl-metric">
+          <p class="ctrl-label" id="lbl-metric">Rank by</p>
+          <div class="seg" role="radiogroup" aria-labelledby="lbl-metric">
+            <button type="button" class="seg-btn is-on" data-metric="min" role="radio" aria-checked="true">Worst axis (min-SI)</button>
+            <button type="button" class="seg-btn" data-metric="geo" role="radio" aria-checked="false">Geometric mean</button>
+          </div>
+        </div>
+
+        <div class="ctrl">
+          <p class="ctrl-label" id="lbl-axes">Non-target axes</p>
+          <div class="pills" id="axisPills" role="group" aria-labelledby="lbl-axes">
+            <label class="pill"><input type="checkbox" value="alga" checked><span>Green alga</span></label>
+            <label class="pill"><input type="checkbox" value="Daphnia" checked><span>Daphnia</span></label>
+            <label class="pill"><input type="checkbox" value="fish"><span>Fish</span></label>
+          </div>
+          <p class="ctrl-hint">Fish is off by default because that axis cannot be lab validated here.</p>
+        </div>
+
+        <div class="ctrl">
+          <p class="ctrl-label" id="lbl-tx">Treatments</p>
+          <div class="pills" id="txPills" role="group" aria-labelledby="lbl-tx">
+            <label class="pill"><input type="checkbox" value="Copper sulfate" checked><span>Copper sulfate</span></label>
+            <label class="pill"><input type="checkbox" value="Hydrogen peroxide" checked><span>Hydrogen peroxide</span></label>
+            <label class="pill"><input type="checkbox" value="Diquat dibromide" checked><span>Diquat dibromide</span></label>
+          </div>
+          <p class="ctrl-hint">Removing a treatment also removes every combination containing it.</p>
+        </div>
+
+        <div class="ctrl ctrl-data">
+          <p class="ctrl-label" id="lbl-data">Which published green-alga value for diquat?</p>
+          <div class="pills" id="dataPills" role="radiogroup" aria-labelledby="lbl-data">
+            <label class="pill"><input type="radio" name="diquatAlga" value="4.87" checked><span>Matched study: 0.492 mg/L (Peterson et al. 1997)</span></label>
+            <label class="pill"><input type="radio" name="diquatAlga" value="1.29"><span>Product data sheet: 0.13 mg/L (Reward, 72 h)</span></label>
+            <label class="pill"><input type="radio" name="diquatAlga" value="0.32"><span>EPA ECOTOX growth tests: 0.032 mg/L</span></label>
+          </div>
+          <p class="data-why">Same treatment, different published study, very different ranking. This is why matched data matters.</p>
+        </div>
+      </div>
+
+      <div class="table-scroll">
+        <table class="tool-table" id="toolTable">
+          <thead>
+            <tr>
+              <th scope="col">Rank</th>
+              <th scope="col">Treatment or combination</th>
+              <th scope="col" class="num" id="th-min">min-SI</th>
+              <th scope="col" class="num" id="th-geo">geo mean</th>
+              <th scope="col" class="peraxis">Per-axis SI</th>
+            </tr>
+          </thead>
+          <tbody id="toolBody" aria-live="polite"></tbody>
+        </table>
+      </div>
+
+      <p class="tier-note" id="tierNote" hidden>Entries are grouped by how many axes they were scored on. A treatment scored on more axes has more chances to hit a low worst axis, so ranks are only comparable inside a group.</p>
+      <p class="tool-empty" id="emptyMsg" hidden>Select at least one treatment and one axis to see a ranking.</p>
+      <p class="scroll-hint">Scroll the table sideways to see every column.</p>
+    </div>
+
+
+    <div class="notice tool-notice" role="note">
+      <p><strong>Important:</strong> This tool is for education and research. It is not a treatment recommendation. Registered products have undergone U.S. Environmental Protection Agency risk assessment, and the product label governs how they may be used. Consult a licensed aquatic applicator or your state agency before treating any water body.</p>
+    </div>
+    <div class="narrow tool-notes reveal">
+      <p class="note-live" id="metricNote">Ranked by the weakest non-target axis. A treatment is only as selective as its worst link.</p>
+      <p>Under Bliss independence, each of a combination's scores falls between its two ingredients' scores. When two treatments are weak on different organisms, the combination's weakest score can end up higher than either one alone. With the matched diquat values, copper plus diquat does exactly that. Lab testing would show whether the prediction holds, or whether the pair interacts.</p>
+      <p><strong>These are predictions, not measurements.</strong> Values are computed from published toxicity data under stated assumptions (Bliss independence, Hill slope of 1, equipotent-on-target mixing) and are awaiting laboratory validation. Combinations are model output and have not been tested. With the default settings, the ranking is scored on the two lab-testable axes for this target, and a score below 1 would be flagged; no entry falls below 1.</p>
+      <p class="note-muted">These are predictions from published data, not measurements. The Python implementation archived at the DOI is the citable reference for the method. The diquat values on this page were corrected in September 2026 and differ from the archived release.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band-panel tight" id="read">
+  <div class="wrap two-col">
+    <div>
+      <p class="eyebrow">How to read this</p>
+      <h2 class="sub-title">Three things to know.</h2>
+      <p class="note-muted">The same math as the archived Python tool, running locally on this page, with the corrected diquat values. A selectivity index (SI) is a bystander EC50 divided by the bloom EC50; an EC50 is the dose that causes a 50% effect in a lab test. Change the metric, drop an axis, remove a treatment, and watch the ranking reorder.</p>
+      <p class="tile-links tile-links-left"><a class="chev" href="/selectivity/how-it-works/">How it works</a><a class="chev" href="/selectivity/how-it-works/limits/">What it doesn't tell you</a></p>
+    </div>
+    <ol class="read-list">
+      <li>Each score is a <strong>selectivity index (SI)</strong>: the dose that harms a bystander divided by the dose that controls the bloom. Above 1, the bloom is hit first.</li>
+      <li>Treatments are ranked by their <strong>weakest</strong> bystander score (min-SI), never an average.</li>
+      <li>Pairs are predictions from Bliss independence, not lab results. <a href="/selectivity/how-it-works/math/">The math, step by step</a>.</li>
+    </ol>
+  </div>
+</section>
+
+<section class="tight" id="simulate">
+  <div class="wrap">
+    <div class="next-card">
+      <div>
+        <p class="eyebrow">Next step</p>
+        <h2 class="sub-title">Simulate this treatment in your pond</h2>
+        <p>The ranking comes from lab tests. The simulator predicts what one treatment does in your pond, with your weather: where it goes, how much bloom it knocks down, and what happens to toxin and oxygen.</p>
+        <p class="note-muted">Pairs can't be simulated yet; the simulator follows one product at a time.</p>
+      </div>
+      <ul class="simlinks">
+        <li><a class="btn btn-solid" href="/simulator/?product=copper_sulfate">Copper sulfate</a></li>
+        <li><a class="btn btn-solid" href="/simulator/?product=h2o2_liquid">Hydrogen peroxide</a></li>
+        <li><a class="btn btn-solid" href="/simulator/?product=diquat">Diquat dibromide</a></li>
+      </ul>
+    </div>
+  </div>
+</section>

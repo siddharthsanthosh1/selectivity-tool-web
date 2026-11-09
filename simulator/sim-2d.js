@@ -575,7 +575,7 @@
   //    a turn of the sphere by a random angle in a random direction, so colonies spread evenly stay
   //    exactly even at any step length. The mean and spread of each step match the Visser (1997) walk
   //    used until Nov 8, 2026, which with these 30-180 s steps left the top and bottom 5% of the layer
-  //    20-33% too full of colonies that should simply follow the water (bug H2 in SIMULATOR_REVIEW.md).
+  //    20-33% too full of colonies that should simply follow the water (bug H2 in the Nov 8, 2026 code review).
   //    The calm-water floor Kmin is added as an even walk on top (within 1e-5 m²/s of the
   //    max(Kmin, profile) the concentrations use).
   //  * Under the thermocline the weak mixing is even (Kbelow), and the thermocline is a wall for the
@@ -1315,7 +1315,7 @@
           // sublayer's top and bottom, because the part averages to zero over the sublayer) is added
           // to the vertical speed, so the colonies' flow keeps the water's volume. Until Nov 8, 2026
           // it was added in full right up to the shore and a step onto land was refused, so colonies
-          // that should follow the water collected on the downwind shore (bug H1 in SIMULATOR_REVIEW.md).
+          // that should follow the water collected on the downwind shore (bug H1 in the Nov 8, 2026 code review).
           const oW = iw >= 0 ? 1 : 0, oE = ie >= 0 ? 1 : 0, oS = is >= 0 ? 1 : 0, oN = in_ >= 0 ? 1 : 0;
           const fX = (1 - xi) * oW + xi * oE, fY = (1 - yi) * oS + yi * oN;
           ux += (UgX[k] * gd + ss * wv[0]) * fX; uy += (UgY[k] * gd + ss * wv[1]) * fY;
@@ -1852,7 +1852,7 @@
         // 2026 the sideways speed came from each column's own stirred depth while the up-and-down
         // speed came from the corner streamfunction; the two did not keep the water's volume, and
         // colonies that should follow the water piled up 3-4 times too dense at the downwind end (bug
-        // H1 in SIMULATOR_REVIEW.md).
+        // H1 in the Nov 8, 2026 code review).
         let i = Math.min(nxs - 1, Math.max(0, Math.floor(ppx[p] / dxs)));
         let x = ppx[p], z = ppz[p], left = dt, guard = 0;
         while (left > 1e-9 && guard++ < 48) {

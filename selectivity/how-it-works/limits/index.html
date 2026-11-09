@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Limits and next steps | Selectivity Tool | CyanoSelect</title>
+<meta name="description" content="What the CyanoSelect ranking does not tell you, and the laboratory validation planned to test it.">
+<link rel="canonical" href="https://cyanoselect.org/selectivity/how-it-works/limits/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Limits and next steps | Selectivity Tool | CyanoSelect">
+<meta property="og:description" content="What the CyanoSelect ranking does not tell you, and the laboratory validation planned to test it.">
+<meta property="og:url" content="https://cyanoselect.org/selectivity/how-it-works/limits/">
+<meta property="og:site_name" content="CyanoSelect">
+<meta property="og:image" content="https://cyanoselect.org/images/og-preview.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="CyanoSelect: rank algae bloom treatments by their predicted risk to non-target organisms.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Limits and next steps | Selectivity Tool | CyanoSelect">
+<meta name="twitter:description" content="What the CyanoSelect ranking does not tell you, and the laboratory validation planned to test it.">
+<meta name="twitter:image" content="https://cyanoselect.org/images/og-preview.png">
+<meta name="theme-color" content="#0A4F54">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A4F54'/%3E%3Cpath d='M6 21c3-6 5-9 10-9s7 3 10 9' stroke='%2302C39A' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='10' r='2.6' fill='%2300A896'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/chrome.css">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body class="pg-selectivity">
+
+<a class="cs-skip" href="#main">Skip to content</a>
+<nav class="cs-nav" aria-label="Main">
+  <div class="cs-wrap cs-nav-in">
+    <a class="cs-brand" href="/"><svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#02C39A" opacity=".16"/><path d="M6 21c3-6 5-9 10-9s7 3 10 9" stroke="#02C39A" stroke-width="2.6" fill="none" stroke-linecap="round"/><circle cx="16" cy="10" r="2.6" fill="#00A896"/></svg>CyanoSelect</a>
+    <div class="cs-links" id="csMenu">
+      <a href="/selectivity/" aria-current="true">Selectivity Tool</a>
+      <a href="/simulator/">Pond Simulator</a>
+      <a href="/outreach/">Outreach</a>
+      <a href="/data/">Data</a>
+      <a href="/about/">About</a>
+    </div>
+    <button type="button" class="cs-toggle" id="csToggle" aria-expanded="false" aria-controls="csMenu" aria-label="Open menu"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
+  </div>
+</nav>
+<nav class="cs-sub" aria-label="Selectivity Tool">
+  <div class="cs-wrap cs-sub-in">
+    <a class="cs-sub-name" href="/selectivity/">Selectivity Tool</a>
+    <div class="cs-sub-links"><a href="/selectivity/">Tool</a><a href="/selectivity/how-it-works/" aria-current="true">How it works</a></div>
+  </div>
+</nav>
+
+<main id="main">
+<header class="page-hero ph-waves">
+  <div class="wrap">
+    <p class="eyebrow">Selectivity Tool · Limitations</p>
+    <h1>What this tool does not tell you.</h1>
+    <p class="lede">Read this before using the output. Every item here is a constraint we can state precisely, which is the point: each one is testable, and the planned lab work is designed to test them.</p>
+  </div>
+  <svg class="hero-waves" viewBox="0 0 1440 130" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 74c180-40 300 26 480 10s300-58 480-40 300 62 480 34v52H0z" fill="#02C39A" opacity=".10"/>
+    <path d="M0 96c200-34 320 18 520 6s320-46 520-30 260 48 400 30v28H0z" fill="#00A896" opacity=".14"/>
+    <path d="M0 116c220-24 360 12 560 2s340-30 560-16 200 26 320 18v10H0z" fill="#EEF4F4"/>
+  </svg>
+</header>
+
+<nav class="chapters" aria-label="How it works chapters">
+  <div class="wrap">
+    <ol class="chapters-list">
+      <li><a href="/selectivity/how-it-works/"><span class="ch-n">•</span>Overview</a></li>
+      <li><a href="/selectivity/how-it-works/example/"><span class="ch-n">1</span>Worked example</a></li>
+      <li><a href="/selectivity/how-it-works/why/"><span class="ch-n">2</span>Why these three</a></li>
+      <li><a href="/selectivity/how-it-works/math/"><span class="ch-n">3</span>The math</a></li>
+      <li><a href="/selectivity/how-it-works/limits/" aria-current="page"><span class="ch-n">4</span>Limits and next steps</a></li>
+    </ol>
+  </div>
+</nav>
+
+<section class="chapter" id="limits">
+  <div class="wrap chapter-main">
+          <div class="limits">
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
+              <div>
+                <h3>Predictions are not measurements.</h3>
+                <p>Every combination value in the ranking is a hypothesis generated under stated assumptions. None of the combinations has been measured in a lab. Validation is planned, and both agreement and disagreement with the predictions are reportable results.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 20h18M6 20V10M12 20V5M18 20v-7"/></svg>
+              <div>
+                <h3>The input data is sparse.</h3>
+                <p>The published literature contains comparable target-kill values for only a fraction of treatment and organism pairs. The rankings rest on relatively few fully scored treatments, so a single new measurement can move them.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+              <div>
+                <h3>Exposure durations do not always match.</h3>
+                <p>Some published values compare target and non-target toxicity measured over different exposure times and endpoints. Because the target value sits in the denominator of the index, a mismatch inflates apparent selectivity. Affected entries are flagged in the code.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="12" r="6"/><circle cx="15" cy="12" r="6"/></svg>
+              <div>
+                <h3>Bliss independence can be violated.</h3>
+                <p>The combination model assumes the two agents act independently. Agents that share a mechanism (copper and hydrogen peroxide both act partly through oxidative stress) may not. Where the lab disagrees with the prediction, that disagreement is the finding.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h6"/></svg>
+              <div>
+                <h3>It ranks by selectivity, not efficacy.</h3>
+                <p>A treatment can kill the target extremely well and still rank poorly here. That is intended behavior, not a bug. This tool answers one question (what is the predicted risk to non-target organisms) and should sit alongside efficacy, cost, and permitting, not replace them.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
+              <div>
+                <h3>Water chemistry changes toxicity.</h3>
+                <p>Toxicity varies with water chemistry. Copper in particular is far more toxic in soft, low-alkalinity water than in hard water.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
+              <div>
+                <h3>Strains differ.</h3>
+                <p><em>Microcystis</em> strains respond differently to the same product.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
+              <div>
+                <h3>Microcystis is not the only bloom organism.</h3>
+                <p>Other bloom organisms occur in North Carolina (for example <em>Euglena</em> and <em>Prymnesium</em>), and some treatments target green algae blooms instead.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
+              <div>
+                <h3>Copper products are not all alike.</h3>
+                <p>Chelated copper products are generally lower risk than copper sulfate. Copper is also toxic to mollusks, which this tool does not score.</p>
+              </div>
+            </div>
+            <div class="limit">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C8772B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.2v.1"/></svg>
+              <div>
+                <h3>Lab water is not lake water.</h3>
+                <p>Lab values measured in clean water can differ substantially from values in natural water.</p>
+              </div>
+            </div>
+          </div>
+  </div>
+</section>
+
+<section class="band-panel tight" id="whats-next">
+  <div class="wrap chapter-main">
+    <div class="narrow">
+      <p class="eyebrow">What's next</p>
+      <h2 class="sub-title">The predictions are the easy part. Testing them is the work.</h2>
+      <p class="lede">The framework is complete. Everything below is what turns it from a set of predictions into validated findings.</p>
+    </div>
+    <div class="road">
+        <article class="road-item" id="next">
+          <div><div class="road-num">1</div></div>
+          <div>
+            <p class="step-title">Validation</p>
+            <div class="road-head">
+              <h3>Test the rankings in a lab</h3>
+              <span class="status"><span class="dot"></span>Planned</span>
+            </div>
+            <p>Three treatments that can be sourced as pure compounds and dosed precisely: copper sulfate, hydrogen peroxide, and diquat dibromide. Three organisms: <em>Microcystis aeruginosa</em> as the target, <em>Raphidocelis subcapitata</em> as the green alga, and <em>Daphnia magna</em> as the grazer.</p>
+
+            <div class="lab-facts">
+              <div><b>3</b><span>treatments</span></div>
+              <div><b>3</b><span>organisms</span></div>
+              <div><b>~360</b><span>test units</span></div>
+            </div>
+
+            <p>Each treatment and each predicted pair will be tested across a five-point dose series plus a control, following the Organisation for Economic Co-operation and Development test guidelines 201 for the algae and 202 for <em>Daphnia</em>. That comes to roughly 360 individual test units.</p>
+            <p>The rule that makes it worth doing: every organism is measured at the same exposure time using the same endpoint. Much of the published literature does not do this, and mismatched exposure times are one of the reasons reported selectivity can be inflated. Generating matched data is the point.</p>
+
+            <div class="qpair">
+              <div class="q">
+                <p class="qn">Question 01</p>
+                <p><strong>Does the measured ranking match the predicted ranking?</strong></p>
+              </div>
+              <div class="q">
+                <p class="qn">Question 02</p>
+                <p><strong>Does each combination beat, match, or fall short of its Bliss prediction?</strong> Beating it means real synergy. Matching it means the framework is calibrated. Falling short means antagonism.</p>
+              </div>
+            </div>
+
+            <p class="road-close">All three outcomes are reportable. The experiment is designed so that it cannot be failed, only answered.</p>
+          </div>
+        </article>
+
+        <article class="road-item" id="scope">
+          <div><div class="road-num">4</div></div>
+          <div>
+            <p class="step-title">Scope</p>
+            <div class="road-head">
+              <h3>Extend what it can score</h3>
+            </div>
+            <p>Longer term, three directions. Extend the ranking to the other three target genera once the data supports it. Add treatments beyond the current thirteen, including compounds that are promising but not commercially available. And test whether the Bliss assumption holds across mechanisms, since agents that share a mode of action are the most likely to break it.</p>
+          </div>
+        </article>
+    </div>
+    <p class="note-muted">The other two next steps: <a href="/data/#next-data">fill in the missing data</a> and <a href="/outreach/#practitioners">put it in front of practitioners</a>.</p>
+  </div>
+</section>
+
+<nav class="pager" aria-label="Chapter navigation">
+  <div class="wrap">
+    <div class="pager-row"><a class="pager-prev" href="/selectivity/how-it-works/math/"><span class="pager-k">‹ Previous</span><span class="pager-t">The ranking math</span></a><span></span></div>
+    <p class="pager-tool"><a class="chev" href="/selectivity/">Open the tool</a></p>
+  </div>
+</nav>
+</main>
+
+<footer class="cs-footer">
+  <div class="cs-wrap">
+    <div class="cs-foot-grid">
+      <div>
+        <h2>Selectivity Tool</h2>
+        <a href="/selectivity/">Open the tool</a>
+        <a href="/selectivity/how-it-works/">How it works</a>
+        <a href="/selectivity/how-it-works/example/">Worked example</a>
+        <a href="/selectivity/how-it-works/why/">Why these three</a>
+        <a href="/selectivity/how-it-works/math/">The math</a>
+        <a href="/selectivity/how-it-works/limits/">Limits and next steps</a>
+      </div>
+      <div>
+        <h2>Pond Simulator</h2>
+        <a href="/simulator/">Open the simulator</a>
+        <a href="/simulator/how-it-works/">How it works</a>
+        <a href="/simulator/how-it-works/example/">Worked example</a>
+        <a href="/simulator/how-it-works/water/">Water</a>
+        <a href="/simulator/how-it-works/currents/">Currents</a>
+        <a href="/simulator/how-it-works/treatment/">Treatment</a>
+        <a href="/simulator/how-it-works/bloom/">Bloom</a>
+        <a href="/simulator/how-it-works/checks/">Checks</a>
+      </div>
+      <div>
+        <h2>Project</h2>
+        <a href="/outreach/">Outreach</a>
+        <a href="/outreach/plant-visit/">Plant visit</a>
+        <a href="/outreach/conference/">Conference talk</a>
+        <a href="/data/">Data</a>
+        <a href="/data/sources/">Sources</a>
+        <a href="/about/">About</a>
+        <a href="/about/contact/">Contact</a>
+        <a href="/about/contact/#cite">How to cite</a>
+      </div>
+      <div>
+        <h2>Open source</h2>
+        <p>MIT license: free to use, modify and share, with attribution.</p>
+        <a href="https://doi.org/10.5281/zenodo.22135606">Archived release (DOI):<br>doi.org/10.5281/zenodo.22135606</a>
+        <a href="https://github.com/arjunpendharkar/selectivity-tool">Tool and data on GitHub</a>
+        <a href="https://github.com/siddharthsanthosh1/selectivity-tool-web">Website source on GitHub</a>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <a href="mailto:siddharthsann@gmail.com">siddharthsann@gmail.com</a>
+        <a href="mailto:apandaharkar@gmail.com">apandaharkar@gmail.com</a>
+        <p>Or open an issue on either GitHub repository.</p>
+        <p class="cs-status"><span class="cs-dot"></span>Framework complete. Laboratory validation planned.</p>
+      </div>
+    </div>
+    <p class="cs-disclaimer"><strong>Model predictions, not a treatment recommendation.</strong> CyanoSelect ranks treatments from published lab data and simulates ponds; none of its predictions has been tested in a real pond yet. Registered products have undergone risk assessment by the U.S. Environmental Protection Agency, and the product label governs how they may be used. Follow the label and your state’s rules, and consult a licensed aquatic applicator or your state agency before treating any water body.</p>
+    <p class="cs-colophon">Built by Arjun Pendharkar and Siddharth Santhosh, Green Level High School, under the supervision of Dr. Bharathi Pandi. This site describes research tools whose predictions have not yet been validated in a laboratory or a real pond, and it is not guidance for treating a waterbody.</p>
+  </div>
+</footer>
+
+<script src="/assets/site.js"></script>
+<script data-goatcounter="https://cyanoselect.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

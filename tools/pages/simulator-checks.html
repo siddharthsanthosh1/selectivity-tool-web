@@ -1,0 +1,73 @@
+<header class="page-hero ph-waves">
+  <div class="wrap">
+    <p class="eyebrow">Pond Simulator · How it works</p>
+    <h1>Checks and limits.</h1>
+    <p class="lede">How uncertain the predictions are, how we checked the code, and what the simulator doesn’t do yet.</p>
+  </div>
+  <svg class="hero-waves" viewBox="0 0 1440 130" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 74c180-40 300 26 480 10s300-58 480-40 300 62 480 34v52H0z" fill="#02C39A" opacity=".10"/>
+    <path d="M0 96c200-34 320 18 520 6s320-46 520-30 260 48 400 30v28H0z" fill="#00A896" opacity=".14"/>
+    <path d="M0 116c220-24 360 12 560 2s340-30 560-16 200 26 320 18v10H0z" fill="#EEF4F4"/>
+  </svg>
+</header>
+
+<!--CHAPTERS-->
+
+<section class="chapter">
+  <div class="wrap chapter-main">
+<article class="mcard" id="m-runs">
+          <h3>The 200 Latin hypercube runs, and what the band means</h3>
+          <p class="plain">Many numbers are uncertain, so the layers and well-mixed models run 200 times, each run drawing every uncertain number from its range.</p>
+          <p>Each range is cut into 200 slices of equal chance. Every slice is used exactly once, in a shuffled order, so each range is covered evenly (a Latin hypercube). Ranges spanning more than tenfold are sampled on a log scale. The charts show the median run and a band from the 5th to the 95th percentile of the 200 runs.</p>
+          <p class="src">The band covers uncertain numbers only. It doesn't cover the model's own structure: the other kill rule (shown separately), the three views' different simplifications, or the estimates the runs hold fixed. Read it as the smallest the real uncertainty could be. The map and side slice run once, with the central value of every number.</p>
+          <p class="src"><strong>Changed Nov 8, 2026.</strong> Until then there were 40 runs. With 40, the median knock-down moved by about ±6 points with the random seed; with 200 it moves by about ±3.</p>
+        </article>
+
+<section class="chapter-sec" id="checked" aria-labelledby="chk-h">
+        <h2 id="chk-h">How we checked it</h2>
+        <div class="lab-facts checks">
+          <div><b>284</b><span>automated tests</span></div>
+          <div><b>35</b><span>scenarios in a separate Python version</span></div>
+          <div><b>23</b><span>checks of the page in a real browser</span></div>
+        </div>
+        <ul class="plainlist">
+          <li><strong>284 automated tests</strong> (74 for the well-mixed model, 96 for the layers model, 114 for the map and side slice). They check that:
+            <ul>
+              <li>a fully mixed pond gives the same answer as the well-mixed model;</li>
+              <li>stronger wind never makes the stirred layer shallower;</li>
+              <li>the lab calibrations give exactly 50% at each EC50;</li>
+              <li>colonies that simply follow the water stay evenly spread.</li>
+            </ul>
+          </li>
+          <li><strong>An independent Python version</strong> of the well-mixed model, written separately from the website's code, matches it to 1 part in 10¹⁰ across 35 scenarios.</li>
+          <li><strong>Mass balance.</strong> Product, cells and toxin add up to within 1 part in 10¹⁰ for all 13 combinations of product and application method, in all three views: nothing appears or disappears.</li>
+          <li><strong>Convergence.</strong> We halved and quartered the time step, used 12 to 40 layers, doubled the number of tracked colonies and ran up to 1,000 uncertainty runs. That is why the layers model now takes 5-minute steps and the page runs 200 times.</li>
+          <li><strong>Cited values against their sources.</strong> Every value labelled SOURCED was checked against the paper it cites. Where a paper couldn't be opened, the simulator's notes say so, and values without a checkable citation are labelled ESTIMATE, citation pending.</li>
+        </ul>
+        <p class="src">What the tests can't show is that the predictions match a real pond. That needs real pond data: product concentrations at a few spots and depths after a treatment, plus before-and-after bloom counts and oxygen readings. If you can help with that, <a href="/about/contact/">tell us</a>.</p>
+      </section>
+
+<section class="chapter-sec" id="limits" aria-labelledby="lim-h">
+        <h2 id="lim-h">What it doesn't do yet</h2>
+        <h3>The simulator</h3>
+        <ul class="limits-list">
+          <li><strong>No check against a real pond.</strong> The tests show the math does what it says. Matching a real pond needs before-and-after measurements in a treated pond.</li>
+          <li>Real weather comes from a weather model for the area, not a station at the pond. Forecasts lose skill after about a week, and a sheltered pond can be calmer than the area's wind.</li>
+          <li>No inflows or outflows.</li>
+          <li>No waves, and so no wave drift on top of the surface current.</li>
+          <li>No sloshing of the thermocline after the wind changes (internal seiches); the tilt is the steady one.</li>
+          <li>No plume right at an injection hose: the dense layer starts already spread over each treated square.</li>
+          <li>No colonies sinking a little by day and rising at night.</li>
+          <li>Copper's harm to animals follows hardness only, not the dissolved organic carbon or pH that also matter.</li>
+          <li>The idealized day's sunshine is an estimate, and the stirred layer has a 2.5-ft minimum by day. On a run of sunny days the top of a 6-ft pond warms about 11 °F by afternoon, at the high end of what small ponds show.</li>
+          <li>Pond size changes the wind only through tree shelter; an open pond mixes the same at any size.</li>
+          <li>No oxygen in the cool bottom water of a layered pond.</li>
+          <li>In a strong wind, colonies that simply drift with the water can still gather up to about 10% too thickly along the shores of the map. In the side slice, colonies at the very top move at the top level's average speed rather than the faster top centimetre.</li>
+        </ul>
+        <h3>The ranking</h3>
+        <p>Pairs are predictions, the input data is sparse (<a href="/data/#gap">15 of 52</a> target values exist), test lengths don't always match, Bliss independence can fail, and the ranking scores selectivity, not how well a product controls the bloom. The full list is on the <a href="/selectivity/how-it-works/limits/">ranking's limits page</a>.</p>
+      </section>
+  </div>
+</section>
+
+<!--PAGER-->

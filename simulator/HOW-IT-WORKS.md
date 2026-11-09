@@ -252,7 +252,7 @@ Nobody has published the time-course data needed to know which rule fits these c
 
 **Layers model:** damage is driven by the concentration the bloom actually sits in, weighted by where the cells are.
 
-**Map and slice:** every tracked colony gets **its own toughness**, drawn so that the whole set matches the tolerance curve. Each colony carries its own damage as it drifts. It turns gray the moment its damage passes its toughness. A colony that stays in a strong patch dies; one that drifts out early may survive. In a whole-pond treatment, the map and the layers model agree within a few points (64% on the map vs 67% in the layers model in the example). For a spot or strip treatment, they can differ a lot, and the map is the one to trust for that question.
+**Map and slice:** every tracked colony gets **its own toughness**, drawn so that the whole set matches the tolerance curve. Each colony carries its own damage as it drifts. It turns gray the moment its damage passes its toughness. A colony that stays in a strong patch dies; one that drifts out early may survive. In a whole-pond treatment, the map and the layers model agree within a few points (63% on the map vs 67% in the layers model in the example). For a spot or strip treatment, they can differ a lot, and the map is the one to trust for that question.
 
 "Knocked down" means photosynthesis or growth stopped, which is what the lab EC50s measured. It is not the same as dead. Cells can recover, and the page says so.
 
@@ -440,7 +440,7 @@ We know the math does what the published equations say, because 284 tests check 
 Every number is listed on the page with its source and a label (SOURCED, DERIVED or ESTIMATE). The effect levels come from the CyanoSelect dataset of published lab tests.
 
 **Why can the map's knock-down differ from the tile's?**
-The tile is the median of 200 runs with different assumptions. The map is one run with the central assumptions, which can land above or below the median (the caption says where; in the example it is about the 49th percentile, so they nearly match: 64% on the map, 67% on the tile). The spread is the honest answer: knock-down is the most uncertain prediction, because no one has measured how fast these chemicals damage cells over time.
+The tile is the median of 200 runs with different assumptions. The map is one run with the central assumptions, which can land above or below the median (the caption says where; in the example it is about the 49th percentile, so they nearly match: 63% on the map, 67% on the tile). The spread is the honest answer: knock-down is the most uncertain prediction, because no one has measured how fast these chemicals damage cells over time.
 
 **Why do colonies pile up on one shore?**
 *Microcystis* floats. The top water moves downwind at about half a percent of the wind speed and returns underneath. Floating colonies stay in the top water, so they ride downwind and collect against the shore, the way real scums form.

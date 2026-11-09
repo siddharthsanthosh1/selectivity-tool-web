@@ -1,7 +1,40 @@
-# Netlify redirects (https://docs.netlify.com/routing/redirects/)
-# The site was reorganized in November 2026: the old About page moved to /about/.
-/about.html            /about/          301!
+# Netlify redirects (https://docs.netlify.com/routing/redirects/). First match wins.
+# Netlify ignores a trailing slash when matching, so "/rank" also matches "/rank/".
+# Fragments (#...) never reach the server; the browser keeps them across a redirect, and the
+# destination page forwards old fragments that moved again (see tools/build-site.js).
 
+# ---- moved pages (Nov 2026 layout) ----
+/about.html                 /about/                      301!
+/rank                       /selectivity/                301!
+/rank/*                     /selectivity/                301!
+/rank.html                  /selectivity/                301!
+/how-it-works               /simulator/how-it-works/     301!
+/how-it-works/*             /simulator/how-it-works/     301!
+/how-it-works.html          /simulator/how-it-works/     301!
+/selectivity.html           /selectivity/                301!
+/simulator.html             /simulator/                  301!
+/outreach.html              /outreach/                   301!
+/data.html                  /data/                       301!
+/try                        /selectivity/                301!
+/results                    /selectivity/                301!
+/limits                     /selectivity/how-it-works/limits/   301!
+/sources                    /data/sources/               301!
+/visit                      /outreach/plant-visit/       301!
+/field-visit                /outreach/plant-visit/       301!
+/plant-visit                /outreach/plant-visit/       301!
+/nclms                      /outreach/conference/        301!
+/conference                 /outreach/conference/        301!
+/contact                    /about/contact/              301!
+/cite                       /about/contact/#cite         301!
+
+# The stand-alone simulator file stays in the repo but is not served; the site's simulator is /simulator/.
+/simulator/CyanoSelect-Pond-Simulator.html   /simulator/   301!
+
+# Old anchors that moved to another page (/#visit, /about/#contact, /data/#sources,
+# /how-it-works/#example …) never reach the server; each landing page forwards them with a small
+# script (maps in tools/build-site.js). Tested for every moved anchor.
+
+# ---- not part of the site ----
 # The simulator folder also holds its source, tests and review notes; only the page and the files
 # it loads are part of the site.
 /simulator/tests/*                 /404.html  404!
@@ -10,5 +43,7 @@
 /simulator/README.md               /404.html  404!
 /simulator/SIMULATOR_REVIEW.md     /404.html  404!
 /simulator/params.json             /404.html  404!
+/tools/*                           /404.html  404!
 /SITE_AUDIT.md                     /404.html  404!
+/DESIGN_NOTES.md                   /404.html  404!
 /review-screenshots/*              /404.html  404!

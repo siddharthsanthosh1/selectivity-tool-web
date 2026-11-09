@@ -1,24 +1,29 @@
-/* CyanoSelect site header and footer, shared by every page (including the simulator, whose own
-   styles use generic names like .wrap and footer). Everything here is prefixed cs- and sets its own
-   fonts and colours, so it works on any page. Brand: deep teal #0A4F54, teal #0F6E74, mint #02C39A. */
+/* CyanoSelect site header, product sub-nav and footer, shared by every page (including the simulator,
+   whose own styles use generic names like .wrap and footer). Everything here is prefixed cs- and sets
+   its own fonts and colours, so it works on any page. Markup comes from tools/chrome.js.
+   Brand: deep teal #0A4F54, teal #0F6E74, mint #02C39A. */
+:root{--cs-head:48px}
+:root:has(.cs-sub){--cs-head:92px}
 .cs-skip{position:absolute;left:-9999px;top:0;z-index:100;background:#02C39A;color:#06373A;padding:10px 16px;border-radius:0 0 10px 0;font:600 15px/1.2 "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;text-decoration:none}
 .cs-skip:focus{left:0}
-.cs-nav,.cs-nav *,.cs-footer,.cs-footer *{box-sizing:border-box}
-.cs-nav{position:sticky;top:0;z-index:60;background:rgba(10,79,84,.95);-webkit-backdrop-filter:saturate(140%) blur(10px);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid rgba(255,255,255,.09);font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.cs-nav,.cs-nav *,.cs-sub,.cs-sub *,.cs-footer,.cs-footer *{box-sizing:border-box}
 .cs-wrap{max-width:1120px;margin:0 auto;padding-left:clamp(16px,5vw,40px);padding-right:clamp(16px,5vw,40px)}
-.cs-nav-in{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
-.cs-brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:600;font-size:17px;letter-spacing:-.01em;white-space:nowrap}
+
+/* ---------- global nav: slim, sticky ---------- */
+.cs-nav{position:sticky;top:0;z-index:60;height:48px;background:rgba(10,79,84,.96);-webkit-backdrop-filter:saturate(140%) blur(12px);backdrop-filter:saturate(140%) blur(12px);border-bottom:1px solid rgba(255,255,255,.09);font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.cs-nav-in{display:flex;align-items:center;justify-content:space-between;gap:16px;height:48px}
+.cs-brand{display:flex;align-items:center;gap:9px;color:#fff;text-decoration:none;font-weight:600;font-size:16px;letter-spacing:-.01em;white-space:nowrap}
 .cs-brand svg{flex:0 0 auto}
-.cs-links{display:flex;align-items:center;gap:26px}
-.cs-links a{position:relative;color:#BFE3E0;text-decoration:none;font-size:15px;font-weight:500;white-space:nowrap}
+.cs-links{display:flex;align-items:center;gap:30px}
+.cs-links a{position:relative;color:#BFE3E0;text-decoration:none;font-size:14px;font-weight:500;white-space:nowrap;padding:4px 0}
 .cs-links a:hover{color:#fff}
-.cs-links a[aria-current="page"]{color:#fff}
-.cs-links a[aria-current="page"]::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;border-radius:2px;background:#02C39A}
-.cs-links a:focus-visible,.cs-brand:focus-visible,.cs-footer a:focus-visible{outline:2px solid #02C39A;outline-offset:3px;border-radius:4px}
-.cs-toggle{display:none;align-items:center;justify-content:center;flex:0 0 auto;width:44px;height:44px;padding:0;cursor:pointer;background:transparent;border:1px solid rgba(255,255,255,.28);border-radius:10px;color:#fff}
+.cs-links a[aria-current]{color:#fff}
+.cs-links a[aria-current]::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:2px;border-radius:2px;background:#02C39A}
+.cs-links a:focus-visible,.cs-brand:focus-visible,.cs-sub a:focus-visible,.cs-footer a:focus-visible{outline:2px solid #02C39A;outline-offset:3px;border-radius:4px}
+.cs-toggle{display:none;align-items:center;justify-content:center;flex:0 0 auto;width:40px;height:40px;padding:0;cursor:pointer;background:transparent;border:1px solid rgba(255,255,255,.28);border-radius:10px;color:#fff}
 .cs-toggle:hover{background:rgba(255,255,255,.12)}
 .cs-toggle:focus-visible{outline:2px solid #02C39A;outline-offset:2px}
-.cs-toggle .bars{position:relative;display:block;width:19px;height:13px}
+.cs-toggle .bars{position:relative;display:block;width:18px;height:13px}
 .cs-toggle .bars i{position:absolute;left:0;right:0;height:2px;border-radius:2px;background:#fff;transition:transform .22s ease,opacity .16s ease}
 .cs-toggle .bars i:nth-child(1){top:0}
 .cs-toggle .bars i:nth-child(2){top:5.5px}
@@ -29,35 +34,56 @@
 @media (prefers-reduced-motion:reduce){.cs-toggle .bars i{transition:none}}
 @media (max-width:820px){
   .cs-toggle{display:inline-flex}
-  .cs-links{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;align-items:stretch;gap:0;background:#0A4F54;border-bottom:1px solid rgba(255,255,255,.14);padding:6px 0 12px;box-shadow:0 18px 34px rgba(3,40,44,.32);max-height:calc(100vh - 60px);overflow-y:auto}
+  .cs-links{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;align-items:stretch;gap:0;background:#0A4F54;border-bottom:1px solid rgba(255,255,255,.14);padding:6px 0 12px;box-shadow:0 18px 34px rgba(3,40,44,.32);max-height:calc(100vh - 48px);overflow-y:auto}
   .cs-nav.is-open .cs-links{display:flex}
   .cs-links a{padding:14px clamp(16px,5vw,40px);font-size:16px;border-bottom:1px solid rgba(255,255,255,.08)}
   .cs-links a:last-child{border-bottom:0}
-  .cs-links a[aria-current="page"]{background:rgba(255,255,255,.06);box-shadow:inset 3px 0 0 #02C39A}
-  .cs-links a[aria-current="page"]::after{display:none}
+  .cs-links a[aria-current]{background:rgba(255,255,255,.06);box-shadow:inset 3px 0 0 #02C39A}
+  .cs-links a[aria-current]::after{display:none}
 }
 
-.cs-footer{background:#073B3F;color:#A9D5D1;padding:clamp(44px,6vw,64px) 0 36px;font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
-.cs-footer p{margin:0}
-.cs-disclaimer{border-left:3px solid #02C39A;padding:2px 0 2px 16px;color:#DFF2F0;max-width:78ch}
-.cs-disclaimer strong{color:#fff}
-.cs-foot-grid{display:grid;gap:28px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-top:36px;padding-top:30px;border-top:1px solid rgba(255,255,255,.12)}
-.cs-foot-grid h2{font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#8CC3BF;margin:0 0 10px;line-height:1.4}
-.cs-foot-grid a{display:block;color:#DFF2F0;text-decoration:none;margin-bottom:6px;word-break:break-word;padding:2px 0}
-.cs-foot-grid a:hover{color:#02C39A;text-decoration:underline}
-.cs-foot-grid p{color:#A9D5D1}
-.cs-colophon{margin-top:32px;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);font-size:13.5px;color:#8CC3BF}
+/* ---------- product sub-nav: product name left, its pages right; sticky under the global nav ---------- */
+.cs-sub{position:sticky;top:48px;z-index:55;height:44px;background:rgba(255,255,255,.88);-webkit-backdrop-filter:saturate(180%) blur(16px);backdrop-filter:saturate(180%) blur(16px);border-bottom:1px solid #D6E3E3;font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;color:#1B2530}
+.cs-sub-in{display:flex;align-items:center;justify-content:space-between;gap:20px;height:44px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.cs-sub-in::-webkit-scrollbar{display:none}
+.cs-sub-name{flex:0 0 auto;font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:19px;letter-spacing:-.01em;color:#0A4F54;text-decoration:none;white-space:nowrap}
+.cs-sub-links{display:flex;align-items:center;gap:24px;flex:0 0 auto}
+.cs-sub-links a{position:relative;display:inline-flex;align-items:center;height:44px;font-size:14px;font-weight:500;color:#41525A;text-decoration:none;white-space:nowrap}
+.cs-sub-links a:hover{color:#0A4F54}
+.cs-sub-links a[aria-current]{color:#0A4F54;font-weight:600}
+.cs-sub-links a[aria-current]::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:#02C39A}
+.cs-sub-links a[aria-current="page"]{cursor:default}
+@media (max-width:420px){.cs-sub-name{font-size:17px}.cs-sub-links{gap:18px}.cs-sub-in{gap:14px}}
+@media (prefers-color-scheme:dark){
+  /* only the simulator page has a dark theme; keep the bar readable there */
+  :root:has(#sim-form):not([data-theme="light"]) .cs-sub{background:rgba(17,37,42,.9);border-bottom-color:#24414A}
+  :root:has(#sim-form):not([data-theme="light"]) .cs-sub-name,:root:has(#sim-form):not([data-theme="light"]) .cs-sub-links a[aria-current]{color:#E7F0F0}
+  :root:has(#sim-form):not([data-theme="light"]) .cs-sub-links a{color:#B8C9CA}
+}
+:root[data-theme="dark"]:has(#sim-form) .cs-sub{background:rgba(17,37,42,.9);border-bottom-color:#24414A}
+:root[data-theme="dark"]:has(#sim-form) .cs-sub-name,:root[data-theme="dark"]:has(#sim-form) .cs-sub-links a[aria-current]{color:#E7F0F0}
+:root[data-theme="dark"]:has(#sim-form) .cs-sub-links a{color:#B8C9CA}
 
-/* intro above the simulator (simulator page only) */
-.cs-intro{background:#EEF4F4;border-bottom:1px solid #D6E3E3;color:#1B2530;font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;font-size:16px;line-height:1.6;padding:clamp(22px,3vw,32px) 0}
-.cs-intro h2{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:clamp(22px,3vw,30px);line-height:1.2;color:#0A4F54;margin:0 0 10px;letter-spacing:-.01em}
-.cs-intro p{margin:0 0 10px;max-width:78ch}
-.cs-intro-grid{display:grid;gap:14px 28px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin:14px 0}
-.cs-intro-grid h3{font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#0F6E74;margin:0 0 4px}
-.cs-intro-grid p{margin:0;color:#41525A;font-size:15px}
-.cs-intro .cs-warn{border-left:3px solid #C8772B;background:#FBF3EA;padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0 0}
-.cs-intro a{color:#0F6E74;font-weight:600}
+/* ---------- footer: sitemap columns, then the disclaimer and colophon ---------- */
+.cs-footer{background:#073B3F;color:#A9D5D1;padding:clamp(44px,6vw,64px) 0 36px;font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.cs-footer p{margin:0}
+.cs-foot-grid{display:grid;gap:28px 24px;grid-template-columns:1fr 1fr .8fr 1.35fr 1.25fr;padding-bottom:30px;border-bottom:1px solid rgba(255,255,255,.12)}
+@media (max-width:1000px){.cs-foot-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:620px){.cs-foot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:380px){.cs-foot-grid{grid-template-columns:1fr}}
+.cs-foot-grid h2{font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#8CC3BF;margin:0 0 10px;line-height:1.4}
+.cs-foot-grid a{display:block;color:#DFF2F0;text-decoration:none;margin-bottom:4px;word-break:break-word;padding:3px 0}
+.cs-foot-grid a:hover{color:#02C39A;text-decoration:underline}
+.cs-foot-grid p{color:#A9D5D1;margin:0 0 6px}
+.cs-status{display:flex;gap:8px;align-items:baseline}
+.cs-dot{flex:0 0 auto;width:7px;height:7px;border-radius:50%;background:#02C39A;transform:translateY(-1px)}
+.cs-disclaimer{margin-top:28px!important;padding:2px 0 2px 16px;border-left:3px solid #02C39A;color:#DFF2F0;max-width:90ch}
+.cs-disclaimer strong{color:#fff}
+.cs-colophon{margin-top:24px!important;padding-top:18px;border-top:1px solid rgba(255,255,255,.12);font-size:13px;color:#8CC3BF}
+
 /* simulator page, light theme only: its muted grey #637579 was 4.2-4.47:1 on its light panels;
    #4F6165 is at least 5.6:1. Dark theme unchanged. */
 @media (prefers-color-scheme:light){:root:has(#sim-form):not([data-theme="dark"]){--muted:#4F6165}}
 :root[data-theme="light"]:has(#sim-form){--muted:#4F6165}
+/* simulator page: its own intro runs wider so it reads in about three lines */
+:root:has(#sim-form) header.top .lede{max-width:min(100%,940px)}

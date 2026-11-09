@@ -1,0 +1,72 @@
+<header class="page-hero ph-waves">
+  <div class="wrap">
+    <p class="eyebrow">Pond Simulator · How it works</p>
+    <h1>The treatment.</h1>
+    <p class="lede">How each product spreads and breaks down: peroxide, flumioxazin, diquat binding to clay, and copper with water hardness.</p>
+  </div>
+  <svg class="hero-waves" viewBox="0 0 1440 130" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 74c180-40 300 26 480 10s300-58 480-40 300 62 480 34v52H0z" fill="#02C39A" opacity=".10"/>
+    <path d="M0 96c200-34 320 18 520 6s320-46 520-30 260 48 400 30v28H0z" fill="#00A896" opacity=".14"/>
+    <path d="M0 116c220-24 360 12 560 2s340-30 560-16 200 26 320 18v10H0z" fill="#EEF4F4"/>
+  </svg>
+</header>
+
+<!--CHAPTERS-->
+
+<section class="chapter">
+  <div class="wrap chapter-main">
+<article class="mcard" id="m-h2o2">
+          <h3>Hydrogen peroxide decay</h3>
+          <p class="plain">Bacteria and algae break peroxide down, faster in warm water and in a thick bloom. Part of the dose is also used up instantly.</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ \frac{dC}{dt} = -k\,C, \qquad k = 1.078^{\,T - 20}\,\big(k_0 + b\,\mathrm{Chl}\big) \]</div>
+          <details class="symbols"><summary>What the symbols mean</summary><div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars"><thead><tr><th scope="col">Symbol</th><th scope="col">Meaning</th><th scope="col">Units</th><th scope="col">Value</th></tr></thead><tbody>
+            <tr><td>1.078</td><td>Temperature factor per °C</td><td>none</td><td>Pedersen 2019, SOURCED</td></tr>
+            <tr><td>\(k_0\)</td><td>Loss rate without the bloom</td><td>1/h</td><td>0.01 (0.002–0.04), Marsico 2015, SOURCED range</td></tr>
+            <tr><td>\(b\)</td><td>Extra loss per µg/L of chlorophyll</td><td>L/(µg·h)</td><td>0.002 (0.001–0.004), <span class="lab est">ESTIMATE</span></td></tr>
+            <tr><td></td><td>Instant demand</td><td>mg/L</td><td>0.4 (0.1–1.2), Weenink et al. 2015</td></tr>
+          </tbody></table></div></details>
+          <p class="src">Each step uses the exact exponential. In the example the top water loses half its peroxide in about 1¼ hours. Your own measured half-life replaces the rate.</p>
+        </article>
+
+<article class="mcard" id="m-flum">
+          <h3>Flumioxazin breakdown with pH</h3>
+          <p class="plain">Flumioxazin breaks down in water, much faster at high pH, and a bloom's photosynthesis raises the pH every afternoon.</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ k = k_0 + k_{\text{OH}}\,10^{\,\mathrm{pH} - 14} \]</div>
+          <details class="symbols"><summary>What the symbols mean</summary><div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars"><thead><tr><th scope="col">Symbol</th><th scope="col">Meaning</th><th scope="col">Units</th><th scope="col">Value</th></tr></thead><tbody>
+            <tr><td>\(k_0\)</td><td>Breakdown rate in neutral water</td><td>1/h</td><td>0.0067</td></tr>
+            <tr><td>\(k_{\text{OH}}\)</td><td>Extra rate per mol/L of hydroxide</td><td>1/h per mol/L</td><td>2.24×10⁵</td></tr>
+            <tr><td>\(\mathrm{pH}\)</td><td>Each layer's pH, which swings through the day</td><td>none</td><td></td></tr>
+          </tbody></table></div></details>
+          <p class="src">Rates at 25 °C from the Joint Meeting on Pesticide Residues 2015 evaluation. <span class="lab der">DERIVED</span></p>
+        </article>
+
+<article class="mcard" id="m-diquat">
+          <h3>Diquat binding to clay</h3>
+          <p class="plain">In muddy water, clay takes up diquat, most of it within the first hour, slowing as the clay fills up.</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ \frac{db}{dt} = k\,C\left(1 - \frac{b}{b_{\max}}\right), \qquad b_{\max} = 0.6 \times \frac{1.5\,\mathrm{NTU}}{1000} \times \mathrm{CEC} \times 92.1 \]</div>
+          <details class="symbols"><summary>What the symbols mean</summary><div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars"><thead><tr><th scope="col">Symbol</th><th scope="col">Meaning</th><th scope="col">Units</th><th scope="col">Value</th></tr></thead><tbody>
+            <tr><td>\(C,\ b\)</td><td>Dissolved and bound diquat</td><td>mg/L</td><td></td></tr>
+            <tr><td>\(k\)</td><td>Binding speed</td><td>1/h</td><td>6 (1–30), <span class="lab est">ESTIMATE</span></td></tr>
+            <tr><td>0.6</td><td>Share of the clay's charge capacity diquat can reach</td><td>none</td><td>0.6 (0.3–1), <span class="lab est">ESTIMATE</span></td></tr>
+            <tr><td>1.5</td><td>Suspended solids per NTU</td><td>mg/L per NTU</td><td>1.5 (1–2), <span class="lab est">ESTIMATE</span></td></tr>
+            <tr><td>\(\mathrm{CEC}\)</td><td>Clay's charge capacity (typical clay)</td><td>meq/g</td><td>0.35 (Poovey & Getsinger 2002, SOURCED)</td></tr>
+            <tr><td>92.1</td><td>Diquat per milliequivalent</td><td>mg/meq</td><td><span class="lab der">DERIVED</span></td></tr>
+          </tbody></table></div></details>
+          <p class="src">With \(C + b\) fixed over a step, this is solved exactly, in every layer and square the diquat reaches. After that, diquat leaves the water at 0.5 per day (0.35–0.7; Wilson & Wu, SOURCED range).</p>
+        </article>
+
+<article class="mcard" id="m-copper">
+          <h3>Copper and water hardness</h3>
+          <p class="plain">Copper is far more toxic to fish and water fleas in soft water, so their effect levels are scaled to your water's hardness.</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ \mathrm{EC50}(H) = \mathrm{EC50}_{\text{lab}}\left(\frac{H}{100}\right)^{0.9422}, \qquad 10 \le H \le 400\ \text{mg/L} \]</div>
+          <details class="symbols"><summary>What the symbols mean</summary><div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars"><thead><tr><th scope="col">Symbol</th><th scope="col">Meaning</th><th scope="col">Units</th><th scope="col">Value</th></tr></thead><tbody>
+            <tr><td>\(H\)</td><td>Your water's hardness (taken as the alkalinity if blank)</td><td>mg/L as CaCO₃</td><td></td></tr>
+            <tr><td>0.9422</td><td>Hardness slope for acute copper toxicity</td><td>none</td><td>U.S. Environmental Protection Agency rule, 40 CFR 131.38, SOURCED</td></tr>
+            <tr><td>100</td><td>Hardness of the lab water behind the dataset's animal values</td><td>mg/L</td><td><span class="lab est">ESTIMATE</span></td></tr>
+          </tbody></table></div></details>
+          <p class="src">Green algae and the bloom aren't adjusted, because the rule is for animals. Copper itself leaves the water at a measured fish-pond rate, \(k = (0.761 + 0.0018\,(\text{alkalinity} - 78))\cdot 1.09^{\,T - 26.8}\) per day (Marple et al. 2001, DERIVED).</p>
+        </article>
+  </div>
+</section>
+
+<!--PAGER-->

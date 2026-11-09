@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The water | Pond Simulator | CyanoSelect</title>
+<meta name="description" content="Pond shape, light with depth, the heat budget, the mixed layer and eddy diffusivity in the CyanoSelect pond simulator.">
+<link rel="canonical" href="https://cyanoselect.org/simulator/how-it-works/water/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The water | Pond Simulator | CyanoSelect">
+<meta property="og:description" content="Pond shape, light with depth, the heat budget, the mixed layer and eddy diffusivity in the CyanoSelect pond simulator.">
+<meta property="og:url" content="https://cyanoselect.org/simulator/how-it-works/water/">
+<meta property="og:site_name" content="CyanoSelect">
+<meta property="og:image" content="https://cyanoselect.org/images/og-preview.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="CyanoSelect: rank algae bloom treatments by their predicted risk to non-target organisms.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The water | Pond Simulator | CyanoSelect">
+<meta name="twitter:description" content="Pond shape, light with depth, the heat budget, the mixed layer and eddy diffusivity in the CyanoSelect pond simulator.">
+<meta name="twitter:image" content="https://cyanoselect.org/images/og-preview.png">
+<meta name="theme-color" content="#0A4F54">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A4F54'/%3E%3Cpath d='M6 21c3-6 5-9 10-9s7 3 10 9' stroke='%2302C39A' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='10' r='2.6' fill='%2300A896'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/chrome.css">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+</head>
+<body class="pg-simulator">
+
+<a class="cs-skip" href="#main">Skip to content</a>
+<nav class="cs-nav" aria-label="Main">
+  <div class="cs-wrap cs-nav-in">
+    <a class="cs-brand" href="/"><svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#02C39A" opacity=".16"/><path d="M6 21c3-6 5-9 10-9s7 3 10 9" stroke="#02C39A" stroke-width="2.6" fill="none" stroke-linecap="round"/><circle cx="16" cy="10" r="2.6" fill="#00A896"/></svg>CyanoSelect</a>
+    <div class="cs-links" id="csMenu">
+      <a href="/selectivity/">Selectivity Tool</a>
+      <a href="/simulator/" aria-current="true">Pond Simulator</a>
+      <a href="/outreach/">Outreach</a>
+      <a href="/data/">Data</a>
+      <a href="/about/">About</a>
+    </div>
+    <button type="button" class="cs-toggle" id="csToggle" aria-expanded="false" aria-controls="csMenu" aria-label="Open menu"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
+  </div>
+</nav>
+<nav class="cs-sub" aria-label="Pond Simulator">
+  <div class="cs-wrap cs-sub-in">
+    <a class="cs-sub-name" href="/simulator/">Pond Simulator</a>
+    <div class="cs-sub-links"><a href="/simulator/">Simulator</a><a href="/simulator/how-it-works/" aria-current="true">How it works</a></div>
+  </div>
+</nav>
+
+<main id="main">
+<header class="page-hero ph-waves">
+  <div class="wrap">
+    <p class="eyebrow">Pond Simulator · How it works</p>
+    <h1>The water.</h1>
+    <p class="lede">Pond shape, light, the heat budget and how strongly the water mixes. Every equation here is taken from the code that runs the simulator.</p>
+  </div>
+  <svg class="hero-waves" viewBox="0 0 1440 130" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 74c180-40 300 26 480 10s300-58 480-40 300 62 480 34v52H0z" fill="#02C39A" opacity=".10"/>
+    <path d="M0 96c200-34 320 18 520 6s320-46 520-30 260 48 400 30v28H0z" fill="#00A896" opacity=".14"/>
+    <path d="M0 116c220-24 360 12 560 2s340-30 560-16 200 26 320 18v10H0z" fill="#EEF4F4"/>
+  </svg>
+</header>
+
+<nav class="chapters" aria-label="How it works chapters">
+  <div class="wrap">
+    <ol class="chapters-list">
+      <li><a href="/simulator/how-it-works/"><span class="ch-n">•</span>Overview</a></li>
+      <li><a href="/simulator/how-it-works/example/"><span class="ch-n">1</span>Worked example</a></li>
+      <li><a href="/simulator/how-it-works/water/" aria-current="page"><span class="ch-n">2</span>Water</a></li>
+      <li><a href="/simulator/how-it-works/currents/"><span class="ch-n">3</span>Currents</a></li>
+      <li><a href="/simulator/how-it-works/treatment/"><span class="ch-n">4</span>Treatment</a></li>
+      <li><a href="/simulator/how-it-works/bloom/"><span class="ch-n">5</span>Bloom</a></li>
+      <li><a href="/simulator/how-it-works/checks/"><span class="ch-n">6</span>Checks</a></li>
+    </ol>
+  </div>
+</nav>
+
+<section class="chapter">
+  <div class="wrap chapter-main">
+<p class="chapter-note">Each card says whether its numbers are <span class="lab src2">SOURCED</span> (read in the cited paper), <span class="lab der">DERIVED</span> (worked out from sourced numbers or standard physics) or an <span class="lab est">ESTIMATE</span> (a reasonable value with a range, where no measurement was found). <a href="/data/#labels">What the labels mean</a>.</p>
+
+<article class="mcard" id="m-bowl">
+          <h3>Pond bowl shape</h3>
+          <p class="plain">Most ponds are bowl-shaped: the area of water deeper than a given depth shrinks as you go down.</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ A(z) = A_0\left(1 - \frac{z}{z_{\max}}\right)^{p}, \qquad p = \frac{1}{r} - 1, \qquad \text{share of water above depth } h = 1 - \left(1 - \frac{h}{z_{\max}}\right)^{p+1} \]</div>
+          <details class="symbols"><summary>What the symbols mean</summary><div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars"><thead><tr><th scope="col">Symbol</th><th scope="col">Meaning</th><th scope="col">Units</th><th scope="col">Value</th></tr></thead><tbody>
+            <tr><td>\(A_0\)</td><td>Surface area</td><td>m²</td><td>your pond</td></tr>
+            <tr><td>\(z_{\max}\)</td><td>Deepest water</td><td>m</td><td>your pond</td></tr>
+            <tr><td>\(r\)</td><td>Average depth ÷ deepest</td><td>none</td><td>0.40 (0.30–0.50), so \(p = 1.5\)</td></tr>
+          </tbody></table></div></details>
+          <p class="src">Source: Seekell et al. 2021 (lakes average about 0.41). <span class="lab est">ESTIMATE</span> Enter your average depth to replace it.</p>
+        </article>
+
+<article class="mcard" id="m-light">
+          <h3>Light with depth</h3>
+          <p class="plain">Sunlight fades exponentially with depth, faster in green or muddy water. Cells crowded near the surface shade the water below them.</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ I(z) = I_0\,e^{-K_d z}, \qquad K_d = \frac{1.7}{z_{\text{Secchi}}} + 0.1\,\mathrm{NTU}, \qquad z_{\text{Secchi}} = \exp\!\left(\frac{60 - (9.81\ln \mathrm{Chl} + 30.6)}{14.41}\right) \]</div>
+          <details class="symbols"><summary>What the symbols mean</summary><div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars"><thead><tr><th scope="col">Symbol</th><th scope="col">Meaning</th><th scope="col">Units</th><th scope="col">Value</th></tr></thead><tbody>
+            <tr><td>\(I_0\)</td><td>Sunlight just under the surface</td><td>W/m²</td><td>from the heat budget</td></tr>
+            <tr><td>\(K_d\)</td><td>Light loss per metre</td><td>1/m</td><td>from Secchi depth or chlorophyll</td></tr>
+            <tr><td>1.7</td><td>\(K_d\) × Secchi depth</td><td>none</td><td>1.7</td></tr>
+            <tr><td>0.1</td><td>Extra loss per unit of mineral turbidity (mud only)</td><td>1/m per NTU</td><td>0.1 (0.05–0.2)</td></tr>
+            <tr><td>\(\mathrm{Chl}\)</td><td>Chlorophyll</td><td>µg/L</td><td>your bloom</td></tr>
+          </tbody></table></div></details>
+          <p class="src">The Secchi formula is Carlson's 1977 trophic state index (SOURCED). The 1.7 factor is a standard value, citation pending, and the turbidity term has no pond calibration: <span class="lab est">ESTIMATE</span> Enter a Secchi depth to replace both.</p>
+        </article>
+
+<article class="mcard" id="m-heat">
+          <h3>Heat budget</h3>
+          <p class="plain">Every 5 minutes the layers model adds up the heat coming in and going out at the surface: sunlight, sky radiation, the water's own radiation, contact with the air and evaporation.</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ \text{Clear-sky sunlight (Haurwitz):}\quad G = 1098\,\sin h\;e^{-0.057/\sin h} \]</div>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ \text{Sky radiation (Brutsaert):}\quad \varepsilon_a = \min\!\left\{1,\ 1.24\left(\frac{e_a}{T_a}\right)^{1/7}\!\left(1 + 0.22\,c^2\right)\right\}, \qquad L_{\text{in}} = \varepsilon_a \sigma T_a^4, \quad L_{\text{out}} = 0.985\,\sigma T_s^4 \]</div>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ H = \rho_a c_p \max\{C_H(U)\,U,\ v_f\}\,(T_s - T_a), \qquad E = \rho_a L_v \max\{C_E(U)\,U,\ v_f\}\,(q_s - q_a) \]</div>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ C_H(U) = 1.3\times10^{-3}\left(1 + 1.5\,e^{-0.8U}\right), \qquad C_E(U) = 1.1\times10^{-3}\left(1 + e^{-U}\right) \]</div>
+          <details class="symbols"><summary>What the symbols mean</summary><div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars"><thead><tr><th scope="col">Symbol</th><th scope="col">Meaning</th><th scope="col">Units</th></tr></thead><tbody>
+            <tr><td>\(h\)</td><td>Sun's height above the horizon</td><td>degrees</td></tr>
+            <tr><td>\(e_a,\ T_a,\ c\)</td><td>Air vapour pressure, air temperature, cloud cover</td><td>hPa, K, 0–1</td></tr>
+            <tr><td>\(T_s\)</td><td>Water surface temperature</td><td>K</td></tr>
+            <tr><td>\(U\)</td><td>Wind speed 10 m up</td><td>m/s</td></tr>
+            <tr><td>\(v_f\)</td><td>Calm-air (free convection) exchange speed, as in the General Lake Model</td><td>m/s</td></tr>
+            <tr><td>\(\rho_a,\ c_p,\ L_v\)</td><td>Air density 1.2, its heat capacity 1005, heat of evaporation 2.45×10⁶</td><td>kg/m³, J/(kg·K), J/kg</td></tr>
+            <tr><td>\(q_s,\ q_a\)</td><td>Specific humidity at the water surface and in the air</td><td>kg/kg</td></tr>
+          </tbody></table></div></details>
+          <div class="src"><p>Sources:</p><ul>
+              <li>Haurwitz (1098 and 0.057): SOURCED.</li>
+              <li>Brutsaert (1.24 and 1/7): SOURCED. The sky reading is capped at a perfect radiator.</li>
+              <li>The cloud factor \(1 + 0.22c^2\): <span class="lab est">ESTIMATE</span> citation pending.</li>
+              <li>Transfer coefficients: Guseva et al. 2023, measured over 31 lakes and reservoirs. SOURCED, but we could not open the paper's Table 1 to check the exact values.</li>
+              <li>Calm-air factor: <span class="lab est">ESTIMATE</span></li>
+              <li>The idealized day's sunshine, 75% of clear sky (60–90%): <span class="lab est">ESTIMATE</span></li>
+            </ul></div>
+        </article>
+
+<article class="mcard" id="m-mixed">
+          <h3>Mixed-layer depth from wind and cooling</h3>
+          <p class="plain">At night the cooling surface sinks and mixes. By day, the wind's stirring deepens the warm top layer whenever it has enough energy to lift the denser water just below; energy that falls short is saved for later steps.</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ E_{\text{wind}} = c_k\,\rho_0\,u_*^3\,\Delta t\,A_0, \qquad E_{\text{needed}} = g\,\Delta\rho\,\frac{V_m V_k}{V_m + V_k}\,\big(z_k - \bar z_m\big), \qquad u_* = \sqrt{\frac{\rho_a C_D(U)\,U^2}{\rho_0}} \]</div>
+          <details class="symbols"><summary>What the symbols mean</summary><div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars"><thead><tr><th scope="col">Symbol</th><th scope="col">Meaning</th><th scope="col">Units</th><th scope="col">Value</th></tr></thead><tbody>
+            <tr><td>\(c_k\)</td><td>Wind-stirring efficiency</td><td>none</td><td>0.23 (0.15–0.35)</td></tr>
+            <tr><td>\(u_*\)</td><td>The water's friction velocity from the wind stress</td><td>m/s</td><td>about 0.003 in the example</td></tr>
+            <tr><td>\(C_D(U)\)</td><td>Drag coefficient, \(1.7\times10^{-3}(1 + e^{-1.1U})\)</td><td>none</td><td>rises in light wind</td></tr>
+            <tr><td>\(\Delta\rho\)</td><td>How much denser the next layer down is</td><td>kg/m³</td><td></td></tr>
+            <tr><td>\(V_m,\ \bar z_m\)</td><td>Stirred layer's volume and centre of mass</td><td>m³, m</td><td></td></tr>
+            <tr><td>\(V_k,\ z_k\)</td><td>Next layer's volume and depth</td><td>m³, m</td><td></td></tr>
+            <tr><td>\(h_{\min}\)</td><td>Smallest stirred depth by day</td><td>m</td><td>0.75 (0.5–1), about 2.5 ft</td></tr>
+          </tbody></table></div></details>
+          <p class="src">The energy balance follows the General Lake Model (Hipsey et al. 2019). The stirring efficiency and the minimum depth are <span class="lab est">ESTIMATE</span>s. Trees cut the wind for about 50 tree heights downwind of the shore (Markfort et al. 2010).</p>
+        </article>
+
+<article class="mcard" id="m-k">
+          <h3>Eddy diffusivity: how strongly water mixes up and down</h3>
+          <p class="plain">Turbulence in the wind-stirred layer is weak at the surface and at the bottom of the layer and strongest in the middle. Below the thermocline, mixing drops to near the molecular level.</p>
+          <div class="eq" tabindex="0" role="group" aria-label="Equation">\[ K(z) = \max\big\{K_{\min},\ \kappa\,u_*\,z\,(1 - z/D)\big\} \quad (z &lt; D), \qquad K = 8.17\times10^{-4}\,A^{0.56}\,(N^2)^{-0.43}\ \text{cm}^2/\text{s} \quad (\text{below}) \]</div>
+          <details class="symbols"><summary>What the symbols mean</summary><div class="table-scroll" tabindex="0" role="group" aria-label="Table"><table class="vars"><thead><tr><th scope="col">Symbol</th><th scope="col">Meaning</th><th scope="col">Units</th><th scope="col">Value</th></tr></thead><tbody>
+            <tr><td>\(\kappa\)</td><td>von Kármán's constant</td><td>none</td><td>0.41</td></tr>
+            <tr><td>\(D\)</td><td>Depth of the stirred layer</td><td>m</td><td>from the card above</td></tr>
+            <tr><td>\(K_{\min}\)</td><td>Background mixing in calm water</td><td>m²/s</td><td>1×10⁻⁵ (3×10⁻⁶–1×10⁻⁴)</td></tr>
+            <tr><td>\(A\)</td><td>Pond area</td><td>km²</td><td></td></tr>
+            <tr><td>\(N^2\)</td><td>Density layering strength, \((g/\rho_0)\,\partial\rho/\partial z\)</td><td>1/s²</td><td></td></tr>
+          </tbody></table></div></details>
+          <p class="src">Below the thermocline, mixing follows the Hondzo & Stefan 1992 regression, kept between the molecular value (1.4×10⁻⁷ m²/s, Lang & Scavia 1987) and \(K_{\min}\). The calm-water floor is an <span class="lab est">ESTIMATE</span>.</p>
+        </article>
+  </div>
+</section>
+
+<nav class="pager" aria-label="Chapter navigation">
+  <div class="wrap">
+    <div class="pager-row"><a class="pager-prev" href="/simulator/how-it-works/example/"><span class="pager-k">‹ Previous</span><span class="pager-t">Worked example: one acre, one spray of peroxide</span></a><a class="pager-next" href="/simulator/how-it-works/currents/"><span class="pager-k">Next ›</span><span class="pager-t">Currents and the tilted thermocline</span></a></div>
+    <p class="pager-tool"><a class="chev" href="/simulator/">Open the simulator</a></p>
+  </div>
+</nav>
+</main>
+
+<footer class="cs-footer">
+  <div class="cs-wrap">
+    <div class="cs-foot-grid">
+      <div>
+        <h2>Selectivity Tool</h2>
+        <a href="/selectivity/">Open the tool</a>
+        <a href="/selectivity/how-it-works/">How it works</a>
+        <a href="/selectivity/how-it-works/example/">Worked example</a>
+        <a href="/selectivity/how-it-works/why/">Why these three</a>
+        <a href="/selectivity/how-it-works/math/">The math</a>
+        <a href="/selectivity/how-it-works/limits/">Limits and next steps</a>
+      </div>
+      <div>
+        <h2>Pond Simulator</h2>
+        <a href="/simulator/">Open the simulator</a>
+        <a href="/simulator/how-it-works/">How it works</a>
+        <a href="/simulator/how-it-works/example/">Worked example</a>
+        <a href="/simulator/how-it-works/water/">Water</a>
+        <a href="/simulator/how-it-works/currents/">Currents</a>
+        <a href="/simulator/how-it-works/treatment/">Treatment</a>
+        <a href="/simulator/how-it-works/bloom/">Bloom</a>
+        <a href="/simulator/how-it-works/checks/">Checks</a>
+      </div>
+      <div>
+        <h2>Project</h2>
+        <a href="/outreach/">Outreach</a>
+        <a href="/outreach/plant-visit/">Plant visit</a>
+        <a href="/outreach/conference/">Conference talk</a>
+        <a href="/data/">Data</a>
+        <a href="/data/sources/">Sources</a>
+        <a href="/about/">About</a>
+        <a href="/about/contact/">Contact</a>
+        <a href="/about/contact/#cite">How to cite</a>
+      </div>
+      <div>
+        <h2>Open source</h2>
+        <p>MIT license: free to use, modify and share, with attribution.</p>
+        <a href="https://doi.org/10.5281/zenodo.22135606">Archived release (DOI):<br>doi.org/10.5281/zenodo.22135606</a>
+        <a href="https://github.com/arjunpendharkar/selectivity-tool">Tool and data on GitHub</a>
+        <a href="https://github.com/siddharthsanthosh1/selectivity-tool-web">Website source on GitHub</a>
+      </div>
+      <div>
+        <h2>Contact</h2>
+        <a href="mailto:siddharthsann@gmail.com">siddharthsann@gmail.com</a>
+        <a href="mailto:apandaharkar@gmail.com">apandaharkar@gmail.com</a>
+        <p>Or open an issue on either GitHub repository.</p>
+        <p class="cs-status"><span class="cs-dot"></span>Framework complete. Laboratory validation planned.</p>
+      </div>
+    </div>
+    <p class="cs-disclaimer"><strong>Model predictions, not a treatment recommendation.</strong> CyanoSelect ranks treatments from published lab data and simulates ponds; none of its predictions has been tested in a real pond yet. Registered products have undergone risk assessment by the U.S. Environmental Protection Agency, and the product label governs how they may be used. Follow the label and your state’s rules, and consult a licensed aquatic applicator or your state agency before treating any water body.</p>
+    <p class="cs-colophon">Built by Arjun Pendharkar and Siddharth Santhosh, Green Level High School, under the supervision of Dr. Bharathi Pandi. This site describes research tools whose predictions have not yet been validated in a laboratory or a real pond, and it is not guidance for treating a waterbody.</p>
+  </div>
+</footer>
+
+<script src="/assets/site.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
+  onload="renderMathInElement(document.getElementById('main'),{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false})"></script>
+<script data-goatcounter="https://cyanoselect.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
